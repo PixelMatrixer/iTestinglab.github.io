@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>Git学习笔记 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为charlie.chen原创文章，转载请注明出处：http://blog.csdn.net/tobetheender/article/details/52295021
+一：Git简介引用Git官网的介绍：https://git-scm.com/Git is a free and open source distributed version control system designed t">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Git学习笔记 | Again Unscarred">
+    <meta name="twitter:description" content="本文为charlie.chen原创文章，转载请注明出处：http://blog.csdn.net/tobetheender/article/details/52295021
+一：Git简介引用Git官网的介绍：https://git-scm.com/Git is a free and open source distributed version control system designed t">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Git学习笔记 | Again Unscarred">
+    <meta property="og:description" content="本文为charlie.chen原创文章，转载请注明出处：http://blog.csdn.net/tobetheender/article/details/52295021
+一：Git简介引用Git官网的介绍：https://git-scm.com/Git is a free and open source distributed version control system designed t">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="https://github.com/iTestinglab">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2018/04/29/Git 学习笔记/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories">Categories</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/favourite.html">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">日常</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2018-04-29T12:20:15.000Z" class="post-list__meta--date date">2018-04-29</time> &#8226; <span class="post-meta__tags tags">于  </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">Git学习笔记</h1>
+  </header>
+
+  <section class="post">
+    <p>本文为charlie.chen原创文章，转载请注明出处：<a href="http://blog.csdn.net/tobetheender/article/details/52295021" target="_blank" rel="noopener">http://blog.csdn.net/tobetheender/article/details/52295021</a></p>
+<h2 id="一：Git简介"><a href="#一：Git简介" class="headerlink" title="一：Git简介"></a>一：Git简介</h2><p>引用Git官网的介绍：<a href="https://git-scm.com/" target="_blank" rel="noopener">https://git-scm.com/</a><br>Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.<br>Git is easy to learn and has a tiny footprint with lightning fast performance. It outclasses SCM tools like Subversion, CVS, Perforce, and ClearCase with features like cheap local branching, convenient staging areas, and multiple workflows.</p>
+<p>Git是目前世界上最先进的分布式版本控制系统，迅速成为最流行的分布式版本控制系统，尤其是2008年，GitHub网站上线了，它为开源项目免费提供Git存储，无数开源项目开始迁移至GitHub，包括jQuery，PHP，Ruby等等。</p>
+<h2 id="二：Git和SVN的的区别"><a href="#二：Git和SVN的的区别" class="headerlink" title="二：Git和SVN的的区别"></a>二：Git和SVN的的区别</h2><p>Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，这样，工作的时候就不需要联网了，因为版本都是在自己的电脑上。既然每个人的电脑都有一个完整的版本库，那多个人如何协作呢？比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
+<p> SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快，如果在互联网下，如果网速慢的话，就纳闷了。</p>
+<h2 id="三：Git安装"><a href="#三：Git安装" class="headerlink" title="三：Git安装"></a>三：Git安装</h2><h3 id="下载地址："><a href="#下载地址：" class="headerlink" title="下载地址："></a>下载地址：</h3><p> Windows：<a href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win </a></p>
+<p> Mac OS ：<a href="https://git-scm.com/download/mac" target="_blank" rel="noopener">https://git-scm.com/download/mac </a></p>
+<p> Liunx ：<a href="https://git-scm.com/download/linux" target="_blank" rel="noopener">https://git-scm.com/download/linux</a></p>
+<h3 id="如何在windows上安装："><a href="#如何在windows上安装：" class="headerlink" title="如何在windows上安装："></a>如何在windows上安装：</h3><p><img src="http://i.imgur.com/wWkjex8.png" alt=""></p>
+<p>将下载下来的exe文件，进行默认安装即可。安装完成后，在开始菜单里面找到 “Git –&gt; Git Bash”,会弹出一个类似的命令窗口的东西，就说明Git安装成功。如图：<br><img src="http://i.imgur.com/4gAkUCg.png" alt=""><br>安装完成后，还需要最后一步设置，在命令行输入如下：<br><img src="http://i.imgur.com/9IH5936.png" alt=""><br>因为Git是分布式版本控制系统，所以需要填写用户名和邮箱作为一个标识。</p>
+<p>注意：git config –global 参数，有了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然你也可以对某个仓库指定的不同的用户名和邮箱。</p>
+<h2 id="四：创建版本库"><a href="#四：创建版本库" class="headerlink" title="四：创建版本库"></a>四：创建版本库</h2><p>版本库又名仓库，英文名repository,你可以简单的理解一个目录，这个目录里面的所有文件都可以被Git管理起来，每个文件的修改，删除，Git都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻还可以将文件”还原”。</p>
+<p>1.在 本机目录，比如 E:\Workspace 目录下新建一个djigo-master的版本库。<br>2.进入该目录，通过命令 git init 把这个目录变成git可以管理的仓库，如下：<br><img src="http://i.imgur.com/aBJ6mZg.png" alt=""><br>这时Git就把仓库建好了，而且告诉你是一个空的仓库（empty Git repository），细心的读者可以发现当前目录下多了一个.git的目录，这个目录是Git来跟踪管理版本库的，没事千万不要手动修改这个目录里面的文件，不然改乱了，就把Git仓库给破坏了。</p>
+<p>3.把文件添加到版本库中。<br>首先这里再明确一下，所有的版本控制系统，其实只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码等等，Git也不例外。版本控制系统可以告诉你每次的改动，比如在第5行加了一个单词“Linux”，在第8行删了一个单词“Windows”。而图片、视频这些二进制文件，虽然也能由版本控制系统管理，但没法跟踪文件的变化，只能把二进制文件每次改动串起来，也就是只知道图片从100KB改成了120KB，但到底改了啥，版本控制系统不知道，也没法知道。</p>
+<h2 id="五：Demo演示"><a href="#五：Demo演示" class="headerlink" title="五：Demo演示"></a>五：Demo演示</h2><p><strong> 1.创建版本库：</strong>在E:\Workspace 目录下新建一个dji-master的工作区，变成git可以管理的版本库<br><img src="http://i.imgur.com/ZeLDDcV.png" alt=""></p>
+<p><strong>2.将文件添加到暂存区：</strong><br>在版本库dji-master目录下新建一个记事本文件 readme.txt 内容如下：11111111，使用命令 git add readme.txt添加到暂存区里面去。如下：</p>
+<p><img src="http://i.imgur.com/KOf8a5t.png" alt=""></p>
+<p><strong>3.把暂存区的所有内容提交到当前分支上：</strong>用命令 git commit</p>
+<p><img src="http://i.imgur.com/AFzQgrZ.png" alt=""></p>
+<p><strong>4.通过命令git status来查看是否还有文件未提交</strong></p>
+<p><img src="http://i.imgur.com/VWfUoRx.png" alt=""></p>
+<p>说明没有任何文件未提交</p>
+<p><strong>5.现在继续来改下readme.txt内容，比如我在下面添加一行2222222222内容，同时新增一个文件test.txt，继续使用git status来查看下结果</strong><br><img src="http://i.imgur.com/028lEwh.png" alt=""></p>
+<p>上面的命令告诉我们 readme.txt文件已被修改，test.txt文件是新增的，但是都未被提交。</p>
+<p><strong>6.接下来我想看下readme.txt文件到底改了什么内容，使用 git diff readme.txt</strong><br><img src="http://i.imgur.com/kelvjcS.png" alt=""></p>
+<p>知道了对readme.txt文件做了什么修改后，我们可以放心的提交到仓库了，提交修改和提交文件是一样的(第一步是git add  第二步是：git commit)。如下：<br><img src="http://i.imgur.com/Sw6VOCC.png" alt=""></p>
+<p><strong>7.查看下历史记录：使用命令 git log</strong></p>
+<p><img src="http://i.imgur.com/f6odXEc.png" alt=""></p>
+<h2 id="六：工作区和暂存区"><a href="#六：工作区和暂存区" class="headerlink" title="六：工作区和暂存区"></a>六：工作区和暂存区</h2><blockquote>
+<p><strong>工作区：</strong>就是你在电脑上看到的目录，比如E:\Workspace\dji-master 里的文件(.git隐藏目录版本库除外)。或者以后需要再新建的目录文件等等都属于工作区范畴。</p>
+<p><strong>版本库(Repository)：</strong>工作区有一个隐藏目录.git,这个不属于工作区，这是版本库。其中版本库里面存了很多东西，其中最重要的就是stage(暂存区)，还有Git为我们自动创建了第一个分支master,以及指向master的一个指针HEAD。</p>
+</blockquote>
+<h2 id="七：github远程仓库"><a href="#七：github远程仓库" class="headerlink" title="七：github远程仓库"></a>七：github远程仓库</h2><h3 id="一：注册github账号，创建SSH-Key"><a href="#一：注册github账号，创建SSH-Key" class="headerlink" title="一：注册github账号，创建SSH Key"></a>一：注册github账号，创建SSH Key</h3><p>由于你的本地Git仓库和github仓库之间的传输是通过SSH加密的，所以需要一点设置：</p>
+<p>   第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果有的话，直接跳过此如下命令，如果没有的话，打开命令行，输入如下命令：</p>
+<p>ssh-keygen  -t rsa –C “<a href="mailto:youremail@example.com" target="_blank" rel="noopener">youremail@example.com</a>”, 由于我本地此前运行过一次，所以本地有，如下所示：</p>
+<p><img src="http://i.imgur.com/mdoaE6v.png" alt=""></p>
+<pre><code>id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。
+</code></pre><p>第二步：登录github,打开” settings”中的SSH Keys页面，然后点击“Add SSH Key”,填上任意title，在Key文本框里黏贴id_rsa.pub文件的内容。<br><img src="http://i.imgur.com/GEtVqs3.png" alt=""></p>
+<p>点击 Add Key，你就应该可以看到已经添加的key。</p>
+<p>###二：创建远程库<br>现在的情景是：我们已经在本地创建了一个Git仓库后，又想在github创建一个Git仓库，并且希望这两个仓库进行远程同步，这样github的仓库可以作为备份，又可以其他人通过该仓库来协作。</p>
+<p>首先，登录github上，然后在右上角找到“create a new repo”创建一个新的仓库。如下：<br><img src="http://i.imgur.com/7mCHZav.png" alt=""></p>
+<p>在Repository name填入dji-master，其他保持默认设置，点击“Create repository”按钮，就成功地创建了一个新的Git仓库：</p>
+<p><img src="http://i.imgur.com/rW4qVuI.png" alt=""></p>
+<p> 目前，在GitHub上的这个dji-master仓库还是空的，GitHub告诉我们，可以从这个仓库克隆出新的仓库，也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。</p>
+<p>###三：关联远程库<br>现在，我们根据GitHub的提示，在本地的dji-master仓库下运行命令：</p>
+<p>git remote add origin <a href="https://github.com/iTestinglab/dji-master.git" target="_blank" rel="noopener">https://github.com/iTestinglab/dji-master.git</a></p>
+<p><img src="http://i.imgur.com/K9XfwU9.png" alt=""></p>
+<p>把本地库的内容推送到远程，使用 git push命令，实际上是把当前分支master推送到远程。</p>
+<p><strong>注意：如图 <a href="https://github.com/iTestinglab/dji-master.git" target="_blank" rel="noopener">https://github.com/iTestinglab/dji-master.git</a> 为github的仓库路径</strong><br><img src="http://i.imgur.com/YNZiL2x.png" alt=""></p>
+<p>由于远程库是空的，我们第一次推送master分支时，加上了 –u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。推送成功后，可以立刻在github页面中看到远程库的内容已经和本地一模一样了，上面的要输入github的用户名和密码如下所示：<br><img src="http://i.imgur.com/TDwACzB.png" alt=""></p>
+<p>从现在起，只要本地作了提交，就可以通过如下命令：</p>
+<p>git push origin master</p>
+<p>把本地master分支的最新修改推送到github上了，现在你就拥有了真正的分布式版本库了。</p>
+<p><strong>注意，前方有坑：</strong><br>git push origin master出错：error: failed to push some refs to 。。。 报403错误：<br>在我的Macbook 中，Keychain Access中保存了多个GitHub账号，这是需要删除一个在账号即可。</p>
+<p>###四：从远程库克隆<br>上面我们了解了先有本地库，后有远程库时候，如何关联远程库。</p>
+<p>现在我们想，假如远程库有新的内容了，我想克隆到本地来 如何克隆呢？</p>
+<p>在本地另一个目录下，比如 E:\ 使用命令git clone克隆一个本地库</p>
+<p><img src="http://i.imgur.com/zdCoIUa.png" alt=""></p>
+<p>接着在我本地目录下 生成dji-master目录了，如下所示：</p>
+<p><img src="http://i.imgur.com/v73Y6MR.png" alt=""></p>
+<p>##八：创建和合并分支<br> 在  版本回填退里，你已经知道，每次提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个分支叫主分支，即master分支。HEAD严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。</p>
+<p>首先，我们来创建dev分支，然后切换到dev分支上。如下操作：</p>
+<p><img src="http://i.imgur.com/ya4aBtX.png" alt=""></p>
+<p>git branch查看分支，会列出所有的分支，当前分支前面会添加一个星号。然后我们在dev分支上继续做demo，比如我们现在在readme.txt再增加一行；</p>
+<p>现在dev分支工作已完成，现在我们切换到主分支master上，继续查看readme.txt内容；</p>
+<p>现在我们可以把dev分支上的内容合并到分支master上了，可以在master分支上，使用如下命令 <strong>git merge dev</strong></p>
+<p>git merge命令用于合并指定分支到当前分支上，合并后，再查看readme.txt内容，可以看到，和dev分支最新提交的是完全一样的。</p>
+<blockquote>
+<p>总结创建与合并分支命令如下：<br>查看分支：git branch<br>创建分支：git branch name<br>切换分支：git checkout name<br>创建+切换分支：git checkout –b name<br>合并某分支到当前分支：git merge name<br>删除分支：git branch –d name</p>
+</blockquote>
+<p>##九：参考资料<br><strong>廖雪峰Git教程：</strong><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000</a></p>
+<p><strong>runoob.com：</strong>  <a href="http://www.runoob.com/git/git-basic-operations.html" target="_blank" rel="noopener">http://www.runoob.com/git/git-basic-operations.html</a></p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2018/04/28/搭建属于你自己的高逼格blog/" title="搭建属于你自己的blog">搭建属于你自己的blog</a></h2>
+                <p class="excerpt">
+                
+                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2018-04-28T12:20:15.000Z" class="post-list__meta--date date">2018-04-28</time> &#8226; <span class="post-list__meta--tags tags">于 </span><a class="btn-border-small" href="/2018/04/28/搭建属于你自己的高逼格blog/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/lenbo-ma/hexo-theme-vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>
