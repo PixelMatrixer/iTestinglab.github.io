@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>ITester接口测试框架 (三) - 框架实现细节 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+项目结构结构图
+
+
+框架实现1.数据准备 和 参数输入数据准备有三种方式：
+
+一：通过访问数据库，获取我们需要的接口测试参数，比如测试登录接口，我们要提前获得 用户名和密码，然后才能连同我们的url发送给服务端。
+
+要想访问数据库，必须要先与数据库建立连接，我这里采用的是JDBC 和C3P0，可以参考我之前的blogJava通过JDBC">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="ITester接口测试框架 (三) - 框架实现细节 | Again Unscarred">
+    <meta name="twitter:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+项目结构结构图
+
+
+框架实现1.数据准备 和 参数输入数据准备有三种方式：
+
+一：通过访问数据库，获取我们需要的接口测试参数，比如测试登录接口，我们要提前获得 用户名和密码，然后才能连同我们的url发送给服务端。
+
+要想访问数据库，必须要先与数据库建立连接，我这里采用的是JDBC 和C3P0，可以参考我之前的blogJava通过JDBC">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="ITester接口测试框架 (三) - 框架实现细节 | Again Unscarred">
+    <meta property="og:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+项目结构结构图
+
+
+框架实现1.数据准备 和 参数输入数据准备有三种方式：
+
+一：通过访问数据库，获取我们需要的接口测试参数，比如测试登录接口，我们要提前获得 用户名和密码，然后才能连同我们的url发送给服务端。
+
+要想访问数据库，必须要先与数据库建立连接，我这里采用的是JDBC 和C3P0，可以参考我之前的blogJava通过JDBC">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2016/12/22/ITester接口测试框架 (三) - 框架实现细节/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-12-22T14:40:22.000Z" class="post-list__meta--date date">2016-12-22</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/接口测试/">接口测试</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">ITester接口测试框架 (三) - 框架实现细节</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>本文为CharliChen原创文章，转载请注明出处！！</p>
+</blockquote>
+<h1 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h1><p>结构图</p>
+<p><img src="http://img.blog.csdn.net/20161124193935168" alt="这里写图片描述"></p>
+<hr>
+<h1 id="框架实现"><a href="#框架实现" class="headerlink" title="框架实现"></a>框架实现</h1><h2 id="1-数据准备-和-参数输入"><a href="#1-数据准备-和-参数输入" class="headerlink" title="1.数据准备 和 参数输入"></a>1.数据准备 和 参数输入</h2><p>数据准备有三种方式：</p>
+<ul>
+<li>一：通过访问数据库，获取我们需要的接口测试参数，比如测试登录接口，我们要提前获得 用户名和密码，然后才能连同我们的url发送给服务端。</li>
+</ul>
+<p>要想访问数据库，必须要先与数据库建立连接，我这里采用的是JDBC 和C3P0，可以参考我之前的blog<br><a href="http://blog.csdn.net/tobetheender/article/details/52772157" target="_blank" rel="noopener">Java通过JDBC 进行MySQL数据库操作</a><br><a href="http://blog.csdn.net/tobetheender/article/details/52841983" target="_blank" rel="noopener">Java数据库连接池 学习笔记</a></p>
+<ul>
+<li>二：直接将所需要的数据写入到xml或者excel中，然后写一个工具类直接去读取就行。</li>
+</ul>
+<p><strong>例如 ：要准备 测试接口输入参数为：email和password</strong></p>
+<p>（1）编写paramsData.xml，将上述参数放在xml中进行管理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;map&gt;   </span><br><span class="line">	&lt;bean beanName=&quot;signIn&quot;&gt;	 </span><br><span class="line">		&lt;locator name=&quot;email&quot; value=&quot;charlie.chen@dji.com&quot;&gt;&lt;/locator&gt;</span><br><span class="line">		&lt;locator name=&quot;password&quot; value=&quot;123456&quot;&gt;&lt;/locator&gt;	 	</span><br><span class="line">	&lt;/bean&gt;</span><br><span class="line">&lt;/map&gt;</span><br></pre></td></tr></table></figure>
+<p>（2）封装一个XmlUtil工具类负责读取xml ,使用第三方的jar包dom4j，XmlUtil中readXMLDocument方法返回值为Map&lt;String, String&gt;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static Map&lt;String, String&gt; readXMLDocument(String xmlPath, String beanName) throws IOException &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述readXMLDocument方法中，参数xmlName为xml文件的名字； 参数beanName为xml文件中节点的名称。</p>
+<ul>
+<li>三：通过xml管理测试数据，也可以用Excel进行管理</li>
+</ul>
+<p>和xml管理数据类似：封装一个ExcelUtil工具类负责读取excel ,使用第三方的jar包poi，ExcelUtil中readExcel方法返回值为List&lt;ParamBean<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 读取Excel中数据</span><br><span class="line">public static List&lt;ParamBean&gt; readExcel(String excelPath) throws Exception &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-请求执行"><a href="#2-请求执行" class="headerlink" title="2.请求执行"></a>2.请求执行</h2><p>（1）封装一个CookieUtil工具类，通过CookieStore储存cookie<br>CookieUtil类中setCookieStore方法返回值为CookieStore</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">**</span><br><span class="line"> * 将服务端返回的SessionID存储在CookieStore中</span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> * @date 2016-10-31</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class CookieUtil &#123;</span><br><span class="line"></span><br><span class="line">    private static CookieStore cookieStore = null;</span><br><span class="line">    private static LogUtil log = new LogUtil(CookieUtil.class);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * 通过CookieStore储存cookie</span><br><span class="line">     */</span><br><span class="line">    public static CookieStore setCookieStore(HttpResponse httpResponse) &#123;</span><br><span class="line">    	</span><br><span class="line">        log.info(&quot;setCookieStore&quot;);</span><br><span class="line">        cookieStore = new BasicCookieStore();</span><br><span class="line">        // JSESSIONID</span><br><span class="line">        String setCookie = httpResponse.getFirstHeader(&quot;Set-Cookie&quot;).getValue();</span><br><span class="line">        String JSESSIONID = setCookie.substring(&quot;JSESSIONID=&quot;.length(),</span><br><span class="line">        setCookie.indexOf(&quot;;&quot;));</span><br><span class="line">        log.debug(&quot;JSESSIONID:&quot; + JSESSIONID);</span><br><span class="line">        </span><br><span class="line">        // 新建一个Cookie</span><br><span class="line">        BasicClientCookie cookie = new BasicClientCookie(&quot;JSESSIONID&quot;, JSESSIONID);</span><br><span class="line">        cookie.setVersion(0);</span><br><span class="line">        cookie.setDomain(&quot;127.0.0.1&quot;);</span><br><span class="line">        cookie.setPath(&quot;/CwlProClient&quot;);</span><br><span class="line">       </span><br><span class="line">        cookieStore.addCookie(cookie);</span><br><span class="line">        return cookieStore;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述setCookieStore方法中，httpResponse参数为服务端响应值，类型为HttpResponse</p>
+<p>（2）用httpClient简单封装一个httpClientUtil工具类有get.post,put,delete方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public static CloseableHttpResponse doGet(String url, Map&lt;String, String&gt; paramsMap, CloseableHttpClient httpclient, CookieStore cookieStore) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static CloseableHttpResponse doPost(String url, Map&lt;String, String&gt; paramsMap, CloseableHttpClient httpclient,CookieStore cookieStore) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static CloseableHttpResponse doPut(String url, Map&lt;String, String&gt; paramsMap, CloseableHttpClient httpclient, CookieStore cookieStore) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static CloseableHttpResponse doDelete(String url, Map&lt;String, String&gt; paramsMap, CloseableHttpClient httpclient, CookieStore cookieStore) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* 封装一个获取请求实体的方法</span><br><span class="line">* @param params</span><br><span class="line">* @param ucode</span><br><span class="line">* @return</span><br><span class="line">*/</span><br><span class="line">public static UrlEncodedFormEntity getFormEntity(Map&lt;String, String&gt; paramsMap, Charset... ucode) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-结果解析-和-验证"><a href="#3-结果解析-和-验证" class="headerlink" title="3.结果解析 和 验证"></a>3.结果解析 和 验证</h2><p>（1）将从服务端返回的HttpResponse结果解析为ResponseBean对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class ReponseUtil &#123;</span><br><span class="line"></span><br><span class="line">	private static LogUtil log = new LogUtil(ReponseUtil.class);</span><br><span class="line">	private static ResponseBean responseBean=null;</span><br><span class="line"></span><br><span class="line">	public static ResponseBean setResponseBean(CloseableHttpResponse httpResponse) &#123;</span><br><span class="line"></span><br><span class="line">		// 使用响应对象获取响应实体</span><br><span class="line">		HttpEntity entity = httpResponse.getEntity();</span><br><span class="line">		if (entity != null)</span><br><span class="line">			try &#123;</span><br><span class="line">				// 将响应实体转为字符串</span><br><span class="line">				String responseString = EntityUtils.toString(entity, &quot;utf-8&quot;);</span><br><span class="line">				String rs = responseString.replace(&quot;\r\n&quot;, &quot;&quot;);</span><br><span class="line">				</span><br><span class="line">				responseBean = new ResponseBean();</span><br><span class="line">				responseBean.setStatus(httpResponse.getStatusLine().getReasonPhrase());</span><br><span class="line">				responseBean.setStatusCode(Integer.toString(httpResponse.getStatusLine().getStatusCode()));</span><br><span class="line">				responseBean.setBody(rs);</span><br><span class="line">				</span><br><span class="line">				log.info(&quot;\n&quot; + &quot;***************************返回开始**********************************&quot; + &quot;\n&quot;</span><br><span class="line">						+ httpResponse.getStatusLine().getReasonPhrase() + &quot;\n&quot;</span><br><span class="line">						+ Integer.toString(httpResponse.getStatusLine().getStatusCode()) + &quot;\n&quot; + &quot;Context&quot; + rs + &quot;\n&quot;</span><br><span class="line">						+ &quot;***************************返回结束**********************************&quot;);</span><br><span class="line"></span><br><span class="line">				HeaderIterator iterator = httpResponse.headerIterator();</span><br><span class="line">				while (iterator.hasNext()) &#123;</span><br><span class="line">					log.debug(&quot;\t&quot; + iterator.next());</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; catch (Exception e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		return responseBean;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（2）结果验证<br>主要验证 HttpResponse的状态status，状态码statusCode和 响应实体body，通过第三方断言jar包AsertJ</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// add Assert</span><br><span class="line">Assert.assertEquals(&quot;OK&quot;, responseBean.getStatus());</span><br><span class="line">Assert.assertEquals(&quot;200&quot;, responseBean.getStatusCode());</span><br><span class="line">Assert.assertEquals(&quot;dsgfdfgdfsdfdgfdg&quot;, responseBean.getBody());</span><br></pre></td></tr></table></figure>
+<h2 id="4-测试用例"><a href="#4-测试用例" class="headerlink" title="4.测试用例"></a>4.测试用例</h2><p>测试用例管理使用了testNG管理 ，使用了TestNG参数化测试，通过xml文件来执行case</p>
+<p>（1）测试case脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">public class NewTest &#123;</span><br><span class="line"></span><br><span class="line">	static CookieStore cookieStore=null;</span><br><span class="line"></span><br><span class="line">	static CloseableHttpClient httpclient=null;</span><br><span class="line"></span><br><span class="line">	@Test</span><br><span class="line">	public void test() &#123;</span><br><span class="line"></span><br><span class="line">		try &#123;</span><br><span class="line">			String url = PropertiesUtil.getValue(&quot;url&quot;,&quot;config.properties&quot;);</span><br><span class="line">			</span><br><span class="line">			String xmlPath=NewTest.class.getClassLoader().getResource(&quot;paramData.xml&quot;).getPath();</span><br><span class="line"></span><br><span class="line">			Map&lt;String, String&gt; paramsMap = XmlUtil.readXMLDocument(xmlPath, &quot;signIn&quot;);</span><br><span class="line"></span><br><span class="line">			httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();</span><br><span class="line">			CloseableHttpResponse httpResponse = HttpClientUtil.doPost(url, paramsMap, httpclient, cookieStore);</span><br><span class="line"></span><br><span class="line">			ResponseBean responseBean = ReponseUtil.setResponseBean(httpResponse);</span><br><span class="line"></span><br><span class="line">			// add Assert</span><br><span class="line">			Assert.assertEquals(&quot;OK&quot;, responseBean.getStatus());</span><br><span class="line">			Assert.assertEquals(&quot;200&quot;, responseBean.getStatusCode());</span><br><span class="line">			Assert.assertEquals(&quot;dsgfdfgdfsdfdgfdg&quot;, responseBean.getBody());</span><br><span class="line"></span><br><span class="line">		&#125; catch (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@BeforeClass</span><br><span class="line">	public void beforeClass() &#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@AfterClass</span><br><span class="line">	public void afterClass() &#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@BeforeTest</span><br><span class="line">	public void beforeTest() &#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@AfterTest</span><br><span class="line">	public void afterTest() &#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@BeforeSuite</span><br><span class="line">	public void beforeSuite() &#123;</span><br><span class="line">		/*</span><br><span class="line">		* 登录进入系统获取JSESSIONID放入到CookieStore中</span><br><span class="line">		* */</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@AfterSuite</span><br><span class="line">	public void closeClient() &#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			// 关闭流并释放资源</span><br><span class="line">			httpclient.close();</span><br><span class="line">		&#125; catch (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（2）testng.xml文件的编写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE suite SYSTEM &quot;http://testng.org/testng-1.0.dtd&quot;&gt;</span><br><span class="line">&lt;suite name=&quot;Suite&quot; parallel=&quot;false&quot; preserve-order=&quot;true&quot;&gt;</span><br><span class="line"></span><br><span class="line">  &lt;test name=&quot;Test&quot;&gt;</span><br><span class="line">    &lt;classes&gt;</span><br><span class="line">      &lt;class name=&quot;com.dji.itester.cases.NewTest&quot;&gt;</span><br><span class="line">     	 &lt;methods&gt;</span><br><span class="line">              &lt;include name=&quot;test&quot; /&gt;</span><br><span class="line">         &lt;/methods&gt;</span><br><span class="line">      &lt;/class&gt;</span><br><span class="line">    &lt;/classes&gt;</span><br><span class="line">  &lt;/test&gt; </span><br><span class="line">&lt;/suite&gt;</span><br></pre></td></tr></table></figure>
+<p>右键-&gt;run as -&gt;TestNG Suite,这个场景的的测试用例就可以运行了</p>
+<h2 id="5-失败用例重跑"><a href="#5-失败用例重跑" class="headerlink" title="5.失败用例重跑"></a>5.失败用例重跑</h2><p>关于失败用例重跑，在我前面的blog <a href="http://blog.csdn.net/tobetheender/article/details/52684633" target="_blank" rel="noopener">TestNG实现用例运行失败自动截图和重跑</a> 写的很清楚了，这里就不详说了，大概步骤如下：</p>
+<p>（1）新建TestNGRetry类继承IRetryAnalyzer，实现用例失败自动重跑逻辑<br>（2）添加用例重跑监听器RetryListener，用例失败自动重跑功能<br>（3）在testng.xml文件中配置自己编写的监听器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;listeners&gt;</span><br><span class="line">    &lt;listener class-name=&quot;com.dji.itester.runfail.TestNGListener&quot; /&gt;</span><br><span class="line">    &lt;listener class-name=&quot;com.dji.itester.runfail.RetryListener&quot;/&gt;</span><br><span class="line">&lt;/listeners&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="6-源码管理-和-Jenkins配置"><a href="#6-源码管理-和-Jenkins配置" class="headerlink" title="6.源码管理 和 Jenkins配置"></a>6.源码管理 和 Jenkins配置</h2><p>（1）源码管理<br>将代码上传到github上进行托管，关于github的使用参考我前面的blog <a href="http://blog.csdn.net/tobetheender/article/details/52295021" target="_blank" rel="noopener">Git 学习笔记</a>）</p>
+<p>（2）Jenkins配置<br>运行jenkins，首先创建一个job为ITester-DJI<br><img src="http://img.blog.csdn.net/20161125110536407" alt="这里写图片描述"></p>
+<p>将代码上传到github上进行托管，然后在jenkins上配置clone 到你本地或者远程的jenkins来：<br><img src="http://img.blog.csdn.net/20161125110714144" alt="这里写图片描述"></p>
+<p>构建触发器<br>Poll SCM： 定时检查源码变更（根据SCM软件的版本号），如果有更新就checkout最新code下来，然后执行构建动作。Build periodically：周期进行项目构建（它不care源码是否发生变化）<br>我的配置如下： 每天凌晨2：00进行一次构建</p>
+<p><img src="http://img.blog.csdn.net/20161125110849560" alt="这里写图片描述"></p>
+<p>构建<br><img src="http://img.blog.csdn.net/20161125110959936" alt="这里写图片描述"></p>
+<p>构建后操作,发送邮件</p>
+<h2 id="7-测试报告和邮件"><a href="#7-测试报告和邮件" class="headerlink" title="7.测试报告和邮件"></a>7.测试报告和邮件</h2><p>这里用到第三方的jar包ReportNG，对测试报告进行定制化。添加插件，关联testNg.xml,添加ReportNg的监听器，修改最后的TestNG的报告。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">	&lt;plugins&gt;</span><br><span class="line">		&lt;!-- 添加插件，关联testNg.xml,添加ReportNg的监听器，修改最后的TestNG的报告 --&gt;</span><br><span class="line">		&lt;plugin&gt;</span><br><span class="line">			&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;2.18.1&lt;/version&gt;</span><br><span class="line">			&lt;configuration&gt;</span><br><span class="line">				</span><br><span class="line">				&lt;forkMode&gt;once&lt;/forkMode&gt;  </span><br><span class="line">                   &lt;argLine&gt;-Dfile.encoding=UTF-8&lt;/argLine&gt; </span><br><span class="line">				</span><br><span class="line">				&lt;suiteXmlFiles&gt;</span><br><span class="line">					&lt;!--&lt;suiteXmlFile&gt;testng.xml&lt;/suiteXmlFile&gt;  --&gt;</span><br><span class="line">				    &lt;suiteXmlFile&gt;src/test/java/com/dji/itester/testSuites/$&#123;xmlFileName&#125;&lt;/suiteXmlFile&gt; </span><br><span class="line">				&lt;/suiteXmlFiles&gt;</span><br><span class="line"></span><br><span class="line">				&lt;properties&gt;</span><br><span class="line">					&lt;property&gt;</span><br><span class="line">						&lt;name&gt;usedefaultlisteners&lt;/name&gt;</span><br><span class="line">						&lt;value&gt;false&lt;/value&gt;</span><br><span class="line">					&lt;/property&gt;</span><br><span class="line">					&lt;property&gt;</span><br><span class="line">						&lt;name&gt;listener&lt;/name&gt;</span><br><span class="line">						&lt;value&gt;org.uncommons.reportng.HTMLReporter,</span><br><span class="line">							org.uncommons.reportng.JUnitXMLReporter&lt;/value&gt;</span><br><span class="line">					&lt;/property&gt;</span><br><span class="line">				&lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">				&lt;workingDirectory&gt;target/&lt;/workingDirectory&gt;</span><br><span class="line">			&lt;/configuration&gt;</span><br><span class="line">		&lt;/plugin&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		&lt;plugin&gt;</span><br><span class="line">			&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span><br><span class="line">			&lt;configuration&gt;</span><br><span class="line">				&lt;source&gt;1.6&lt;/source&gt;</span><br><span class="line">				&lt;target&gt;1.6&lt;/target&gt;</span><br><span class="line">				&lt;encoding&gt;utf-8&lt;/encoding&gt;</span><br><span class="line">			&lt;/configuration&gt;</span><br><span class="line">		&lt;/plugin&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;/plugins&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure>
+<p>测试报告：</p>
+<p><img src="http://img.blog.csdn.net/20161125132520107" alt="这里写图片描述"></p>
+<hr>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/12/29/Android稳定性测试-- Monkey源码分析/" title="Android稳定性测试-- Monkey源码分析">Android稳定性测试-- Monkey源码分析</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+引子前面一遍blog Monkey源码分析讲到Monkey的代码结构和代码执行流程，相信通过介绍大家应该对monkey的运行原理和核心逻辑有了很深刻的了解。我们做的这一切都是为了更好的了解monkey的内部逻辑进行二次开发。为什么要二次开发
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-12-29T15:11:25.000Z" class="post-list__meta--date date">2016-12-29</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/专项测试/">专项测试</a>
+</span><a class="btn-border-small" href="/2016/12/29/Android稳定性测试-- Monkey源码分析/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/12/22/ITester接口测试框架 (二) - 框架简介和流程图/" title="ITester接口测试框架 (二) - 框架简介和流程图">ITester接口测试框架 (二) - 框架简介和流程图</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+ITester框架简介上一篇的blog主要讲解了接口测试的基础知识，这一章将详细介绍接口测试框架图和流程图。
+ITester是处理API接口测试的轻量级自动化测试框架，java语言实现。主要是面向service接口，诸如：HTTP，SOAP
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-12-21T16:47:10.000Z" class="post-list__meta--date date">2016-12-22</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/接口测试/">接口测试</a>
+</span><a class="btn-border-small" href="/2016/12/22/ITester接口测试框架 (二) - 框架简介和流程图/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

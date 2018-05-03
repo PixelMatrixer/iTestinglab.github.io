@@ -1,6 +1,8 @@
 $(document).ready(function() {
 
   $('body').removeClass('no-js');
+  
+  $('a.blog-button').remove();
 
   $('a.blog-button').click(function() {
     if ($('.panel-cover').hasClass('panel-cover--collapsed')) return;

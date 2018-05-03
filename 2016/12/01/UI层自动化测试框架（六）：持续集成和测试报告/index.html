@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>UI层自动化测试框架（六）：持续集成和测试报告 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+前面几章讲解了测试框架的结构和实现，接下来讲解如何实现测试框架的自动化和测试报告的生成。
+持续集成本框架我是采用Jenkins实现持续集成的，至于Jenkins环境的搭建和使用，我前面的blog有提到，如果大家不清楚的可以先去阅读我之前写的这篇文章，Jenkins安装和构建部署
+
+运行jenkins，首先创建一个job为appiumTur">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="UI层自动化测试框架（六）：持续集成和测试报告 | Again Unscarred">
+    <meta name="twitter:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+前面几章讲解了测试框架的结构和实现，接下来讲解如何实现测试框架的自动化和测试报告的生成。
+持续集成本框架我是采用Jenkins实现持续集成的，至于Jenkins环境的搭建和使用，我前面的blog有提到，如果大家不清楚的可以先去阅读我之前写的这篇文章，Jenkins安装和构建部署
+
+运行jenkins，首先创建一个job为appiumTur">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="UI层自动化测试框架（六）：持续集成和测试报告 | Again Unscarred">
+    <meta property="og:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+前面几章讲解了测试框架的结构和实现，接下来讲解如何实现测试框架的自动化和测试报告的生成。
+持续集成本框架我是采用Jenkins实现持续集成的，至于Jenkins环境的搭建和使用，我前面的blog有提到，如果大家不清楚的可以先去阅读我之前写的这篇文章，Jenkins安装和构建部署
+
+运行jenkins，首先创建一个job为appiumTur">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2016/12/01/UI层自动化测试框架（六）：持续集成和测试报告/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-12-01T05:31:20.000Z" class="post-list__meta--date date">2016-12-01</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">UI层自动化测试框架（六）：持续集成和测试报告</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>本文为CharliChen原创文章，转载请注明出处！！</p>
+</blockquote>
+<p>前面几章讲解了测试框架的结构和实现，接下来讲解如何实现测试框架的自动化和测试报告的生成。</p>
+<h2 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h2><p>本框架我是采用Jenkins实现持续集成的，至于Jenkins环境的搭建和使用，我前面的blog有提到，如果大家不清楚的可以先去阅读我之前写的这篇文章，<a href="http://blog.csdn.net/tobetheender/article/details/52298583" target="_blank" rel="noopener">Jenkins安装和构建部署</a></p>
+<ul>
+<li><p>运行jenkins，首先创建一个job为appiumTurbo</p>
+<p><img src="http://img.blog.csdn.net/20160913210338318" alt="这里写图片描述"></p>
+</li>
+<li><p>源码管理<br>将代码上传到github上进行托管，然后在jenkins上配置clone 到你本地或者远程的jenkins来：<br><img src="http://img.blog.csdn.net/20160913213358331" alt="这里写图片描述"></p>
+</li>
+<li><p>构建触发器<br>Poll SCM： 定时检查源码变更（根据SCM软件的版本号），如果有更新就checkout最新code下来，然后执行构建动作。Build periodically：周期进行项目构建（它不care源码是否发生变化），我的配置如下：<br>每天凌晨2：00进行一次构建</p>
+</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20160913213817598" alt="这里写图片描述"></p>
+<ul>
+<li><p>构建</p>
+<p><img src="http://img.blog.csdn.net/20160913213247424" alt="这里写图片描述"></p>
+</li>
+<li><p>构建后操作<br>发送邮件</p>
+</li>
+</ul>
+<hr>
+<h2 id="测试报告"><a href="#测试报告" class="headerlink" title="测试报告"></a>测试报告</h2><p>每次构建完成后都会生成一个测试报告，由于testng自带生成测试报告，但是这个报告比较丑陋，下面开始用ReportNG来生成漂亮简洁的测试报告。</p>
+<ul>
+<li>在maven项目中添加依赖，在pom.xml文件中添加以下依赖关系：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 依赖reportNg 关联testNg --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.uncommons&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;reportng&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.1.4&lt;/version&gt;</span><br><span class="line">	&lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">	&lt;exclusions&gt;</span><br><span class="line">		&lt;exclusion&gt;</span><br><span class="line">			&lt;groupId&gt;org.testng&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;testng&lt;/artifactId&gt;</span><br><span class="line">		&lt;/exclusion&gt;</span><br><span class="line">	&lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 依赖Guice --&gt;</span><br><span class="line">	&lt;dependency&gt;</span><br><span class="line">		&lt;groupId&gt;com.google.inject&lt;/groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;guice&lt;/artifactId&gt;</span><br><span class="line">		&lt;version&gt;3.0&lt;/version&gt;</span><br><span class="line">		&lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">	&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置maven-surefire-plugin并加入reportNG listenser</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">	&lt;plugins&gt;</span><br><span class="line">		&lt;!-- 添加插件,关联testNg.xml,添加ReportNg的监听器，修改最后的TestNg的报告 --&gt;</span><br><span class="line">		&lt;plugin&gt;</span><br><span class="line">			&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;2.18.1&lt;/version&gt;</span><br><span class="line">			&lt;configuration&gt;</span><br><span class="line"></span><br><span class="line">				&lt;suiteXmlFiles&gt;</span><br><span class="line">					&lt;!-- &lt;suiteXmlFile&gt;res/$&#123;xmlFileName&#125;&lt;/suiteXmlFile&gt; --&gt;</span><br><span class="line">					&lt;suiteXmlFile&gt;testng.xml&lt;/suiteXmlFile&gt;</span><br><span class="line">				&lt;/suiteXmlFiles&gt;</span><br><span class="line"></span><br><span class="line">				&lt;properties&gt;</span><br><span class="line">					&lt;property&gt;</span><br><span class="line">						&lt;name&gt;usedefaultlisteners&lt;/name&gt;</span><br><span class="line">						&lt;value&gt;false&lt;/value&gt;</span><br><span class="line">					&lt;/property&gt;</span><br><span class="line">					&lt;property&gt;</span><br><span class="line">						&lt;name&gt;listener&lt;/name&gt;</span><br><span class="line">						&lt;value&gt;org.uncommons.reportng.HTMLReporter,</span><br><span class="line">							org.uncommons.reportng.JUnitXMLReporter&lt;/value&gt;</span><br><span class="line">					&lt;/property&gt;</span><br><span class="line">				&lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">				&lt;workingDirectory&gt;target/&lt;/workingDirectory&gt;</span><br><span class="line">			&lt;/configuration&gt;</span><br><span class="line">		&lt;/plugin&gt;</span><br><span class="line">	&lt;/plugins&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最后构建完成后，在target目录下创建了一个surefire-reports目录，打开它下面的html文件夹，打开indel.xml，就可以看到相对美观的报告形式了，类似如图：</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20160928151854269" alt="这里写图片描述"></p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/12/03/TestNG实现用例运行失败自动截图和重跑/" title="TestNG实现用例运行失败自动截图和重跑">TestNG实现用例运行失败自动截图和重跑</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+前言在前面我的自动化测试框架系列文章中，有一个知识点没有讲到，现在补上。在运行自动测试脚本时，经常会需要增加失败时自动截图的功能，以及失败重跑功能，下面介绍一下通过监听器的方式来实现自动截图和重跑功能。
+失败自动截图功能1. 定义一个截图工
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-12-03T10:44:10.000Z" class="post-list__meta--date date">2016-12-03</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+</span><a class="btn-border-small" href="/2016/12/03/TestNG实现用例运行失败自动截图和重跑/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/12/01/UI层自动化测试框架（五）：业务层和用例层/" title="UI层自动化测试框架（五）：业务层和用例层">UI层自动化测试框架（五）：业务层和用例层</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+业务层该层主要是App的各种业务操作，比如登录，遍历tab，下单等，也就是说把app中各项业务的操作都封装在业务层。比如说登录操作，我们把它封装一个类，登录的大致的流程是：首先是不是要找到登录入口（可能一个app有很多的入口），然后进入登录
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-11-30T16:52:10.000Z" class="post-list__meta--date date">2016-12-01</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+</span><a class="btn-border-small" href="/2016/12/01/UI层自动化测试框架（五）：业务层和用例层/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

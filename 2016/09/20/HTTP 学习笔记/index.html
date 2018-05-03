@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>HTTP 学习笔记 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+一：HTTP协议简介HTTP是对浏览器客户端 和 服务器端 之间数据传输的格式规范。属于应用层的面向对象的协议，由于其简捷、快速的方式，适用于分布式超媒体信息系统。目前在WWW中使用的是HTTP/1.0的第六版，HTTP/1.1的规范化工作正在进行之中。
+HTTP协议的主要特点1.支持客户/服务器模式。2.简单快速：客户向服务器请求服务时">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="HTTP 学习笔记 | Again Unscarred">
+    <meta name="twitter:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+一：HTTP协议简介HTTP是对浏览器客户端 和 服务器端 之间数据传输的格式规范。属于应用层的面向对象的协议，由于其简捷、快速的方式，适用于分布式超媒体信息系统。目前在WWW中使用的是HTTP/1.0的第六版，HTTP/1.1的规范化工作正在进行之中。
+HTTP协议的主要特点1.支持客户/服务器模式。2.简单快速：客户向服务器请求服务时">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="HTTP 学习笔记 | Again Unscarred">
+    <meta property="og:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+一：HTTP协议简介HTTP是对浏览器客户端 和 服务器端 之间数据传输的格式规范。属于应用层的面向对象的协议，由于其简捷、快速的方式，适用于分布式超媒体信息系统。目前在WWW中使用的是HTTP/1.0的第六版，HTTP/1.1的规范化工作正在进行之中。
+HTTP协议的主要特点1.支持客户/服务器模式。2.简单快速：客户向服务器请求服务时">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2016/09/20/HTTP 学习笔记/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-09-19T16:01:05.000Z" class="post-list__meta--date date">2016-09-20</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/http/">http</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">HTTP 学习笔记</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>本文为CharliChen原创文章，转载请注明出处！！</p>
+</blockquote>
+<h2 id="一：HTTP协议简介"><a href="#一：HTTP协议简介" class="headerlink" title="一：HTTP协议简介"></a><strong>一：HTTP协议简介</strong></h2><p>HTTP是对浏览器客户端 和 服务器端 之间数据传输的格式规范。<br>属于应用层的面向对象的协议，由于其简捷、快速的方式，适用于分布式超媒体信息系统。目前在WWW中使用的是HTTP/1.0的第六版，HTTP/1.1的规范化工作正在进行之中。</p>
+<h2 id="HTTP协议的主要特点"><a href="#HTTP协议的主要特点" class="headerlink" title="HTTP协议的主要特点"></a>HTTP协议的主要特点</h2><p>1.支持客户/服务器模式。<br>2.简单快速：客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。每种方法规定了客户与服务器联系的类型不同。由于HTTP协议简单，使得HTTP服务器的程序规模小，因而通信速度很快。<br>3.灵活：HTTP允许传输任意类型的数据对象。正在传输的类型由Content-Type加以标记。<br>4.无连接：无连接的含义是限制每次连接只处理一个请求。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间。<br>5.无状态：HTTP协议是无状态协议。无状态是指协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。</p>
+<h2 id="HTTP与Socket-区别"><a href="#HTTP与Socket-区别" class="headerlink" title="HTTP与Socket 区别"></a>HTTP与Socket 区别</h2><p>Http：超文本传输协议，首先它是一个协议，并且是基于TCP/IP协议基础之上的应用层协议。TCP/IP协议是传输层协议，主要解决数据如何在网络中传输，HTTP是应用层协议，主要解决如何包装数据。HTTP协议详细规定了浏览器与服务器之间相互通信的规则，是万维网交换信息的基础。HTTP是基于请求-响应形式并且是短连接，并且是无状态的协议。针对其无状态特性，在实际应用中又需要有状态的形式，因此一般会通过session/cookie技术来解决此问题。</p>
+<p>Socket：Socket不属于协议范畴，而是一个调用接口（API），Socket是对TCP/IP协议的封装，通过调用Socket，才能使用TCP/IP协议。Socket连接是长连接，理论上客户端和服务器端一旦建立连接将不会主动断开此连接。Socket连接属于请求-响应形式，服务端可主动将消息推送给客户端。</p>
+<hr>
+<h2 id="二：查看HTTP协议工具"><a href="#二：查看HTTP协议工具" class="headerlink" title="二：查看HTTP协议工具"></a><strong>二：查看HTTP协议工具</strong></h2><pre><code>1）使用火狐的firebug插件（右键-&gt;firebug-&gt;网络）
+2）使用谷歌的“审查元素”
+3）使用系统自带的telnet工具（远程访问工具）                
+        a）telnet localhost 8080    访问tomcat服务器
+        b）ctrl+]     回车          可以看到回显
+        c）输入请求内容
+              GET /day09/hello HTTP/1.1
+              Host: localhost:8080
+        d）回车，即可查看到服务器响应信息。
+</code></pre><hr>
+<h2 id="三：HTTP请求"><a href="#三：HTTP请求" class="headerlink" title="三：HTTP请求"></a><strong>三：HTTP请求</strong></h2><p>http请求包括请求行，请求头（消息报头），实体内容，接下来一一详解：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">请求（浏览器-》服务器）</span><br><span class="line">GET /day09/hello HTTP/1.1               -请求行</span><br><span class="line">Host: localhost:8080                    --请求头（多个key-value对象）</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-cn,en-us;q=0.8,zh;q=0.5,en;q=0.3</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Connection: keep-alive</span><br><span class="line">                                       --一个空行</span><br><span class="line">name=eric&amp;password=123456              --（可选）实体内容</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-1-请求行"><a href="#3-1-请求行" class="headerlink" title="3.1. 请求行"></a>3.1. 请求行</h2><p>请求行包括http协议版本，请求资源，请求方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /day09/hello HTTP/1.1</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-1-1-HTTP协议版本"><a href="#3-1-1-HTTP协议版本" class="headerlink" title="3.1.1. HTTP协议版本"></a><strong>3.1.1. HTTP协议版本</strong></h3><pre><code>http1.0：当前浏览器客户端与服务器端建立连接之后，只能发送一次请求，一次请求之后连接关闭。
+http1.1：当前浏览器客户端与服务器端建立连接之后，可以在一次连接中发送多次请求。（基本都使用1.1）
+</code></pre><h3 id="3-1-2-请求资源"><a href="#3-1-2-请求资源" class="headerlink" title="3.1.2. 请求资源"></a><strong>3.1.2. 请求资源</strong></h3><pre><code>URL:  统一资源定位符。http://localhost:8080/day09/testImg.html。只能定位互联网资源。是URI                            的子集。
+URI： 统一资源标记符。/day09/hello。用于标记任何资源。可以是本地文件系统，局域网的资源（//192.168.14.10/myweb/index.html），    可以是互联网。
+</code></pre><h3 id="3-1-3-请求方式"><a href="#3-1-3-请求方式" class="headerlink" title="3.1.3. 请求方式"></a><strong>3.1.3. 请求方式</strong></h3><pre><code>常见的请求方式： GET 、 POST、 HEAD、 TRACE、 PUT、 CONNECT 、DELETE    
+</code></pre><hr>
+<h2 id="3-2-请求头（消息报头）"><a href="#3-2-请求头（消息报头）" class="headerlink" title="3.2. 请求头（消息报头）"></a>3.2. 请求头（消息报头）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Accept: text/html,image/*      -- 浏览器接受的数据类型</span><br><span class="line">Accept-Charset: ISO-8859-1     -- 浏览器接受的编码格式</span><br><span class="line">Accept-Encoding: gzip,compress  --浏览器接受的数据压缩格式</span><br><span class="line">Accept-Language: en-us,zh-       --浏览器接受的语言</span><br><span class="line">Content-Type：text/html, text/json;    浏览器发送的实体数据的数据类型</span><br><span class="line">Host: www.it315.org:80          --（必须的）当前请求访问的目标地址（主机:端口）</span><br><span class="line">If-Modified-Since: Tue, 11 Jul 2000 18:23:51 GMT  --浏览器最后的缓存时间</span><br><span class="line">Referer: http://www.it315.org/index.jsp      -- 当前请求来自于哪里</span><br><span class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0)  --浏览器类型</span><br><span class="line">Cookie:name=eric                     -- 浏览器保存的cookie信息</span><br><span class="line">Connection: close/Keep-Alive            -- 浏览器跟服务器连接状态。close: 连接关闭  keep-alive：保存连接。</span><br><span class="line">Date: Tue, 11 Jul 2000 18:23:51 GMT      -- 请求发出的时间</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="3-3-实体内容"><a href="#3-3-实体内容" class="headerlink" title="3.3. 实体内容"></a>3.3. 实体内容</h2><p>只有POST提交的参数会放到实体内容中</p>
+<hr>
+<h2 id="四：HTTP响应"><a href="#四：HTTP响应" class="headerlink" title="四：HTTP响应"></a><strong>四：HTTP响应</strong></h2><p>http响应包括响应行，响应头（消息报头），实体内容，接下来一一详解：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK                --响应行</span><br><span class="line">Server: Apache-Coyote/1.1      --响应头（key-vaule）</span><br><span class="line">Content-Length: 24 </span><br><span class="line">Date: Fri, 30 Jan 2015 01:54:57 GMT</span><br><span class="line">                               --一个空行</span><br><span class="line">this is hello servlet!!!       --实体内容</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-1-响应行"><a href="#4-1-响应行" class="headerlink" title="4.1. 响应行"></a>4.1. 响应行</h2><p>响应行包括http协议版本，状态码：</p>
+<h3 id="4-1-1-HTTP协议版本"><a href="#4-1-1-HTTP协议版本" class="headerlink" title="4.1.1. HTTP协议版本"></a><strong>4.1.1. HTTP协议版本</strong></h3><h3 id="4-1-2-状态码"><a href="#4-1-2-状态码" class="headerlink" title="4.1.2. 状态码"></a><strong>4.1.2. 状态码</strong></h3><p>  状态代码有三位数字组成，第一个数字定义了响应的类别，且有五种可能取值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1xx：指示信息--表示请求已接收，继续处理</span><br><span class="line">2xx：成功--表示请求已被成功接收、理解、接受</span><br><span class="line">3xx：重定向--要完成请求必须进行更进一步的操作</span><br><span class="line">4xx：客户端错误--请求有语法错误或请求无法实现</span><br><span class="line">5xx：服务器端错误--服务器未能实现合法的请求</span><br></pre></td></tr></table></figure></p>
+<p>常见状态代码、状态描述、说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">200 OK      //客户端请求成功</span><br><span class="line">400 Bad Request  //客户端请求有语法错误，不能被服务器所理解</span><br><span class="line">401 Unauthorized //请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用 </span><br><span class="line">403 Forbidden  //服务器收到请求，但是拒绝提供服务</span><br><span class="line">404 Not Found  //请求资源不存在，eg：输入了错误的URL</span><br><span class="line">500 Internal Server Error //服务器发生不可预期的错误</span><br><span class="line">503 Server Unavailable  //服务器当前不能处理客户端的请求，一段时间后可能恢复正常</span><br><span class="line">eg：HTTP/1.1 200 OK （CRLF）</span><br></pre></td></tr></table></figure>
+<h2 id="4-2-响应头"><a href="#4-2-响应头" class="headerlink" title="4.2. 响应头"></a>4.2. 响应头</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Location: http://www.it315.org/index.jsp   --表示重定向的地址，该头和302的状态码一起使用。</span><br><span class="line">Server:apache tomcat                       --表示服务器的类型</span><br><span class="line">Content-Encoding: gzip                     --表示服务器发送给浏览器的数据压缩类型</span><br><span class="line">Content-Length: 80                         --表示服务器发送给浏览器的数据长度</span><br><span class="line">Content-Language: zh-cn                    --表示服务器支持的语言</span><br><span class="line">Content-Type: text/html; charset=GB2312    --表示服务器发送给浏览器的数据类型及内容编码</span><br><span class="line">Last-Modified: Tue, 11 Jul 2000 18:23:51 GMT  --表示服务器资源的最后修改时间</span><br><span class="line">Refresh: 1;url=http://www.it315.org       --表示定时刷新</span><br><span class="line">Content-Disposition: attachment; filename=aaa.zip --表示告诉浏览器以下载方式打开资源（下载文件时用到）</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Set-Cookie:SS=Q0=5Lb_nQ; path=/search   --表示服务器发送给浏览器的cookie信息（会话管理用到）</span><br><span class="line">Expires: -1                             --表示通知浏览器不进行缓存</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Connection: close/Keep-Alive           --表示服务器和浏览器的连接状态。close：关闭连接 keep-alive:保存连接</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="五：GET和POST区别"><a href="#五：GET和POST区别" class="headerlink" title="五：GET和POST区别"></a><strong>五：GET和POST区别</strong></h2><h2 id="GET方式提交"><a href="#GET方式提交" class="headerlink" title="GET方式提交"></a>GET方式提交</h2><p>   a）地址栏（URI）会跟上参数数据。以？开头，多个参数之间以&amp;分割。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /day09/testMethod.html?name=eric&amp;password=123456 HTTP/1.1</span><br><span class="line">Host: localhost:8080</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-cn,en-us;q=0.8,zh;q=0.5,en;q=0.3</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: http://localhost:8080/day09/testMethod.html</span><br><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure></p>
+<p>b）GET提交参数数据有限制，不超过1KB。<br>c）GET方式不适合提交敏感密码。<br>d）注意： 浏览器直接访问的请求，默认提交方式是GET方式</p>
+<h2 id="POST方式提交"><a href="#POST方式提交" class="headerlink" title="POST方式提交"></a>POST方式提交</h2><p>a）参数不会跟着URI后面。参数而是跟在请求的实体内容中。没有？开头，多个参数之间以&amp;分割。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST /day09/testMethod.html HTTP/1.1</span><br><span class="line">Host: localhost:8080</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-cn,en-us;q=0.8,zh;q=0.5,en;q=0.3</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: http://localhost:8080/day09/testMethod.html</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">name=eric&amp;password=123456</span><br></pre></td></tr></table></figure>
+<p>b）POST提交的参数数据没有限制。<br>c）POST方式提交敏感数据。</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/09/23/Git 学习笔记/" title="Git学习笔记">Git学习笔记</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+一：Git简介引用Git官网的介绍：https://git-scm.com/Git is a free and open source distributed version control system designed to handl
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-09-23T15:26:15.000Z" class="post-list__meta--date date">2016-09-23</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/git/">git</a>
+</span><a class="btn-border-small" href="/2016/09/23/Git 学习笔记/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/08/25/Mac下配置MySQL服务/" title="Mac下配置MySQL服务">Mac下配置MySQL服务</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+安装MySQL下载MySQL安装包：http://dev.mysql.com/downloads/mysql/如图，选择dmg包，下载完成，双击后打开对应的pkg包，一直点击下一步，直到安装成功
+
+启动和停止MySQL服务
+启动MySQL服
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-08-25T15:52:11.000Z" class="post-list__meta--date date">2016-08-25</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/mysql/">mysql</a>
+</span><a class="btn-border-small" href="/2016/08/25/Mac下配置MySQL服务/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

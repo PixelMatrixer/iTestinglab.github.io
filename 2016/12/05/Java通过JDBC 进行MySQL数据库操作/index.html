@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>Java通过JDBC 进行MySQL数据库操作 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+一：前言在测试工作中难免会和数据库打交道，可能大家对数据库语句都比较熟，比如常见的增删改查等，但是当我们在做自动化测试时，比如接口测试，大部分请求参数，可能都是从数据库中取值，并且接口返回值最后都会记录在数据库中，这样前提就需要和数据库建立连接，才能进行读写操作。
+
+二：JDBC是什么java提供了一个API也就是JDBC（Java Da">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Java通过JDBC 进行MySQL数据库操作 | Again Unscarred">
+    <meta name="twitter:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+一：前言在测试工作中难免会和数据库打交道，可能大家对数据库语句都比较熟，比如常见的增删改查等，但是当我们在做自动化测试时，比如接口测试，大部分请求参数，可能都是从数据库中取值，并且接口返回值最后都会记录在数据库中，这样前提就需要和数据库建立连接，才能进行读写操作。
+
+二：JDBC是什么java提供了一个API也就是JDBC（Java Da">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Java通过JDBC 进行MySQL数据库操作 | Again Unscarred">
+    <meta property="og:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+一：前言在测试工作中难免会和数据库打交道，可能大家对数据库语句都比较熟，比如常见的增删改查等，但是当我们在做自动化测试时，比如接口测试，大部分请求参数，可能都是从数据库中取值，并且接口返回值最后都会记录在数据库中，这样前提就需要和数据库建立连接，才能进行读写操作。
+
+二：JDBC是什么java提供了一个API也就是JDBC（Java Da">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2016/12/05/Java通过JDBC 进行MySQL数据库操作/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-12-05T05:12:10.000Z" class="post-list__meta--date date">2016-12-05</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/java/">java</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">Java通过JDBC 进行MySQL数据库操作</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>本文为CharliChen原创文章，转载请注明出处！！</p>
+</blockquote>
+<h2 id="一：前言"><a href="#一：前言" class="headerlink" title="一：前言"></a>一：前言</h2><p>在测试工作中难免会和数据库打交道，可能大家对数据库语句都比较熟，比如常见的增删改查等，但是当我们在做自动化测试时，比如接口测试，大部分请求参数，可能都是从数据库中取值，并且接口返回值最后都会记录在数据库中，这样前提就需要和数据库建立连接，才能进行读写操作。</p>
+<hr>
+<h2 id="二：JDBC是什么"><a href="#二：JDBC是什么" class="headerlink" title="二：JDBC是什么"></a>二：JDBC是什么</h2><p><strong>java提供了一个API也就是JDBC（Java Data Base Connectivity)，可以为多种关系数据库提供统一访问和操作，它由一组用Java语言编写的类和接口组成。</strong></p>
+<ul>
+<li>没有jdbc之前<br>java开发人员需要维护不同的数据库的驱动程序，如果数据库的底层实现改变，驱动程序可能会随之改变！！</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20161015193028849" alt="这里写图片描述"></p>
+<ul>
+<li>有了jdbc之后：<br>java开发人员只需维护java应用和一套规范，也就是jdbc接口。数据库厂商提供具体的java驱动程序，数据库厂商的底层实现改变，厂商随之更新驱动程序，而不影响java应用程序！！</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20161015193227040" alt="这里写图片描述"></p>
+<hr>
+<h2 id="三：实现步骤"><a href="#三：实现步骤" class="headerlink" title="三：实现步骤"></a>三：实现步骤</h2><ol>
+<li><p>导入数据包<br>需要包括含有需要进行数据库编程的JDBC类的包。大多数情况下，使用 import java.sql.*  就可以了.</p>
+</li>
+<li><p>添加JDBC驱动程序包<br> 添加jar程序驱动包<a href="http://www.mysql.com/downloads/connector/j，初始化驱动程序，可以与数据库打开一个通信通道。" target="_blank" rel="noopener">http://www.mysql.com/downloads/connector/j，初始化驱动程序，可以与数据库打开一个通信通道。</a></p>
+</li>
+<li><p>打开数据库连接<br>需要使用DriverManager.getConnection() 方法创建一个Connection对象，它代表与数据库的物理连接。</p>
+</li>
+<li><p>执行数据库操作<br> 需要使用类型声明的对象建立并提交一个SQL语句到数据库。</p>
+</li>
+<li><p>从结果集中提取数据<br> 要求使用适当的关于ResultSet.getXXX()方法来检索结果集的数据。</p>
+</li>
+<li><p>清理环境<br>需要明确地关闭所有的数据库资源相对依靠JVM的垃圾收集。</p>
+</li>
+</ol>
+<h3 id="JDBCUtil类"><a href="#JDBCUtil类" class="headerlink" title="JDBCUtil类"></a>JDBCUtil类</h3><ul>
+<li><p><strong>主程序</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><span class="line">package com.jdbc;</span><br><span class="line"></span><br><span class="line">//导入数据包</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">import java.sql.Statement;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class JDBCUtil&#123;</span><br><span class="line">	</span><br><span class="line">	// 驱动包名和数据库url</span><br><span class="line">	private static String url = null;</span><br><span class="line">	private static String driverClass = null;</span><br><span class="line">	// 数据库用户名和密码</span><br><span class="line">	private static String userName = null;</span><br><span class="line">	private static String password = null;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 初始化驱动程序</span><br><span class="line">	 * 静态代码块中（只加载一次）</span><br><span class="line">	 */</span><br><span class="line">	static&#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			//读取db.properties文件</span><br><span class="line">			Properties prop = new Properties();</span><br><span class="line">			</span><br><span class="line">			/**</span><br><span class="line">			 * 使用类路径的读取方式</span><br><span class="line">			 *  / : 斜杠表示classpath的根目录</span><br><span class="line">			 *     在java项目下，classpath的根目录从bin目录开始</span><br><span class="line">			 *     在web项目下，classpath的根目录从WEB-INF/classes目录开始</span><br><span class="line">			 */</span><br><span class="line">			InputStream in = JDBCUtil.class.getResourceAsStream(&quot;/db.properties&quot;);</span><br><span class="line">			</span><br><span class="line">			//加载文件</span><br><span class="line">			prop.load(in);</span><br><span class="line">			//读取信息</span><br><span class="line">			url = prop.getProperty(&quot;url&quot;);</span><br><span class="line">			driverClass = prop.getProperty(&quot;driverClass&quot;);</span><br><span class="line">			userName = prop.getProperty(&quot;user&quot;);</span><br><span class="line">			password = prop.getProperty(&quot;password&quot;);</span><br><span class="line">			</span><br><span class="line">			//注册驱动程序</span><br><span class="line">			Class.forName(driverClass);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			System.out.println(&quot;驱程程序注册出错&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">		   </span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 打开数据库驱动连接</span><br><span class="line">	 */</span><br><span class="line">	public static Connection getConnection()&#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			Connection conn = DriverManager.getConnection(url, userName, password);</span><br><span class="line">			return conn;</span><br><span class="line">		&#125; catch (SQLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			throw new RuntimeException(e);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 清理环境，关闭连接(顺序:后打开的先关闭)</span><br><span class="line">	 */</span><br><span class="line">	public static void close(Connection conn,Statement stmt,ResultSet rs)&#123;</span><br><span class="line">		if(rs!=null)</span><br><span class="line">			try &#123;</span><br><span class="line">				rs.close();</span><br><span class="line">			&#125; catch (SQLException e1) &#123;</span><br><span class="line">				e1.printStackTrace();</span><br><span class="line">				throw new RuntimeException(e1);</span><br><span class="line">			&#125;</span><br><span class="line">		if(stmt!=null)&#123;</span><br><span class="line">			try &#123;</span><br><span class="line">				stmt.close();</span><br><span class="line">			&#125; catch (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">				throw new RuntimeException(e);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		if(conn!=null)&#123;</span><br><span class="line">			try &#123;</span><br><span class="line">				conn.close();</span><br><span class="line">			&#125; catch (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">				throw new RuntimeException(e);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">				   </span><br><span class="line">	   Connection conn = null;</span><br><span class="line">	   Statement stmt = null;</span><br><span class="line">	   ResultSet rs = null;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	   conn=JDBCUtil.getConnection();</span><br><span class="line">	   try &#123;</span><br><span class="line">			stmt=conn.createStatement();</span><br><span class="line">		 	//准备sql操作语句</span><br><span class="line">			String sql= &quot;SELECT id, first, last, age FROM YourDBName&quot;;</span><br><span class="line">			rs = stmt.executeQuery(sql);</span><br><span class="line">	</span><br><span class="line">			//从结果集中提取数据</span><br><span class="line">			while(rs.next())&#123;</span><br><span class="line">		         int id  = rs.getInt(&quot;id&quot;);</span><br><span class="line">		         int age = rs.getInt(&quot;age&quot;);</span><br><span class="line">		         String first = rs.getString(&quot;first&quot;);</span><br><span class="line">		         String last = rs.getString(&quot;last&quot;);</span><br><span class="line">		</span><br><span class="line">		         System.out.print(&quot;ID: &quot; + id);</span><br><span class="line">		         System.out.print(&quot;, Age: &quot; + age);</span><br><span class="line">		         System.out.print(&quot;, First: &quot; + first);</span><br><span class="line">		         System.out.println(&quot;, Last: &quot; + last);</span><br><span class="line">			&#125;</span><br><span class="line">		  &#125; catch (SQLException e) &#123;</span><br><span class="line">			// TODO Auto-generated catch block</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		  &#125;finally&#123;</span><br><span class="line">			  JDBCUtil.close(conn, stmt, rs);</span><br><span class="line">		  &#125;</span><br><span class="line">  	 &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>JDBC配置文件db.properties</strong></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">url=jdbc:mysql://localhost/yourDBName</span><br><span class="line">user=root</span><br><span class="line">password=root</span><br><span class="line">driverClass=com.mysql.jdbc.Driver</span><br></pre></td></tr></table></figure>
+<hr>
+<p>##四：JDBC核心API<br> JDBC接口核心的API</p>
+<ul>
+<li>java.sql.* </li>
+<li>javax.sql.*</li>
+</ul>
+<pre><code>|- Driver接口： 表示java驱动程序接口。所有的具体的数据库厂商要来实现此接口。
+    |- connect(url, properties):  连接数据库的方法。
+            url: 连接数据库的URL 
+                URL语法： jdbc协议:数据库子协议://主机:端口/数据库
+                user： 数据库的用户名
+                password： 数据库用户密码
+|- DriverManager类： 驱动管理器类，用于管理所有注册的驱动程序
+    |-registerDriver(driver)  : 注册驱动类对象
+    |-Connection getConnection(url,user,password);  获取连接对象
+
+|- Connection接口： 表示java程序和数据库的连接对象。
+        |- Statement createStatement() ： 创建Statement对象
+        |- PreparedStatement prepareStatement(String sql)  创建PreparedStatement对象
+        |- CallableStatement prepareCall(String sql) 创建CallableStatement对象
+
+|- Statement接口： 用于执行静态的sql语句
+        |- int executeUpdate(String sql)  ： 执行静态的更新sql语句（DDL，DML）
+        |- ResultSet executeQuery(String sql)  ：执行的静态的查询sql语句（DQL）
+
+    |-PreparedStatement接口：用于执行预编译sql语句
+            |- int executeUpdate() ： 执行预编译的更新sql语句（DDL，DML）
+            |-ResultSet executeQuery()  ： 执行预编译的查询sql语句（DQL）
+
+    |-CallableStatement接口：用于执行存储过程的sql语句（call xxx）
+                |-ResultSet executeQuery()  ： 调用存储过程的方法
+
+
+|- ResultSet接口：用于封装查询出来的数据
+        |- boolean next() ： 将光标移动到下一行
+        |-getXX() : 获取列的值
+</code></pre><hr>
+<h2 id="五：常见的SQL执行语句"><a href="#五：常见的SQL执行语句" class="headerlink" title="五：常见的SQL执行语句"></a>五：常见的SQL执行语句</h2><pre><code>String sql = &quot;CREATE TABLE student(id INT PRIMARY KEY AUTO_INCREMENT,NAME VARCHAR(20),gender VARCHAR(2))&quot;;
+//发送sql语句，执行sql语句,得到返回结果
+int count = stmt.executeUpdate(sql);
+
+String sql = &quot;SELECT * FROM student&quot;;
+//执行sql
+ResultSet rs = stmt.executeQuery(sql);
+
+String sql = &quot;INSERT INTO student(NAME,gender) VALUES(&apos;李四&apos;,&apos;女&apos;)&quot;;
+int count = stmt.executeUpdate(sql);
+
+String sql = &quot;UPDATE student SET NAME=&apos;&quot;+name+&quot;&apos; WHERE id=&quot;+id+&quot;&quot;;
+
+String sql = &quot;DELETE FROM student WHERE id=&quot;+id+&quot;&quot;;
+</code></pre><hr>
+<h2 id="六：补充"><a href="#六：补充" class="headerlink" title="六：补充"></a>六：补充</h2><h3 id="数据库url制定"><a href="#数据库url制定" class="headerlink" title="数据库url制定"></a>数据库url制定</h3><p>当加载的驱动程序，可以建立程序中使用DriverManager.getConnection()方法的连接。为方便参考，让列出了三个重载DriverManager.getConnection()方法：</p>
+<p>getConnection(String url)</p>
+<p>getConnection(String url, Properties prop)</p>
+<p>getConnection(String url, String user, String password)</p>
+<p>在这里，每个表单需要一个数据库URL。数据库的URL是指向数据库地址。</p>
+<p>制定一个数据库URL是大多数用在建立连接相关。<br>如图列出了下来流行的JDBC驱动程序名和数据库的URL。<br><img src="http://img.blog.csdn.net/20161012230516424" alt="这里写图片描述"></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p> <a href="http://www.yiibai.com/jdbc/jdbc-sample-code.html#" target="_blank" rel="noopener">http://www.yiibai.com/jdbc/jdbc-sample-code.html#</a></p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/12/05/Java通过JDBC 进行Dao层的封装/" title="Java通过JDBC 进行Dao层的封装">Java通过JDBC 进行Dao层的封装</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+前言前面有一章节，我专门讲解了Java通过JDBC 进行MySQL数据库操作，这主要讲解了MySQL数据库的连接和简单的操作，但是在真正的java项目中，我们要不断的和数据库打交道，为了提高数据库操作的执行效率和增加代码的复用性，将重新封装
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-12-05T14:22:45.000Z" class="post-list__meta--date date">2016-12-05</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/mysql/">mysql</a>
+</span><a class="btn-border-small" href="/2016/12/05/Java通过JDBC 进行Dao层的封装/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/12/03/TestNG实现用例运行失败自动截图和重跑/" title="TestNG实现用例运行失败自动截图和重跑">TestNG实现用例运行失败自动截图和重跑</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+前言在前面我的自动化测试框架系列文章中，有一个知识点没有讲到，现在补上。在运行自动测试脚本时，经常会需要增加失败时自动截图的功能，以及失败重跑功能，下面介绍一下通过监听器的方式来实现自动截图和重跑功能。
+失败自动截图功能1. 定义一个截图工
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-12-03T10:44:10.000Z" class="post-list__meta--date date">2016-12-03</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+</span><a class="btn-border-small" href="/2016/12/03/TestNG实现用例运行失败自动截图和重跑/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

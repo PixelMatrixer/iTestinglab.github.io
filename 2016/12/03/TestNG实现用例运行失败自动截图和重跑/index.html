@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>TestNG实现用例运行失败自动截图和重跑 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+前言在前面我的自动化测试框架系列文章中，有一个知识点没有讲到，现在补上。在运行自动测试脚本时，经常会需要增加失败时自动截图的功能，以及失败重跑功能，下面介绍一下通过监听器的方式来实现自动截图和重跑功能。
+失败自动截图功能1. 定义一个截图工具类：ScreenShot1234567891011121314151617181920212223">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="TestNG实现用例运行失败自动截图和重跑 | Again Unscarred">
+    <meta name="twitter:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+前言在前面我的自动化测试框架系列文章中，有一个知识点没有讲到，现在补上。在运行自动测试脚本时，经常会需要增加失败时自动截图的功能，以及失败重跑功能，下面介绍一下通过监听器的方式来实现自动截图和重跑功能。
+失败自动截图功能1. 定义一个截图工具类：ScreenShot1234567891011121314151617181920212223">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="TestNG实现用例运行失败自动截图和重跑 | Again Unscarred">
+    <meta property="og:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+前言在前面我的自动化测试框架系列文章中，有一个知识点没有讲到，现在补上。在运行自动测试脚本时，经常会需要增加失败时自动截图的功能，以及失败重跑功能，下面介绍一下通过监听器的方式来实现自动截图和重跑功能。
+失败自动截图功能1. 定义一个截图工具类：ScreenShot1234567891011121314151617181920212223">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2016/12/03/TestNG实现用例运行失败自动截图和重跑/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-12-03T10:44:10.000Z" class="post-list__meta--date date">2016-12-03</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">TestNG实现用例运行失败自动截图和重跑</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>本文为CharliChen原创文章，转载请注明出处！！</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在前面我的自动化测试框架系列文章中，有一个知识点没有讲到，现在补上。<br>在运行自动测试脚本时，经常会需要增加失败时自动截图的功能，以及失败重跑功能，下面介绍一下通过监听器的方式来实现自动截图和重跑功能。</p>
+<h1 id="失败自动截图功能"><a href="#失败自动截图功能" class="headerlink" title="失败自动截图功能"></a>失败自动截图功能</h1><h3 id="1-定义一个截图工具类：ScreenShot"><a href="#1-定义一个截图工具类：ScreenShot" class="headerlink" title="1. 定义一个截图工具类：ScreenShot"></a>1. 定义一个截图工具类：ScreenShot</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package com.dji.utils;</span><br><span class="line"></span><br><span class="line">import java.io.File;</span><br><span class="line">import java.text.SimpleDateFormat;</span><br><span class="line">import java.util.Date;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.io.FileUtils;</span><br><span class="line">import org.openqa.selenium.OutputType;</span><br><span class="line"></span><br><span class="line">import io.appium.java_client.AppiumDriver;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 截图并保存至本地</span><br><span class="line"> * </span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> */</span><br><span class="line">public class ScreenShot &#123;</span><br><span class="line"></span><br><span class="line">	private AppiumDriver&lt;?&gt; driver;</span><br><span class="line">	// 测试失败截屏保存的路径</span><br><span class="line">	private String path;</span><br><span class="line">	public LogUtil log=new LogUtil(this.getClass());</span><br><span class="line"></span><br><span class="line">	public ScreenShot(AppiumDriver&lt;?&gt; driver)&#123;</span><br><span class="line">		this.driver=driver;</span><br><span class="line">		path=System.getProperty(&quot;user.dir&quot;)+ &quot;//snapshot//&quot;+ this.getClass().getSimpleName()+&quot;_&quot;+getCurrentTime() + &quot;.png&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void getScreenShot() &#123;</span><br><span class="line"></span><br><span class="line">		File screen = driver.getScreenshotAs(OutputType.FILE);</span><br><span class="line">		File screenFile = new File(path);</span><br><span class="line">		try &#123;</span><br><span class="line">			FileUtils.copyFile(screen, screenFile);</span><br><span class="line">			log.info(&quot;截图保存的路径:&quot; + path);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			log.error(&quot;截图失败&quot;);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 获取当前时间</span><br><span class="line">	 */</span><br><span class="line">	public String getCurrentTime()&#123;</span><br><span class="line">		Date date=new Date();</span><br><span class="line">		SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd HH-mm-ss&quot;);</span><br><span class="line">		String currentTime=sdf.format(date);</span><br><span class="line">		return currentTime;	</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getPath() &#123;</span><br><span class="line">		return path;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setPath(String path) &#123;</span><br><span class="line">		this.path = path;</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-新建一个Java类继承TestListenerAdapter"><a href="#2-新建一个Java类继承TestListenerAdapter" class="headerlink" title="2. 新建一个Java类继承TestListenerAdapter"></a>2. 新建一个Java类继承TestListenerAdapter</h3><p>在TestNG中TestListenerAdapter为监听器类，共有如下主要方法：</p>
+<ul>
+<li>onTestFailure</li>
+<li>onTestSuccess</li>
+<li>onTestSuccess</li>
+<li>onTestStart</li>
+<li>onFinish</li>
+</ul>
+<p>要想实现用例运行失败自动截图，只需新建一个类TestNGListener继承TestListenerAdapter，然后重写onTestFailure、onTestSkipped等方法，在这些方法中加入截图操作即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">package com.dji.utils;</span><br><span class="line"></span><br><span class="line">import org.testng.ITestContext;</span><br><span class="line">import org.testng.ITestResult;</span><br><span class="line">import org.testng.TestListenerAdapter;</span><br><span class="line"></span><br><span class="line">import io.appium.java_client.AppiumDriver;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * testNG执行case 失败后 ，testNG Listener会捕获执行失败</span><br><span class="line"> * 如果要实现失败自动截图，需要重写Listener的onTestFailure方法</span><br><span class="line"> * </span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> */</span><br><span class="line">public class TestNGListener extends TestListenerAdapter &#123;</span><br><span class="line"></span><br><span class="line">	private static AppiumDriver&lt;?&gt; driver;</span><br><span class="line"></span><br><span class="line">	LogUtil log = new LogUtil(this.getClass());</span><br><span class="line"></span><br><span class="line">	public static void setDriver(AppiumDriver&lt;?&gt; driver) &#123;</span><br><span class="line">		TestNGListener.driver = driver;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onTestSuccess(ITestResult tr) &#123;</span><br><span class="line">		log.info(&quot;Test Success&quot;);</span><br><span class="line">		super.onTestSuccess(tr);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onTestFailure(ITestResult tr) &#123;</span><br><span class="line">		log.error(&quot;Test Failure&quot;);</span><br><span class="line">		super.onTestFailure(tr);</span><br><span class="line">		</span><br><span class="line">		ScreenShot screenShot = new ScreenShot(driver);</span><br><span class="line">		screenShot.getScreenShot();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onTestSkipped(ITestResult tr) &#123;</span><br><span class="line">		log.error(&quot;Test Skipped&quot;);</span><br><span class="line">		super.onTestSkipped(tr);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onStart(ITestContext testContext) &#123;</span><br><span class="line">		log.info(&quot;Test Start&quot;);</span><br><span class="line">		super.onStart(testContext);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onFinish(ITestContext testContext) &#123;</span><br><span class="line">		log.info(&quot;Test Finish&quot;);</span><br><span class="line">		super.onFinish(testContext);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-在testng-xml文件中配置自己编写的监听器类"><a href="#3-在testng-xml文件中配置自己编写的监听器类" class="headerlink" title="3. 在testng.xml文件中配置自己编写的监听器类"></a>3. 在testng.xml文件中配置自己编写的监听器类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;listeners&gt;</span><br><span class="line">	&lt;listener class-name=&quot;com.dji.utils.TestNGListener&quot; /&gt;</span><br><span class="line">&lt;/listeners&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>完成以上三步即可！！！</p>
+<p><img src="http://img.blog.csdn.net/20160927205652964" alt="这里写图片描述"></p>
+<hr>
+<h1 id="失败自动重跑功能"><a href="#失败自动重跑功能" class="headerlink" title="失败自动重跑功能"></a>失败自动重跑功能</h1><h3 id="1-新建TestNGRetry类，实现用例失败自动重跑逻辑"><a href="#1-新建TestNGRetry类，实现用例失败自动重跑逻辑" class="headerlink" title="1. 新建TestNGRetry类，实现用例失败自动重跑逻辑"></a>1. 新建TestNGRetry类，实现用例失败自动重跑逻辑</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package com.dji.utils;</span><br><span class="line"></span><br><span class="line">import org.testng.IRetryAnalyzer;</span><br><span class="line">import org.testng.ITestResult;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 用例失败自动重跑逻辑</span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class TestNGRetry implements IRetryAnalyzer &#123;</span><br><span class="line">	public LogUtil log = new LogUtil(this.getClass());</span><br><span class="line">	private int retryCount = 0;</span><br><span class="line">	private int maxRetryCount=2;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	public boolean retry(ITestResult result) &#123;</span><br><span class="line">		if (retryCount &lt;= maxRetryCount) &#123;</span><br><span class="line">			String message = &quot;running retry for  &apos;&quot; + result.getName() + &quot;&apos; on class &quot; + </span><br><span class="line">                                       this.getClass().getName() + &quot; Retrying &quot; + retryCount + &quot; times&quot;;</span><br><span class="line">			log.info(message);</span><br><span class="line">			retryCount++;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">		return false;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-添加用例重跑监听器RetryListener，用例失败自动重跑功能"><a href="#2-添加用例重跑监听器RetryListener，用例失败自动重跑功能" class="headerlink" title="2. 添加用例重跑监听器RetryListener，用例失败自动重跑功能"></a>2. 添加用例重跑监听器RetryListener，用例失败自动重跑功能</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">package com.dji.utils;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Constructor;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line">import org.testng.IAnnotationTransformer;</span><br><span class="line">import org.testng.IRetryAnalyzer;</span><br><span class="line">import org.testng.annotations.ITestAnnotation;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 添加用例重跑监听器，用例失败自动重跑功能</span><br><span class="line"> * </span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class RetryListener implements IAnnotationTransformer &#123;</span><br><span class="line">    public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) &#123;</span><br><span class="line">        IRetryAnalyzer retry = annotation.getRetryAnalyzer();</span><br><span class="line">        if (retry == null) &#123;</span><br><span class="line">            annotation.setRetryAnalyzer(TestNGRetry.class);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-在testng-xml文件中配置自己编写的监听器"><a href="#3-在testng-xml文件中配置自己编写的监听器" class="headerlink" title="3. 在testng.xml文件中配置自己编写的监听器"></a>3. 在testng.xml文件中配置自己编写的监听器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;listeners&gt;</span><br><span class="line">	&lt;listener class-name=&quot;com.dji.utils.TestNGListener&quot; /&gt;</span><br><span class="line">	&lt;listener class-name=&quot;com.dji.utils.RetryListener&quot;/&gt;</span><br><span class="line">&lt;/listeners&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="4-进一步改进"><a href="#4-进一步改进" class="headerlink" title="4. 进一步改进"></a>4. 进一步改进</h3><p>以上三步就搞定用例失败重跑的功能了，但是最后我们查看testng报告时，发现失败的用例在报告里生成了多份，显然这样不好，那怎么解决呢？<br><img src="http://img.blog.csdn.net/20160928163349572" alt="这里写图片描述"></p>
+<p>我们来更改第一部分自动截图中说到的TestNGListener监听器类，重写onFinish方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onFinish(ITestContext testContext) &#123;</span><br><span class="line">	log.info(&quot;Test Finish&quot;);</span><br><span class="line">	</span><br><span class="line">       Iterator&lt;ITestResult&gt; listOfFailedTests = testContext.getFailedTests().getAllResults().iterator();</span><br><span class="line">       while (listOfFailedTests.hasNext()) &#123;</span><br><span class="line">           ITestResult failedTest = listOfFailedTests.next();</span><br><span class="line">           ITestNGMethod method = failedTest.getMethod();</span><br><span class="line">           if (testContext.getFailedTests().getResults(method).size() &gt; 1) &#123;</span><br><span class="line">               listOfFailedTests.remove();</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               if (testContext.getPassedTests().getResults(method).size() &gt; 0) &#123;</span><br><span class="line">                   listOfFailedTests.remove();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/12/05/Java通过JDBC 进行MySQL数据库操作/" title="Java通过JDBC 进行MySQL数据库操作">Java通过JDBC 进行MySQL数据库操作</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+一：前言在测试工作中难免会和数据库打交道，可能大家对数据库语句都比较熟，比如常见的增删改查等，但是当我们在做自动化测试时，比如接口测试，大部分请求参数，可能都是从数据库中取值，并且接口返回值最后都会记录在数据库中，这样前提就需要和数据库建立
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-12-05T05:12:10.000Z" class="post-list__meta--date date">2016-12-05</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/java/">java</a>
+</span><a class="btn-border-small" href="/2016/12/05/Java通过JDBC 进行MySQL数据库操作/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/12/01/UI层自动化测试框架（六）：持续集成和测试报告/" title="UI层自动化测试框架（六）：持续集成和测试报告">UI层自动化测试框架（六）：持续集成和测试报告</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+前面几章讲解了测试框架的结构和实现，接下来讲解如何实现测试框架的自动化和测试报告的生成。
+持续集成本框架我是采用Jenkins实现持续集成的，至于Jenkins环境的搭建和使用，我前面的blog有提到，如果大家不清楚的可以先去阅读我之前写的
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-12-01T05:31:20.000Z" class="post-list__meta--date date">2016-12-01</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+</span><a class="btn-border-small" href="/2016/12/01/UI层自动化测试框架（六）：持续集成和测试报告/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>UI层自动化测试框架（三）：基础层 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+引言第一章我就有说到，该自动化测试框架分为四层：基础层，对象层，操作层，用例层。本章主要介绍基础层的设计。
+测试框架目录如图：
+对应源码地址：https://github.com/iTestinglab
+基础层介绍该层封装Appium的相关操作和一些常见的工具类。
+为什么要单独搞一个基础层呢？这样的目的还是为了体现Java的核心思想：封装">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="UI层自动化测试框架（三）：基础层 | Again Unscarred">
+    <meta name="twitter:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+引言第一章我就有说到，该自动化测试框架分为四层：基础层，对象层，操作层，用例层。本章主要介绍基础层的设计。
+测试框架目录如图：
+对应源码地址：https://github.com/iTestinglab
+基础层介绍该层封装Appium的相关操作和一些常见的工具类。
+为什么要单独搞一个基础层呢？这样的目的还是为了体现Java的核心思想：封装">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="UI层自动化测试框架（三）：基础层 | Again Unscarred">
+    <meta property="og:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+引言第一章我就有说到，该自动化测试框架分为四层：基础层，对象层，操作层，用例层。本章主要介绍基础层的设计。
+测试框架目录如图：
+对应源码地址：https://github.com/iTestinglab
+基础层介绍该层封装Appium的相关操作和一些常见的工具类。
+为什么要单独搞一个基础层呢？这样的目的还是为了体现Java的核心思想：封装">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2016/11/26/UI层自动化测试框架（三）：基础层/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-11-26T14:40:11.000Z" class="post-list__meta--date date">2016-11-26</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">UI层自动化测试框架（三）：基础层</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>本文为CharliChen原创文章，转载请注明出处！！</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>第一章我就有说到，该自动化测试框架分为四层：基础层，对象层，操作层，用例层。本章主要介绍基础层的设计。</p>
+<p>测试框架目录如图：<br><img src="http://img.blog.csdn.net/20160907121727546" alt="这里写图片描述"></p>
+<p>对应源码地址：<a href="https://github.com/iTestinglab" target="_blank" rel="noopener">https://github.com/iTestinglab</a></p>
+<h2 id="基础层介绍"><a href="#基础层介绍" class="headerlink" title="基础层介绍"></a>基础层介绍</h2><p>该层封装Appium的相关操作和一些常见的工具类。</p>
+<p>为什么要单独搞一个基础层呢？<br>这样的目的还是为了体现Java的核心思想：封装，这样框架显得更加的清晰，简练，代码的复用性和拓展性更高。每一层负责各自的功能，比如：我在基础层专门写一个读取xml数据的工具类，这样，其他层如果想要解析xml格式的数据时，只要调用基础层的这个封装好的XmlUtils工具类即可，这样是不是很方便。</p>
+<h2 id="基础层常见的类"><a href="#基础层常见的类" class="headerlink" title="基础层常见的类"></a>基础层常见的类</h2><p>接下来主要讲解基础层的各个类的作用和实现原理<br>如图为基础层核心的类：<br><img src="http://img.blog.csdn.net/20160907122043837" alt="这里写图片描述"></p>
+<h3 id="1-AppiumExecutor"><a href="#1-AppiumExecutor" class="headerlink" title="1. AppiumExecutor"></a>1. AppiumExecutor</h3><p>AppiumExecutor为一个接口，包含若干个抽象方法，这些方法都是appium基本的操作方法，比如：点击，输入，获取文本等等等<br><img src="http://img.blog.csdn.net/20160907122720800" alt="这里写图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">package com.dji.utils;</span><br><span class="line"></span><br><span class="line">import com.dji.object.Locator;</span><br><span class="line"></span><br><span class="line">import io.appium.java_client.MobileElement;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Appium常见的API</span><br><span class="line"> * </span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public interface AppiumExecutor &#123;</span><br><span class="line">	</span><br><span class="line">	//点击元素</span><br><span class="line">	public void click(Locator locator);</span><br><span class="line"></span><br><span class="line">	//输入文本</span><br><span class="line">	public void type(Locator locator, String values);</span><br><span class="line">	</span><br><span class="line">	//获取元素文本</span><br><span class="line">	public String getText(Locator locator);</span><br><span class="line">	</span><br><span class="line">	//获取元素</span><br><span class="line">	public MobileElement findElement( Locator locator) ;</span><br><span class="line">	</span><br><span class="line">	//判断元素是否出现</span><br><span class="line">	public boolean isElementDisplayed(Locator locator);</span><br><span class="line">	</span><br><span class="line">	//向左滑动</span><br><span class="line">	public void swipeToLeft();</span><br><span class="line">	//向右滑动</span><br><span class="line">	public void swipeToRight();</span><br><span class="line">	//向上滑动</span><br><span class="line">	public void swipeToUp();</span><br><span class="line">	//向下滑动</span><br><span class="line">	public void swipeToDown();</span><br><span class="line">	</span><br><span class="line">	//通过坐标点击</span><br><span class="line">	public void tapByXY(int x, int y);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-AppiumExecutorImpl"><a href="#2-AppiumExecutorImpl" class="headerlink" title="2. AppiumExecutorImpl"></a>2. AppiumExecutorImpl</h3><p>封装一个AppiumExecutorImpl类，实现AppiumExecutor接口<br><img src="http://img.blog.csdn.net/20160907123045616" alt="这里写图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line">package com.dji.utils;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">import org.openqa.selenium.By;</span><br><span class="line"></span><br><span class="line">import com.dji.object.Locator;</span><br><span class="line"></span><br><span class="line">import io.appium.java_client.AppiumDriver;</span><br><span class="line">import io.appium.java_client.MobileElement;</span><br><span class="line">import io.appium.java_client.TouchAction;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 封装一个AppiumExecutorImpl类，实现AppiumExecutor接口</span><br><span class="line"> * </span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class AppiumExecutorImpl implements AppiumExecutor &#123;</span><br><span class="line">	</span><br><span class="line">	private  AppiumDriver&lt;?&gt; driver;</span><br><span class="line">	public Log log=new Log(this.getClass());</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	public AppiumExecutorImpl(AppiumDriver&lt;?&gt; driver) &#123;</span><br><span class="line">		this.driver = driver;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	public AppiumDriver&lt;?&gt; getDriver() &#123;</span><br><span class="line">		return driver;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setDriver(AppiumDriver&lt;?&gt; driver) &#123;</span><br><span class="line">		this.driver = driver;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 在元素中中输入文本</span><br><span class="line">	 * </span><br><span class="line">	 * @author Charlie.chen</span><br><span class="line">	 * @param locator</span><br><span class="line">	 * @param values</span><br><span class="line">	 * @throws Exception</span><br><span class="line">	 */</span><br><span class="line">	public void type(Locator locator, String values)&#123;</span><br><span class="line">		MobileElement e = (MobileElement) findElement(locator);</span><br><span class="line">		e.sendKeys(values);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 点击元素</span><br><span class="line">     * </span><br><span class="line">     * @author Charlie.chen</span><br><span class="line">     * @param locator</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">	public void click(Locator locator) &#123;</span><br><span class="line">		MobileElement e = (MobileElement) findElement(locator);</span><br><span class="line">		e.click();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 获取元素文本信息</span><br><span class="line">	 * </span><br><span class="line">	 * @author Charlie.chen</span><br><span class="line">	 * @param locator</span><br><span class="line">	 */</span><br><span class="line">	public String getText(Locator locator) &#123;</span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line">		MobileElement e = (MobileElement) findElement(locator);</span><br><span class="line">		String text=e.getText();</span><br><span class="line">		return text;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 获取元素</span><br><span class="line">	 * </span><br><span class="line">	 * @author Charlie.chen</span><br><span class="line">	 * @param locator</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	public MobileElement findElement(Locator locator) &#123;</span><br><span class="line">		MobileElement e=null;</span><br><span class="line">		switch (locator.getBy()) &#123;</span><br><span class="line">		case xpath:</span><br><span class="line">			e = (MobileElement) driver.findElement(By.xpath(locator.getAddress()));</span><br><span class="line">			break;</span><br><span class="line">		case id:</span><br><span class="line">			e = (MobileElement) driver.findElement(By.id(locator.getAddress()));</span><br><span class="line">			break;</span><br><span class="line">		case name:</span><br><span class="line">			e = (MobileElement) driver.findElement(By.name(locator.getAddress()));</span><br><span class="line">			break;</span><br><span class="line">		case className:</span><br><span class="line">			e = (MobileElement) driver.findElement(By.className(locator.getAddress()));</span><br><span class="line">			break;</span><br><span class="line">		default:</span><br><span class="line">			e = (MobileElement) driver.findElement(By.id(locator.getAddress()));</span><br><span class="line">		&#125;</span><br><span class="line">		return e;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 向左滑动</span><br><span class="line">	 */</span><br><span class="line">	public void swipeToLeft() &#123;</span><br><span class="line">		int x = driver.manage().window().getSize().width;</span><br><span class="line">		int y = driver.manage().window().getSize().height;</span><br><span class="line">		try &#123;</span><br><span class="line">			driver.swipe((x / 8 * 7), (y / 2 * 1), (x / 8 * 1), (y / 2 * 1), 1000);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			driver.swipe((x / 8 * 7), (y / 2 * 1), (x / 8 * 1), (y / 2 * 1), 1000);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 向右滑动</span><br><span class="line">	 */</span><br><span class="line">	public void swipeToRight() &#123;</span><br><span class="line">		int x = driver.manage().window().getSize().width;</span><br><span class="line">		int y = driver.manage().window().getSize().height;</span><br><span class="line">		try &#123;</span><br><span class="line">			driver.swipe((x / 8 * 1), (y / 2 * 1), (x / 8 * 7), (y / 2 * 1), 1000);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			driver.swipe((x / 8 * 1), (y / 2 * 1), (x / 8 * 7), (y / 2 * 1), 1000);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 向上滑动</span><br><span class="line">	 */</span><br><span class="line">	public void swipeToUp() &#123;</span><br><span class="line">		int x = driver.manage().window().getSize().width;</span><br><span class="line">		int y = driver.manage().window().getSize().height;</span><br><span class="line">		try &#123;</span><br><span class="line">			driver.swipe((x / 2 * 1), (y / 4 * 3), (x / 2 * 1), (y / 4 * 1), 1500);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			driver.swipe((x / 2 * 1), (y / 4 * 3), (x / 2 * 1), (y / 4 * 1), 1500);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 向下滑动</span><br><span class="line">	 */</span><br><span class="line">	public void swipeToDown() &#123;</span><br><span class="line">		int x = driver.manage().window().getSize().width;</span><br><span class="line">		int y = driver.manage().window().getSize().height;</span><br><span class="line">		try &#123;</span><br><span class="line">			driver.swipe((x / 2 * 1), (y / 8 * 1), (x / 2 * 1), (y / 8 * 7), 1000);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			driver.swipe((x / 2 * 1), (y / 8 * 1), (x / 2 * 1), (y / 8 * 7), 1000);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 通过坐标点击 </span><br><span class="line">	 */</span><br><span class="line">	public void tapByXY(int x, int y) &#123;</span><br><span class="line"></span><br><span class="line">		TouchAction to = new TouchAction(driver);</span><br><span class="line">		try &#123;</span><br><span class="line">			to.tap(x, y).release().perform();</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			System.out.println(&quot;点击失败&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">	/**</span><br><span class="line">	 * 判断元素是否出现</span><br><span class="line">	 * </span><br><span class="line">	 * @author Charlie.chen</span><br><span class="line">	 * @param locator</span><br><span class="line">	 * @param timeOut</span><br><span class="line">	 * @return</span><br><span class="line">	 * @throws IOException</span><br><span class="line">	 */</span><br><span class="line">	public boolean isElementDisplayed( Locator locator) &#123;</span><br><span class="line">		boolean flag = false;</span><br><span class="line">		try &#123;</span><br><span class="line">			findElement(locator).isDisplayed();</span><br><span class="line">			flag = true;</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			flag = false;</span><br><span class="line">		&#125;</span><br><span class="line">		return flag;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-DriverFactory"><a href="#3-DriverFactory" class="headerlink" title="3. DriverFactory"></a>3. DriverFactory</h3><p>封装一个DriverFactory类，便于创建基于Android和iOS的driver，当创建Android的driver时，只用调用createAndroidDriver方法即可。<br><img src="http://img.blog.csdn.net/20160907123339380" alt="这里写图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">package com.dji.utils;</span><br><span class="line"></span><br><span class="line">import java.net.MalformedURLException;</span><br><span class="line">import java.net.URL;</span><br><span class="line"></span><br><span class="line">import org.openqa.selenium.By;</span><br><span class="line">import org.openqa.selenium.remote.DesiredCapabilities;</span><br><span class="line"></span><br><span class="line">import io.appium.java_client.android.AndroidDriver;</span><br><span class="line">import io.appium.java_client.ios.IOSDriver;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 创建基于Android和iOS的driver</span><br><span class="line"> * </span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class DriverFactory &#123;</span><br><span class="line"></span><br><span class="line">	private static AndroidDriver&lt;?&gt; androidDriver = null;</span><br><span class="line">	private static IOSDriver&lt;?&gt; iosDriver = null;</span><br><span class="line">	</span><br><span class="line">	private static Log log = new Log(DriverFactory.class);</span><br><span class="line">	</span><br><span class="line">	@SuppressWarnings(&quot;rawtypes&quot;)</span><br><span class="line">	public static AndroidDriver&lt;?&gt; createAndroidDriver(String udid, String port, String appPackage,</span><br><span class="line">			String appActivity) &#123;</span><br><span class="line"></span><br><span class="line">		DesiredCapabilities caps = new DesiredCapabilities();</span><br><span class="line">		// apk地址，不需要安装的话这行不需要</span><br><span class="line">		// File app=new File(&quot;C:\\Users\\charlie.chen\\djigo.apk&quot;);</span><br><span class="line">		// 不需要安装的话就去掉这个</span><br><span class="line">		// caps.setCapability(&quot;app&quot;, app.getAbsolutePath());</span><br><span class="line"></span><br><span class="line">		caps.setCapability(&quot;platformName&quot;, &quot;Android&quot;);</span><br><span class="line">		caps.setCapability(&quot;platformVersion&quot;, &quot;6.0&quot;);</span><br><span class="line">		caps.setCapability(&quot;deviceName&quot;, &quot;P9&quot;);</span><br><span class="line">		caps.setCapability(&quot;udid&quot;, udid);</span><br><span class="line">		caps.setCapability(&quot;appPackage&quot;, appPackage);</span><br><span class="line">		caps.setCapability(&quot;appActivity&quot;, appActivity);</span><br><span class="line">		// caps.setCapability(MobileCapabilityType.BROWSER_NAME, &quot;Chrome&quot;);</span><br><span class="line">		caps.setCapability(&quot;unicodeKeyboard&quot;, &quot;True&quot;); // 支持中文输入</span><br><span class="line">		caps.setCapability(&quot;resetKeyboard&quot;, &quot;True&quot;); // 重置输入法为系统默认</span><br><span class="line"></span><br><span class="line">		// 安装时不对apk进行重签名，设置很有必要，否则有的apk在重签名后无法正常使用</span><br><span class="line">		// caps.setCapability(&quot;noSign&quot;, &quot;True&quot;);</span><br><span class="line"></span><br><span class="line">		try &#123;</span><br><span class="line">			androidDriver = new AndroidDriver(new URL(&quot;http://127.0.0.1:&quot; + port + &quot;/wd/hub&quot;), caps);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			log.error(&quot;Android.appium连接失败&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		return androidDriver;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@SuppressWarnings(&quot;rawtypes&quot;)</span><br><span class="line">	public static IOSDriver&lt;?&gt; createIOSDriver(String udid, String port) &#123;</span><br><span class="line"></span><br><span class="line">		DesiredCapabilities caps = new DesiredCapabilities();</span><br><span class="line">		caps.setCapability(&quot;platformName&quot;, &quot;iOS&quot;);</span><br><span class="line">		caps.setCapability(&quot;platformVersion&quot;, &quot;9.3&quot;);</span><br><span class="line">		caps.setCapability(&quot;deviceName&quot;, &quot;iPhone 6s&quot;);</span><br><span class="line"></span><br><span class="line">		caps.setCapability(&quot;unicodeKeyboard&quot;, &quot;True&quot;);</span><br><span class="line">		caps.setCapability(&quot;resetKeyboard&quot;, &quot;True&quot;);</span><br><span class="line"></span><br><span class="line">		try &#123;</span><br><span class="line">			iosDriver = new IOSDriver(new URL(&quot;http://127.0.0.1:&quot; + port + &quot;/wd/hub&quot;), caps);</span><br><span class="line">		&#125; catch (MalformedURLException e) &#123;</span><br><span class="line">			log.error(&quot;iOS.appium连接失败&quot;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		return iosDriver;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-XmlUtils"><a href="#4-XmlUtils" class="headerlink" title="4. XmlUtils"></a>4. XmlUtils</h3><p>XmlUtils工具类负责读取xml格式的文件，例如page.xml就是通过XmlUtils进行读取解析的（page.xml文件在下一章会讲到），这里用到了第三方的开源框架dom4j</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">package com.dji.utils;</span><br><span class="line"></span><br><span class="line">import java.io.File;</span><br><span class="line">import java.io.FileWriter;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line"></span><br><span class="line">import org.dom4j.Attribute;</span><br><span class="line">import org.dom4j.Document;</span><br><span class="line">import org.dom4j.DocumentHelper;</span><br><span class="line">import org.dom4j.Element;</span><br><span class="line">import org.dom4j.io.OutputFormat;</span><br><span class="line">import org.dom4j.io.SAXReader;</span><br><span class="line">import org.dom4j.io.XMLWriter;</span><br><span class="line"></span><br><span class="line">import com.dji.object.Locator;</span><br><span class="line">import com.dji.object.Locator.ByType;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  将元素放在page.xml统一管理，要获取元素的信息，通过pageName从xml文件中读取。</span><br><span class="line"> *  读取xml的页面元素是使用dom4j开源框架</span><br><span class="line"> *  </span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class XmlUtils &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	public static HashMap&lt;String, Locator&gt; readXMLDocument(String xmlPath,String pageName) throws Exception &#123;</span><br><span class="line"></span><br><span class="line">		Log log = new Log(XmlUtils.class);</span><br><span class="line">		</span><br><span class="line">		HashMap&lt;String, Locator&gt; locatorMap = new HashMap&lt;String, Locator&gt;();</span><br><span class="line">		locatorMap.clear();</span><br><span class="line">		</span><br><span class="line">		File file = new File(xmlPath);</span><br><span class="line">		if (!file.exists()) &#123;</span><br><span class="line">			log.error(&quot;Can&apos;t find &quot; + xmlPath);</span><br><span class="line">			return locatorMap=null;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		//创建SAXReader对象</span><br><span class="line">		SAXReader reader = new SAXReader();</span><br><span class="line">		//读取文件 转换成Document </span><br><span class="line">		Document document = reader.read(file);</span><br><span class="line">		//获取根节点元素对象</span><br><span class="line">		Element root = document.getRootElement();</span><br><span class="line">		</span><br><span class="line">		//遍历</span><br><span class="line">		for (Iterator&lt;?&gt; i = root.elementIterator(); i.hasNext();) &#123;</span><br><span class="line">			Element page = (Element) i.next();</span><br><span class="line">			if (page.attribute(0).getValue().equalsIgnoreCase(pageName)) &#123;</span><br><span class="line">				log.info(&quot;pageName is:&quot; + pageName);</span><br><span class="line">				</span><br><span class="line">				for (Iterator&lt;?&gt; l = page.elementIterator(); l.hasNext();) &#123;</span><br><span class="line">					String type = null;</span><br><span class="line">					String timeOut = &quot;3&quot;;</span><br><span class="line">					String value = null;</span><br><span class="line">					String locatorName = null;</span><br><span class="line">					Element locator = (Element) l.next();</span><br><span class="line">					</span><br><span class="line">					for (Iterator&lt;?&gt; j = locator.attributeIterator(); j.hasNext();) &#123;</span><br><span class="line">						Attribute attribute = (Attribute) j.next();</span><br><span class="line">						if (attribute.getName().equals(&quot;type&quot;)) &#123;</span><br><span class="line">							type = attribute.getValue();</span><br><span class="line">							//log.info(&quot;get locator type &quot; + type);</span><br><span class="line">						&#125; else if (attribute.getName().equals(&quot;timeOut&quot;)) &#123;</span><br><span class="line">							timeOut = attribute.getValue();</span><br><span class="line">							//log.info(&quot;get locator timeOut &quot; + timeOut);</span><br><span class="line">						&#125; else &#123;</span><br><span class="line">							value = attribute.getValue();</span><br><span class="line">							//log.info(&quot;get locator value &quot; + value);</span><br><span class="line">						&#125;</span><br><span class="line"></span><br><span class="line">					&#125;</span><br><span class="line">					Locator temp = new Locator(value,Integer.parseInt(timeOut), getByType(type));</span><br><span class="line">					locatorName = locator.getText();</span><br><span class="line">					//log.info(&quot;locatorName is &quot; + locatorName);</span><br><span class="line">					locatorMap.put(locatorName, temp);</span><br><span class="line">				&#125;</span><br><span class="line">				continue;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		return locatorMap;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static ByType getByType(String type) &#123;</span><br><span class="line">		ByType byType = ByType.xpath;</span><br><span class="line">		if (type == null || type.equalsIgnoreCase(&quot;xpath&quot;)) &#123;</span><br><span class="line">			byType = ByType.xpath;</span><br><span class="line">		&#125; else if (type.equalsIgnoreCase(&quot;id&quot;)) &#123;</span><br><span class="line">			byType = ByType.id;</span><br><span class="line">		&#125; else if (type.equalsIgnoreCase(&quot;name&quot;)) &#123;</span><br><span class="line">			byType = ByType.name;</span><br><span class="line">		&#125; else if (type.equalsIgnoreCase(&quot;className&quot;)) &#123;</span><br><span class="line">			byType = ByType.className;</span><br><span class="line">		&#125;</span><br><span class="line">		return byType;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-ScreenShot"><a href="#5-ScreenShot" class="headerlink" title="5. ScreenShot"></a>5. ScreenShot</h3><p>截图并保存到本地，其中包括两个主要的方法，getCurrentTime获取当前时间，getScreenShot进行截图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package com.dji.utils;</span><br><span class="line"></span><br><span class="line">import java.io.File;</span><br><span class="line">import java.text.SimpleDateFormat;</span><br><span class="line">import java.util.Date;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.io.FileUtils;</span><br><span class="line">import org.openqa.selenium.OutputType;</span><br><span class="line"></span><br><span class="line">import io.appium.java_client.AppiumDriver;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 截图并保存至本地</span><br><span class="line"> * </span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> */</span><br><span class="line">public class ScreenShot &#123;</span><br><span class="line"></span><br><span class="line">	private AppiumDriver&lt;?&gt; driver;</span><br><span class="line">	// 测试失败截屏保存的路径</span><br><span class="line">	private String path;</span><br><span class="line">	public Log log=new Log(this.getClass());</span><br><span class="line"></span><br><span class="line">	public ScreenShot(AppiumDriver&lt;?&gt; driver)&#123;</span><br><span class="line">		this.driver=driver;</span><br><span class="line">		path=System.getProperty(&quot;user.dir&quot;)+ &quot;//snapshot//&quot;+ this.getClass().getSimpleName()+&quot;_&quot;+getCurrentTime() + &quot;.png&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void getScreenShot() &#123;</span><br><span class="line"></span><br><span class="line">		File screen = driver.getScreenshotAs(OutputType.FILE);</span><br><span class="line">		File screenFile = new File(path);</span><br><span class="line">		try &#123;</span><br><span class="line">			FileUtils.copyFile(screen, screenFile);</span><br><span class="line">			log.info(&quot;截图保存的路径:&quot; + path);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			log.error(&quot;截图失败&quot;);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 获取当前时间</span><br><span class="line">	 */</span><br><span class="line">	public String getCurrentTime()&#123;</span><br><span class="line">		Date date=new Date();</span><br><span class="line">		SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd HH-mm-ss&quot;);</span><br><span class="line">		String currentTime=sdf.format(date);</span><br><span class="line">		return currentTime;	</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getPath() &#123;</span><br><span class="line">		return path;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setPath(String path) &#123;</span><br><span class="line">		this.path = path;</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-TestNGListener"><a href="#6-TestNGListener" class="headerlink" title="6. TestNGListener"></a>6. TestNGListener</h3><p> TestNGListener继承TestListenerAdapter，当 testNG执行case 失败后 ，testNGListener会捕获执行失败，如果要实现失败自动截图，重写Listener的onTestFailure方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">package com.dji.utils;</span><br><span class="line"></span><br><span class="line">import org.testng.ITestContext;</span><br><span class="line">import org.testng.ITestResult;</span><br><span class="line">import org.testng.TestListenerAdapter;</span><br><span class="line"></span><br><span class="line">import io.appium.java_client.AppiumDriver;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * testNG执行case 失败后 ，testNG Listener会捕获执行失败</span><br><span class="line"> * 如果要实现失败自动截图，需要重写Listener的onTestFailure方法</span><br><span class="line"> * </span><br><span class="line"> * @author Charlie.chen</span><br><span class="line"> */</span><br><span class="line">public class TestNGListener extends TestListenerAdapter &#123;</span><br><span class="line"></span><br><span class="line">	private static AppiumDriver&lt;?&gt; driver;</span><br><span class="line"></span><br><span class="line">	Log log = new Log(this.getClass());</span><br><span class="line"></span><br><span class="line">	public static void setDriver(AppiumDriver&lt;?&gt; driver) &#123;</span><br><span class="line">		TestNGListener.driver = driver;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onTestSuccess(ITestResult tr) &#123;</span><br><span class="line">		log.info(&quot;Test Success&quot;);</span><br><span class="line">		super.onTestSuccess(tr);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onTestFailure(ITestResult tr) &#123;</span><br><span class="line">		log.error(&quot;Test Failure&quot;);</span><br><span class="line">		super.onTestFailure(tr);</span><br><span class="line">		</span><br><span class="line">		ScreenShot screenShot = new ScreenShot(driver);</span><br><span class="line">		screenShot.getScreenShot();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onTestSkipped(ITestResult tr) &#123;</span><br><span class="line">		log.error(&quot;Test Skipped&quot;);</span><br><span class="line">		super.onTestSkipped(tr);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onStart(ITestContext testContext) &#123;</span><br><span class="line">		log.info(&quot;Test Start&quot;);</span><br><span class="line">		super.onStart(testContext);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onFinish(ITestContext testContext) &#123;</span><br><span class="line">		log.info(&quot;Test Finish&quot;);</span><br><span class="line">		super.onFinish(testContext);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>到此基础层的各个核心的类就讲解完成了，你可以把它理解成工具层，就是你需要什么工具，直接通过基础层来调用。当然，在你的实际框架中还可以继续拓展基础层，比如，如果你的数据是存储在数据库中，这时，你就可以封装一个读取数据库，依赖于JDBC的工具类，放在基础层，然后如果其他层需要读取数据库中的数据，就可以直接调用了。</p>
+<p>下一章将讲解 自动化测试框架（四）：对象层</p>
+<p> 最后再贴一下项目源码：<a href="https://github.com/iTestinglab" target="_blank" rel="noopener">https://github.com/iTestinglab</a></p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/11/29/UI层自动化测试框架（四）：对象库层/" title="UI层自动化测试框架（四）：对象库层">UI层自动化测试框架（四）：对象库层</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+引言本章主要介绍自动化测试框架–对象库层。该层是UI自动化中比较关键的一层，设计自动化框架，不可避免的就是对象库，有一个好的对象库，可以让整个测试框架可维护性更高，大大增强了代码的复用性。
+讲之前先和大家普及个一概念：PO模式
+PO模式那什
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-11-28T17:13:50.000Z" class="post-list__meta--date date">2016-11-29</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+</span><a class="btn-border-small" href="/2016/11/29/UI层自动化测试框架（四）：对象库层/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/11/24/UI层自动化测试框架（二）：Appium基础/" title="UI层自动化测试框架（二）：Appium基础">UI层自动化测试框架（二）：Appium基础</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+申明：本章节引用很多第三方资料和网上的教程，在参考资料tab中我都有备注，请理解。由于该框架是基于Appium的，所以先讲讲appium的基础知识
+一：Appium介绍
+Appium是由nodejs的express框架写的Http Serv
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-11-24T03:45:33.000Z" class="post-list__meta--date date">2016-11-24</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+</span><a class="btn-border-small" href="/2016/11/24/UI层自动化测试框架（二）：Appium基础/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

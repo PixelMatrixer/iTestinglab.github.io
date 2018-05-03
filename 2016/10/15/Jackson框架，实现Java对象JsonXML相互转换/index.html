@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>Jackson框架，实现Java对象JsonXML相互转换 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="Jackson可以轻松的将Java对象转换成json对象和xml文档，同样也可以将json、xml转换成Java对象。
+相比json-lib框架，Jackson所依赖的jar包较少，简单易用并且性能也要相对高些。而且Jackson社区相对比较活跃，更新速度也比较快。
+
+一、准备工作1、 下载依赖库jar包Jackson的jar all下载地址：http://jackson.codehaus.or">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Jackson框架，实现Java对象JsonXML相互转换 | Again Unscarred">
+    <meta name="twitter:description" content="Jackson可以轻松的将Java对象转换成json对象和xml文档，同样也可以将json、xml转换成Java对象。
+相比json-lib框架，Jackson所依赖的jar包较少，简单易用并且性能也要相对高些。而且Jackson社区相对比较活跃，更新速度也比较快。
+
+一、准备工作1、 下载依赖库jar包Jackson的jar all下载地址：http://jackson.codehaus.or">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Jackson框架，实现Java对象JsonXML相互转换 | Again Unscarred">
+    <meta property="og:description" content="Jackson可以轻松的将Java对象转换成json对象和xml文档，同样也可以将json、xml转换成Java对象。
+相比json-lib框架，Jackson所依赖的jar包较少，简单易用并且性能也要相对高些。而且Jackson社区相对比较活跃，更新速度也比较快。
+
+一、准备工作1、 下载依赖库jar包Jackson的jar all下载地址：http://jackson.codehaus.or">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2016/10/15/Jackson框架，实现Java对象JsonXML相互转换/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-10-15T04:01:05.000Z" class="post-list__meta--date date">2016-10-15</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/java/">java</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">Jackson框架，实现Java对象JsonXML相互转换</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>Jackson可以轻松的将Java对象转换成json对象和xml文档，同样也可以将json、xml转换成Java对象。</p>
+<p>相比json-lib框架，Jackson所依赖的jar包较少，简单易用并且性能也要相对高些。而且Jackson社区相对比较活跃，更新速度也比较快。</p>
+</blockquote>
+<h2 id="一、准备工作"><a href="#一、准备工作" class="headerlink" title="一、准备工作"></a>一、准备工作</h2><h3 id="1、-下载依赖库jar包"><a href="#1、-下载依赖库jar包" class="headerlink" title="1、 下载依赖库jar包"></a>1、 下载依赖库jar包</h3><p>Jackson的jar all下载地址：<a href="http://jackson.codehaus.org/1.7.6/jackson-all-1.7.6.jar" target="_blank" rel="noopener">http://jackson.codehaus.org/1.7.6/jackson-all-1.7.6.jar</a></p>
+<p>然后在工程中导入这个jar包即可开始工作</p>
+<p>官方示例：<a href="http://wiki.fasterxml.com/JacksonInFiveMinutes" target="_blank" rel="noopener">http://wiki.fasterxml.com/JacksonInFiveMinutes</a></p>
+<p>因为下面的程序是用junit测试用例运行的，所以还得添加junit的jar包。版本是junit-4.2.8</p>
+<p>如果你需要转换xml，那么还需要stax2-api.jar</p>
+<h3 id="2、-测试类基本代码如下"><a href="#2、-测试类基本代码如下" class="headerlink" title="2、 测试类基本代码如下"></a>2、 测试类基本代码如下</h3><pre><code>package com.hoo.test;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.codehaus.jackson.JsonEncoding;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.xml.XmlMapper;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import com.hoo.entity.AccountBean;
+
+/**
+ * &lt;b&gt;function:&lt;/b&gt;Jackson 将java对象转换成JSON字符串，也可以将JSON字符串转换成java对象
+ * jar-lib-version: jackson-all-1.6.2
+ * jettison-1.0.1
+ * @author hoojo
+ * @createDate 2010-11-23 下午04:54:53
+ * @file JacksonTest.java
+ * @package com.hoo.test
+ * @project Spring3
+ * @blog http://blog.csdn.net/IBM_hoojo
+ * @email hoojo_@126.com
+ * @version 1.0
+ */
+@SuppressWarnings(&quot;unchecked&quot;)
+public class JacksonTest {
+    private JsonGenerator jsonGenerator = null;
+    private ObjectMapper objectMapper = null;
+    private AccountBean bean = null;
+
+    @Before
+    public void init() {
+        bean = new AccountBean();
+        bean.setAddress(&quot;china-Guangzhou&quot;);
+        bean.setEmail(&quot;hoojo_@126.com&quot;);
+        bean.setId(1);
+        bean.setName(&quot;hoojo&quot;);
+
+        objectMapper = new ObjectMapper();
+        try {
+            jsonGenerator = objectMapper.getJsonFactory().createJsonGenerator(System.out, JsonEncoding.UTF8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @After
+    public void destory() {
+        try {
+            if (jsonGenerator != null) {
+                jsonGenerator.flush();
+            }
+            if (!jsonGenerator.isClosed()) {
+                jsonGenerator.close();
+            }
+            jsonGenerator = null;
+            objectMapper = null;
+            bean = null;
+            System.gc();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><h3 id="3、-所需要的JavaEntity"><a href="#3、-所需要的JavaEntity" class="headerlink" title="3、 所需要的JavaEntity"></a>3、 所需要的JavaEntity</h3><pre><code>package com.hoo.entity;
+
+public class AccountBean {
+    private int id;
+    private String name;
+    private String email;
+    private String address;
+    private Birthday birthday;
+
+    //getter、setter
+
+    @Override
+    public String toString() {
+        return this.name + &quot;#&quot; + this.id + &quot;#&quot; + this.address + &quot;#&quot; + this.birthday + &quot;#&quot; + this.email;
+    }
+}
+</code></pre><p>Birthday</p>
+<pre><code>package com.hoo.entity;
+
+public class Birthday {
+    private String birthday;
+
+    public Birthday(String birthday) {
+        super();
+        this.birthday = birthday;
+    }
+
+    //getter、setter
+
+    public Birthday() {}
+
+    @Override
+    public String toString() {
+        return this.birthday;
+    }
+}
+</code></pre><h2 id="二、Java对象转换成JSON"><a href="#二、Java对象转换成JSON" class="headerlink" title="二、Java对象转换成JSON"></a>二、Java对象转换成JSON</h2><h3 id="1、-JavaBean-Entity-Model-转换成JSON"><a href="#1、-JavaBean-Entity-Model-转换成JSON" class="headerlink" title="1、 JavaBean(Entity/Model)转换成JSON"></a>1、 JavaBean(Entity/Model)转换成JSON</h3><pre><code>/**
+ * &lt;b&gt;function:&lt;/b&gt;将java对象转换成json字符串
+ * @author hoojo
+ * @createDate 2010-11-23 下午06:01:10
+ */
+@Test
+public void writeEntityJSON() {
+
+    try {
+        System.out.println(&quot;jsonGenerator&quot;);
+        //writeObject可以转换java对象，eg:JavaBean/Map/List/Array等
+        jsonGenerator.writeObject(bean);    
+        System.out.println();
+
+        System.out.println(&quot;ObjectMapper&quot;);
+        //writeValue具有和writeObject相同的功能
+        objectMapper.writeValue(System.out, bean);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行后结果如下：</p>
+<pre><code>jsonGenerator
+{&quot;address&quot;:&quot;china-Guangzhou&quot;,&quot;name&quot;:&quot;hoojo&quot;,&quot;id&quot;:1,&quot;birthday&quot;:null,&quot;email&quot;:&quot;hoojo_@126.com&quot;}
+ObjectMapper
+{&quot;address&quot;:&quot;china-Guangzhou&quot;,&quot;name&quot;:&quot;hoojo&quot;,&quot;id&quot;:1,&quot;birthday&quot;:null,&quot;email&quot;:&quot;hoojo_@126.com&quot;}
+</code></pre><p>上面分别利用JsonGenerator的writeObject方法和ObjectMapper的writeValue方法完成对Java对象的转换，二者传递的参数及构造的方式不同；JsonGenerator的创建依赖于ObjectMapper对象。也就是说如果你要使用JsonGenerator来转换JSON，那么你必须创建一个ObjectMapper。但是你用ObjectMapper来转换JSON，则不需要JSONGenerator。</p>
+<p>objectMapper的writeValue方法可以将一个Java对象转换成JSON。这个方法的参数一，需要提供一个输出流，转换后可以通过这个流来输出转换后的内容。或是提供一个File，将转换后的内容写入到File中。当然，这个参数也可以接收一个JSONGenerator，然后通过JSONGenerator来输出转换后的信息。第二个参数是将要被转换的Java对象。如果用三个参数的方法，那么是一个Config。这个config可以提供一些转换时的规则，过指定的Java对象的某些属性进行过滤或转换等。</p>
+<p>###2、 将Map集合转换成Json字符串</p>
+<pre><code>/**
+ * &lt;b&gt;function:&lt;/b&gt;将map转换成json字符串
+ * @author hoojo
+ * @createDate 2010-11-23 下午06:05:26
+ */
+@Test
+public void writeMapJSON() {
+    try {
+        Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
+        map.put(&quot;name&quot;, bean.getName());
+        map.put(&quot;account&quot;, bean);
+        bean = new AccountBean();
+        bean.setAddress(&quot;china-Beijin&quot;);
+        bean.setEmail(&quot;hoojo@qq.com&quot;);
+        map.put(&quot;account2&quot;, bean);
+
+        System.out.println(&quot;jsonGenerator&quot;);
+        jsonGenerator.writeObject(map);
+        System.out.println(&quot;&quot;);
+
+        System.out.println(&quot;objectMapper&quot;);
+        objectMapper.writeValue(System.out, map);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>转换后结果如下：</p>
+<pre><code>jsonGenerator
+{&quot;account2&quot;:{&quot;address&quot;:&quot;china-Beijin&quot;,&quot;name&quot;:null,&quot;id&quot;:0,&quot;birthday&quot;:null,&quot;email&quot;:&quot;hoojo@qq.com&quot;},&quot;name&quot;:&quot;hoojo&quot;,
+&quot;account&quot;:{&quot;address&quot;:&quot;china-Guangzhou&quot;,&quot;name&quot;:&quot;hoojo&quot;,&quot;id&quot;:1,&quot;birthday&quot;:null,&quot;email&quot;:&quot;hoojo_@126.com&quot;}}
+objectMapper
+{&quot;account2&quot;:{&quot;address&quot;:&quot;china-Beijin&quot;,&quot;name&quot;:null,&quot;id&quot;:0,&quot;birthday&quot;:null,&quot;email&quot;:&quot;hoojo@qq.com&quot;},&quot;name&quot;:&quot;hoojo&quot;,
+&quot;account&quot;:{&quot;address&quot;:&quot;china-Guangzhou&quot;,&quot;name&quot;:&quot;hoojo&quot;,&quot;id&quot;:1,&quot;birthday&quot;:null,&quot;email&quot;:&quot;hoojo_@126.com&quot;}}
+</code></pre><h3 id="3、-将List集合转换成json"><a href="#3、-将List集合转换成json" class="headerlink" title="3、 将List集合转换成json"></a>3、 将List集合转换成json</h3><pre><code>/**
+ * &lt;b&gt;function:&lt;/b&gt;将list集合转换成json字符串
+ * @author hoojo
+ * @createDate 2010-11-23 下午06:05:59
+ */
+@Test
+public void writeListJSON() {
+    try {
+        List&lt;AccountBean&gt; list = new ArrayList&lt;AccountBean&gt;();
+        list.add(bean);
+
+        bean = new AccountBean();
+        bean.setId(2);
+        bean.setAddress(&quot;address2&quot;);
+        bean.setEmail(&quot;email2&quot;);
+        bean.setName(&quot;haha2&quot;);
+        list.add(bean);
+
+        System.out.println(&quot;jsonGenerator&quot;);
+        //list转换成JSON字符串
+        jsonGenerator.writeObject(list);
+        System.out.println();
+        System.out.println(&quot;ObjectMapper&quot;);
+        //用objectMapper直接返回list转换成的JSON字符串
+        System.out.println(&quot;1###&quot; + objectMapper.writeValueAsString(list));
+        System.out.print(&quot;2###&quot;);
+        //objectMapper list转换成JSON字符串
+        objectMapper.writeValue(System.out, list);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>结果如下：</p>
+<pre><code>jsonGenerator
+[{&quot;address&quot;:&quot;china-Guangzhou&quot;,&quot;name&quot;:&quot;hoojo&quot;,&quot;id&quot;:1,&quot;birthday&quot;:null,&quot;email&quot;:&quot;hoojo_@126.com&quot;},
+{&quot;address&quot;:&quot;address2&quot;,&quot;name&quot;:&quot;haha2&quot;,&quot;id&quot;:2,&quot;birthday&quot;:null,&quot;email&quot;:&quot;email2&quot;}]
+ObjectMapper
+1###[{&quot;address&quot;:&quot;china-Guangzhou&quot;,&quot;name&quot;:&quot;hoojo&quot;,&quot;id&quot;:1,&quot;birthday&quot;:null,&quot;email&quot;:&quot;hoojo_@126.com&quot;},
+{&quot;address&quot;:&quot;address2&quot;,&quot;name&quot;:&quot;haha2&quot;,&quot;id&quot;:2,&quot;birthday&quot;:null,&quot;email&quot;:&quot;email2&quot;}]
+2###[{&quot;address&quot;:&quot;china-Guangzhou&quot;,&quot;name&quot;:&quot;hoojo&quot;,&quot;id&quot;:1,&quot;birthday&quot;:null,&quot;email&quot;:&quot;hoojo_@126.com&quot;},
+{&quot;address&quot;:&quot;address2&quot;,&quot;name&quot;:&quot;haha2&quot;,&quot;id&quot;:2,&quot;birthday&quot;:null,&quot;email&quot;:&quot;email2&quot;}]
+</code></pre><p>外面就是多了个[]中括号；同样Array也可以转换，转换的JSON和上面的结果是一样的，这里就不再转换了。~.~</p>
+<h3 id="4、下面来看看jackson提供的一些类型，用这些类型完成json转换；如果你使用这些类型转换JSON的话，那么你即使没有JavaBean-Entity-也可以完成复杂的Java类型的JSON转换。下面用到这些类型构建一个复杂的Java对象，并完成JSON转换。"><a href="#4、下面来看看jackson提供的一些类型，用这些类型完成json转换；如果你使用这些类型转换JSON的话，那么你即使没有JavaBean-Entity-也可以完成复杂的Java类型的JSON转换。下面用到这些类型构建一个复杂的Java对象，并完成JSON转换。" class="headerlink" title="4、下面来看看jackson提供的一些类型，用这些类型完成json转换；如果你使用这些类型转换JSON的话，那么你即使没有JavaBean(Entity)也可以完成复杂的Java类型的JSON转换。下面用到这些类型构建一个复杂的Java对象，并完成JSON转换。"></a>4、下面来看看jackson提供的一些类型，用这些类型完成json转换；如果你使用这些类型转换JSON的话，那么你即使没有JavaBean(Entity)也可以完成复杂的Java类型的JSON转换。下面用到这些类型构建一个复杂的Java对象，并完成JSON转换。</h3><pre><code>@Test
+public void writeOthersJSON() {
+    try {
+        String[] arr = { &quot;a&quot;, &quot;b&quot;, &quot;c&quot; };
+        System.out.println(&quot;jsonGenerator&quot;);
+        String str = &quot;hello world jackson!&quot;;
+        //byte
+        jsonGenerator.writeBinary(str.getBytes());
+        //boolean
+        jsonGenerator.writeBoolean(true);
+        //null
+        jsonGenerator.writeNull();
+        //float
+        jsonGenerator.writeNumber(2.2f);
+        //char
+        jsonGenerator.writeRaw(&quot;c&quot;);
+        //String
+        jsonGenerator.writeRaw(str, 5, 10);
+        //String
+        jsonGenerator.writeRawValue(str, 5, 5);
+        //String
+        jsonGenerator.writeString(str);
+        jsonGenerator.writeTree(JsonNodeFactory.instance.POJONode(str));
+        System.out.println();
+
+        //Object
+        jsonGenerator.writeStartObject();//{
+        jsonGenerator.writeObjectFieldStart(&quot;user&quot;);//user:{
+        jsonGenerator.writeStringField(&quot;name&quot;, &quot;jackson&quot;);//name:jackson
+        jsonGenerator.writeBooleanField(&quot;sex&quot;, true);//sex:true
+        jsonGenerator.writeNumberField(&quot;age&quot;, 22);//age:22
+        jsonGenerator.writeEndObject();//}
+
+        jsonGenerator.writeArrayFieldStart(&quot;infos&quot;);//infos:[
+        jsonGenerator.writeNumber(22);//22
+        jsonGenerator.writeString(&quot;this is array&quot;);//this is array
+        jsonGenerator.writeEndArray();//]
+
+        jsonGenerator.writeEndObject();//}
+
+
+        AccountBean bean = new AccountBean();
+        bean.setAddress(&quot;address&quot;);
+        bean.setEmail(&quot;email&quot;);
+        bean.setId(1);
+        bean.setName(&quot;haha&quot;);
+        //complex Object
+        jsonGenerator.writeStartObject();//{
+        jsonGenerator.writeObjectField(&quot;user&quot;, bean);//user:{bean}
+        jsonGenerator.writeObjectField(&quot;infos&quot;, arr);//infos:[array]
+        jsonGenerator.writeEndObject();//}
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行后，结果如下：</p>
+<pre><code>jsonGenerator
+&quot;aGVsbG8gd29ybGQgamFja3NvbiE=&quot; true null 2.2c world jac  worl &quot;hello world jackson!&quot; &quot;hello world jackson!&quot;
+ {&quot;user&quot;:{&quot;name&quot;:&quot;jackson&quot;,&quot;sex&quot;:true,&quot;age&quot;:22},&quot;infos&quot;:[22,&quot;this is array&quot;]} 
+{&quot;user&quot;:{&quot;address&quot;:&quot;address&quot;,&quot;name&quot;:&quot;haha&quot;,&quot;id&quot;:1,&quot;birthday&quot;:null,&quot;email&quot;:&quot;email&quot;},&quot;infos&quot;:[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]}
+</code></pre><p>怎么样？构造的json字符串和输出的结果是一致的吧。关键看懂用JSONGenerator提供的方法，完成一个Object的构建。</p>
+<h2 id="三、JSON转换成Java对象"><a href="#三、JSON转换成Java对象" class="headerlink" title="三、JSON转换成Java对象"></a>三、JSON转换成Java对象</h2><h3 id="1、-将json字符串转换成JavaBean对象"><a href="#1、-将json字符串转换成JavaBean对象" class="headerlink" title="1、 将json字符串转换成JavaBean对象"></a>1、 将json字符串转换成JavaBean对象</h3><pre><code>@Test
+public void readJson2Entity() {
+    String json = &quot;{\&quot;address\&quot;:\&quot;address\&quot;,\&quot;name\&quot;:\&quot;haha\&quot;,\&quot;id\&quot;:1,\&quot;email\&quot;:\&quot;email\&quot;}&quot;;
+    try {
+        AccountBean acc = objectMapper.readValue(json, AccountBean.class);
+        System.out.println(acc.getName());
+        System.out.println(acc);
+    } catch (JsonParseException e) {
+        e.printStackTrace();
+    } catch (JsonMappingException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>很简单，用到了ObjectMapper这个对象的readValue这个方法，这个方法需要提供2个参数。第一个参数就是解析的JSON字符串，第二个参数是即将将这个JSON解析吃什么Java对象，Java对象的类型。当然，还有其他相同签名方法，如果你有兴趣可以一一尝试使用方法，当然使用的方法和当前使用的方法大同小异。运行后，结果如下：</p>
+<pre><code>haha
+haha#1#address#null#email
+</code></pre><h3 id="2、-将json字符串转换成List集合"><a href="#2、-将json字符串转换成List集合" class="headerlink" title="2、 将json字符串转换成List集合"></a>2、 将json字符串转换成List<map>集合</map></h3><pre><code>/**
+ * &lt;b&gt;function:&lt;/b&gt;json字符串转换成list&lt;map&gt;
+ * @author hoojo
+ * @createDate 2010-11-23 下午06:12:01
+ */
+@Test
+public void readJson2List() {
+    String json = &quot;[{\&quot;address\&quot;: \&quot;address2\&quot;,\&quot;name\&quot;:\&quot;haha2\&quot;,\&quot;id\&quot;:2,\&quot;email\&quot;:\&quot;email2\&quot;},&quot;+
+                &quot;{\&quot;address\&quot;:\&quot;address\&quot;,\&quot;name\&quot;:\&quot;haha\&quot;,\&quot;id\&quot;:1,\&quot;email\&quot;:\&quot;email\&quot;}]&quot;;
+    try {
+        List&lt;LinkedHashMap&lt;String, Object&gt;&gt; list = objectMapper.readValue(json, List.class);
+        System.out.println(list.size());
+        for (int i = 0; i &lt; list.size(); i++) {
+            Map&lt;String, Object&gt; map = list.get(i);
+            Set&lt;String&gt; set = map.keySet();
+            for (Iterator&lt;String&gt; it = set.iterator();it.hasNext();) {
+                String key = it.next();
+                System.out.println(key + &quot;:&quot; + map.get(key));
+            }
+        }
+    } catch (JsonParseException e) {
+        e.printStackTrace();
+    } catch (JsonMappingException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>尝试过将上面的JSON转换成List，然后List中存放AccountBean，但结果失败了。但是支持Map集合。因为你转成List.class，但是不知道List存放何种类型。只好默然Map类型。因为所有的对象都可以转换成Map结合，运行后结果如下：</p>
+<pre><code>2
+address:address2
+name:haha2
+id:2
+email:email2
+address:address
+name:haha
+id:1
+email:email
+</code></pre><h3 id="3、-Json字符串转换成Array数组，由于上面的泛型转换不能识别到集合中的对象类型。所有这里用对象数组，可以解决这个问题。只不过它不再是集合，而是一个数组。当然这个不重要，你可以用Arrays-asList将其转换成List即可。"><a href="#3、-Json字符串转换成Array数组，由于上面的泛型转换不能识别到集合中的对象类型。所有这里用对象数组，可以解决这个问题。只不过它不再是集合，而是一个数组。当然这个不重要，你可以用Arrays-asList将其转换成List即可。" class="headerlink" title="3、 Json字符串转换成Array数组，由于上面的泛型转换不能识别到集合中的对象类型。所有这里用对象数组，可以解决这个问题。只不过它不再是集合，而是一个数组。当然这个不重要，你可以用Arrays.asList将其转换成List即可。"></a>3、 Json字符串转换成Array数组，由于上面的泛型转换不能识别到集合中的对象类型。所有这里用对象数组，可以解决这个问题。只不过它不再是集合，而是一个数组。当然这个不重要，你可以用Arrays.asList将其转换成List即可。</h3><pre><code>/**
+ * &lt;b&gt;function:&lt;/b&gt;json字符串转换成Array
+ * @author hoojo
+ * @createDate 2010-11-23 下午06:14:01
+ */
+@Test
+public void readJson2Array() {
+    String json = &quot;[{\&quot;address\&quot;: \&quot;address2\&quot;,\&quot;name\&quot;:\&quot;haha2\&quot;,\&quot;id\&quot;:2,\&quot;email\&quot;:\&quot;email2\&quot;},&quot;+
+            &quot;{\&quot;address\&quot;:\&quot;address\&quot;,\&quot;name\&quot;:\&quot;haha\&quot;,\&quot;id\&quot;:1,\&quot;email\&quot;:\&quot;email\&quot;}]&quot;;
+    try {
+        AccountBean[] arr = objectMapper.readValue(json, AccountBean[].class);
+        System.out.println(arr.length);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+
+    } catch (JsonParseException e) {
+        e.printStackTrace();
+    } catch (JsonMappingException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行后的结果：</p>
+<pre><code>2
+haha2#2#address2#null#email2
+haha#1#address#null#email
+</code></pre><h3 id="4、-Json字符串转换成Map集合"><a href="#4、-Json字符串转换成Map集合" class="headerlink" title="4、 Json字符串转换成Map集合"></a>4、 Json字符串转换成Map集合</h3><pre><code>/**
+ * &lt;b&gt;function:&lt;/b&gt;json字符串转换Map集合
+ * @author hoojo
+ * @createDate Nov 27, 2010 3:00:06 PM
+ */
+@Test
+public void readJson2Map() {
+    String json = &quot;{\&quot;success\&quot;:true,\&quot;A\&quot;:{\&quot;address\&quot;: \&quot;address2\&quot;,\&quot;name\&quot;:\&quot;haha2\&quot;,\&quot;id\&quot;:2,\&quot;email\&quot;:\&quot;email2\&quot;},&quot;+
+                &quot;\&quot;B\&quot;:{\&quot;address\&quot;:\&quot;address\&quot;,\&quot;name\&quot;:\&quot;haha\&quot;,\&quot;id\&quot;:1,\&quot;email\&quot;:\&quot;email\&quot;}}&quot;;
+    try {
+        Map&lt;String, Map&lt;String, Object&gt;&gt; maps = objectMapper.readValue(json, Map.class);
+        System.out.println(maps.size());
+        Set&lt;String&gt; key = maps.keySet();
+        Iterator&lt;String&gt; iter = key.iterator();
+        while (iter.hasNext()) {
+            String field = iter.next();
+            System.out.println(field + &quot;:&quot; + maps.get(field));
+        }
+    } catch (JsonParseException e) {
+        e.printStackTrace();
+    } catch (JsonMappingException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行后结果如下：</p>
+<pre><code>3
+success:true
+A:{address=address2, name=haha2, id=2, email=email2}
+B:{address=address, name=haha, id=1, email=email}
+</code></pre><h2 id="四、Jackson对XML的支持"><a href="#四、Jackson对XML的支持" class="headerlink" title="四、Jackson对XML的支持"></a>四、Jackson对XML的支持</h2><p>Jackson也可以完成java对象到xml的转换，转换后的结果要比json-lib更直观，不过它依赖于stax2-api.jar这个jar包。</p>
+<pre><code>/**
+ * &lt;b&gt;function:&lt;/b&gt;java对象转换成xml文档
+ * 需要额外的jar包 stax2-api.jar
+ * @author hoojo
+ * @createDate 2010-11-23 下午06:11:21
+ */
+@Test
+public void writeObject2Xml() {
+    //stax2-api-3.0.2.jar
+    System.out.println(&quot;XmlMapper&quot;);
+    XmlMapper xml = new XmlMapper();
+
+    try {
+        //javaBean转换成xml
+        //xml.writeValue(System.out, bean);
+        StringWriter sw = new StringWriter();
+        xml.writeValue(sw, bean);
+        System.out.println(sw.toString());
+        //List转换成xml
+        List&lt;AccountBean&gt; list = new ArrayList&lt;AccountBean&gt;();
+        list.add(bean);
+        list.add(bean);
+        System.out.println(xml.writeValueAsString(list));
+
+        //Map转换xml文档
+        Map&lt;String, AccountBean&gt; map = new HashMap&lt;String, AccountBean&gt;();
+        map.put(&quot;A&quot;, bean);
+        map.put(&quot;B&quot;, bean);
+        System.out.println(xml.writeValueAsString(map));
+    } catch (JsonGenerationException e) {
+        e.printStackTrace();
+    } catch (JsonMappingException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行上面的方法，结果如下：</p>
+<pre><code>XmlMapper
+&lt;unknown&gt;&lt;address&gt;china-Guangzhou&lt;/address&gt;&lt;name&gt;hoojo&lt;/name&gt;&lt;id&gt;1&lt;/id&gt;&lt;birthday/&gt;&lt;email&gt;hoojo_@126.com&lt;/email&gt;&lt;/unknown&gt;
+&lt;unknown&gt;&lt;unknown&gt;&lt;address&gt;china-Guangzhou&lt;/address&gt;&lt;name&gt;hoojo&lt;/name&gt;&lt;id&gt;1&lt;/id&gt;&lt;birthday/&gt;&lt;email&gt;hoojo_@126.com&lt;/email&gt;&lt;/unknown&gt;
+&lt;email&gt;&lt;address&gt;china-Guangzhou&lt;/address&gt;&lt;name&gt;hoojo&lt;/name&gt;&lt;id&gt;1&lt;/id&gt;&lt;birthday/&gt;&lt;email&gt;hoojo_@126.com&lt;/email&gt;&lt;/email&gt;&lt;/unknown&gt;
+&lt;unknown&gt;&lt;A&gt;&lt;address&gt;china-Guangzhou&lt;/address&gt;&lt;name&gt;hoojo&lt;/name&gt;&lt;id&gt;1&lt;/id&gt;&lt;birthday/&gt;&lt;email&gt;hoojo_@126.com&lt;/email&gt;&lt;/A&gt;
+&lt;B&gt;&lt;address&gt;china-Guangzhou&lt;/address&gt;&lt;name&gt;hoojo&lt;/name&gt;&lt;id&gt;1&lt;/id&gt;&lt;birthday/&gt;&lt;email&gt;hoojo_@126.com&lt;/email&gt;&lt;/B&gt;&lt;/unknown&gt;
+</code></pre><p>看结果，根节点都是unknown 这个问题还没有解决，由于根节点没有转换出来，所有导致解析xml到Java对象，也无法完成。</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/11/23/UI层自动化测试框架（一）-简介和环境搭建/" title="UI层自动化测试框架（一）-简介和环境搭建">UI层自动化测试框架（一）-简介和环境搭建</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+大家好，本系列教程主要介绍基于Appium的UI层的自动化测试框架的设计和实践。我将平时的学习和工作的实践一一的总结下来，给初学者一点灵感和启发，如有不对的地方还请大家指出。所谓UI层自动化，顾名思义，主要是测试业务层界面层的，关于单元层，
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-11-23T05:15:30.000Z" class="post-list__meta--date date">2016-11-23</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+</span><a class="btn-border-small" href="/2016/11/23/UI层自动化测试框架（一）-简介和环境搭建/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/10/09/Android内存泄漏总结/" title="Android内存泄漏总结">Android内存泄漏总结</a></h2>
+                <p class="excerpt">
+                
+                简介像 Java 这样具有垃圾回收功能的语言的好处之一，就是程序员无需手动管理内存分配。这减少了段错误（segmentation fault）导致的闪退，也减少了内存泄漏导致的堆空间膨胀，让编写的代码更加安全。然而，Java 中依然有可能发生内存泄漏。所以你的安卓 APP 依然有可能浪费了大量的内存
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-10-09T14:31:35.000Z" class="post-list__meta--date date">2016-10-09</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/专项测试/">专项测试</a>
+</span><a class="btn-border-small" href="/2016/10/09/Android内存泄漏总结/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

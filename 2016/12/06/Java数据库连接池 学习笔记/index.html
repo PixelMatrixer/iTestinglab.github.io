@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>Java数据库连接池 学习笔记 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+背景对于一个简单的数据库应用，由于对于数据库的访问不是很频繁。这时可以简单地在需要访问数据库时，就新创建一个连接，用完后就关闭它，这样做也不会带来什么明显的性能上的开销。但是对于一个复杂的数据库应用，情况就完全不同了。频繁的建立、关闭连接，会极大的减低系统的性能，因此对于连接的使用成了系统性能的瓶颈。
+正是由于以上原因，数据库连接池技术出">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Java数据库连接池 学习笔记 | Again Unscarred">
+    <meta name="twitter:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+背景对于一个简单的数据库应用，由于对于数据库的访问不是很频繁。这时可以简单地在需要访问数据库时，就新创建一个连接，用完后就关闭它，这样做也不会带来什么明显的性能上的开销。但是对于一个复杂的数据库应用，情况就完全不同了。频繁的建立、关闭连接，会极大的减低系统的性能，因此对于连接的使用成了系统性能的瓶颈。
+正是由于以上原因，数据库连接池技术出">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Java数据库连接池 学习笔记 | Again Unscarred">
+    <meta property="og:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+背景对于一个简单的数据库应用，由于对于数据库的访问不是很频繁。这时可以简单地在需要访问数据库时，就新创建一个连接，用完后就关闭它，这样做也不会带来什么明显的性能上的开销。但是对于一个复杂的数据库应用，情况就完全不同了。频繁的建立、关闭连接，会极大的减低系统的性能，因此对于连接的使用成了系统性能的瓶颈。
+正是由于以上原因，数据库连接池技术出">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2016/12/06/Java数据库连接池 学习笔记/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-12-06T15:12:39.000Z" class="post-list__meta--date date">2016-12-06</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/mysql/">mysql</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">Java数据库连接池 学习笔记</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>本文为CharliChen原创文章，转载请注明出处！！</p>
+</blockquote>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>对于一个简单的数据库应用，由于对于数据库的访问不是很频繁。这时可以简单地在需要访问数据库时，就新创建一个连接，用完后就关闭它，这样做也不会带来什么明显的性能上的开销。但是对于一个复杂的数据库应用，情况就完全不同了。频繁的建立、关闭连接，会极大的减低系统的性能，因此对于连接的使用成了系统性能的瓶颈。</p>
+<p>正是由于以上原因，数据库连接池技术出现了！！</p>
+<blockquote>
+<p>数据库连接池负责分配,管理和释放数据库连接,它允许应用程序重复使用一个现有的数据库连接,而不是重新建立一个。</p>
+</blockquote>
+<p>数据库连接池在初始化时将创建一定数量的数据库连接放到连接池中, 这些数据库连接的数量是由最小数据库连接数来设定的.无论这些数据库连接是否被使用,连接池都将一直保证至少拥有这么多的连接数量.连接池的最大数据库连接数量限定了这个连接池能占有的最大连接数,当应用程序向连接池请求的连接数超过最大连接数量时,这些请求将被加入到等待队列中。</p>
+<hr>
+<h1 id="数据库连接池优点："><a href="#数据库连接池优点：" class="headerlink" title="数据库连接池优点："></a>数据库连接池优点：</h1><p>1． 资源重用</p>
+<p>由于数据库连接得到重用，避免了频繁创建、释放连接引起的大量性能开销。在减少系统消耗的基础上，另一方面也增进了系统运行环境的平稳性（减少内存碎片以及数据库临时进程/线程的数量）。</p>
+<p>2． 更快的系统响应速度</p>
+<p>数据库连接池在初始化过程中，往往已经创建了若干数据库连接置于池中备用。此时连接的初始化工作均已完成。对于业务请求处理而言，直接利用现有可用连接，避免了数据库连接初始化和释放过程的时间开销，从而缩减了系统整体响应时间。</p>
+<p>3． 新的资源分配手段</p>
+<p>对于多应用共享同一数据库的系统而言，可在应用层通过数据库连接的配置，实现数据库连接池技术，几年钱也许还是个新鲜话题，对于目前的业务系统而言，如果设计中还没有考虑到连接池的应用，那么…….快在设计文档中加上这部分的内容吧。某一应用最大可用数据库连接数的限制，避免某一应用独占所有数据库资源。</p>
+<p>4． 统一的连接管理，避免数据库连接泄漏</p>
+<p>在较为完备的数据库连接池实现中，可根据预先的连接占用超时设定，强制收回被占用连接。从而避免了常规数据库连接操作中可能出现的资源泄漏。</p>
+<hr>
+<h1 id="数据库连接池技术实现"><a href="#数据库连接池技术实现" class="headerlink" title="数据库连接池技术实现"></a>数据库连接池技术实现</h1><p>目前数据库连接池技术实现常见有三种方式</p>
+<ul>
+<li>自定义数据库连接池</li>
+<li>DBCP连接池</li>
+<li>C3P0连接池</li>
+</ul>
+<h2 id="方式一：自定义数据库连接池"><a href="#方式一：自定义数据库连接池" class="headerlink" title="方式一：自定义数据库连接池"></a>方式一：自定义数据库连接池</h2><p><strong>程序实现思路</strong><br>1.指定“初始化连接数目” （App启动时，就执行创建）<br>2.指定“最大连接数”<br>3.指定“当前使用连接数” （不能超出最大连接数）</p>
+<p><strong>代码实现思路</strong><br>1.MyPool.java 连接池<br>2.指定全局变量：初始化数目，最大连接数，当前连接数，连接池集合<br>3.构造方法：循环创建3个连接<br>4.写一个创建连接的方法<br>5.获取连接<br>     判断：池中有连接，直接连<br>           池中没有连接，判断是否达到最大的连接数：达到，抛出异常；没有达到，创建新连接<br>6.释放连接，连接池放回集合中</p>
+<p><strong>代理</strong><br>    如果对某个接口中的某个指定的方法的功能进行扩展，而不想实现接口里所有方法，可以使用(动态)代理模式!<br>    Java中代理模式：静态/动态/Cglib代理(spring)<br>    使用动态代理，可以监测接口中方法的执行！</p>
+<p>如何对Connection对象，生成一个代理对象：<br>|–Proxy<br>    static Object newProxyInstance(<br>ClassLoader loader,    当前使用的类加载器<br>Class<t>[] interfaces,   目标对象(Connection)实现的接口类型<br>InvocationHandler h    事件处理器：当执行上面接口中的方法的时候，就会自动触发事件处理器代码，把当前执行的方法(method)作为参数传入。<br>)  </t></p>
+<p><strong>详细代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 自定义连接池, 管理连接</span><br><span class="line"> * 代码实现：</span><br><span class="line">	1.  MyPool.java  连接池类，   </span><br><span class="line">	2.  指定全局参数：  初始化数目、最大连接数、当前连接、   连接池集合</span><br><span class="line">	3.  构造函数：循环创建3个连接</span><br><span class="line">	4.  写一个创建连接的方法</span><br><span class="line">	5.  获取连接</span><br><span class="line">	------&gt;  判断： 池中有连接， 直接拿</span><br><span class="line">	 ------&gt;                池中没有连接，</span><br><span class="line">	------&gt;                 判断，是否达到最大连接数； 达到，抛出异常；没有达到最大连接数，</span><br><span class="line">			创建新的连接</span><br><span class="line">	6. 释放连接</span><br><span class="line">	 -------&gt;  连接放回集合中(..)</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class MyPool &#123;</span><br><span class="line"></span><br><span class="line">	private int init_count = 3;		// 初始化连接数目</span><br><span class="line">	private int max_count = 6;		// 最大连接数</span><br><span class="line">	private int current_count = 0;  // 记录当前使用连接数</span><br><span class="line">	// 连接池 （存放所有的初始化连接）</span><br><span class="line">	private LinkedList&lt;Connection&gt; pool = new LinkedList&lt;Connection&gt;();</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//1.  构造函数中，初始化连接放入连接池</span><br><span class="line">	public MyPool() &#123;</span><br><span class="line">		// 初始化连接</span><br><span class="line">		for (int i=0; i&lt;init_count; i++)&#123;</span><br><span class="line">			// 记录当前连接数目</span><br><span class="line">			current_count++;</span><br><span class="line">			// 创建原始的连接对象</span><br><span class="line">			Connection con = createConnection();</span><br><span class="line">			// 把连接加入连接池</span><br><span class="line">			pool.addLast(con);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//2. 创建一个新的连接的方法</span><br><span class="line">	private Connection createConnection()&#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span><br><span class="line">			// 原始的目标对象</span><br><span class="line">			final Connection con = DriverManager.getConnection(&quot;jdbc:mysql:///jdbc_demo&quot;, &quot;root&quot;, &quot;root&quot;);</span><br><span class="line">			</span><br><span class="line">			/**********对con对象代理**************/</span><br><span class="line">			</span><br><span class="line">			// 对con创建其代理对象</span><br><span class="line">			Connection proxy = (Connection) Proxy.newProxyInstance(</span><br><span class="line">					</span><br><span class="line">					con.getClass().getClassLoader(),    // 类加载器</span><br><span class="line">					//con.getClass().getInterfaces(),   // 当目标对象是一个具体的类的时候 </span><br><span class="line">					new Class[]&#123;Connection.class&#125;,      // 目标对象实现的接口</span><br><span class="line">					</span><br><span class="line">					new InvocationHandler() &#123;			// 当调用con对象方法的时候， 自动触发事务处理器</span><br><span class="line">						@Override</span><br><span class="line">						public Object invoke(Object proxy, Method method, Object[] args)</span><br><span class="line">								throws Throwable &#123;</span><br><span class="line">							// 方法返回值</span><br><span class="line">							Object result = null;</span><br><span class="line">							// 当前执行的方法的方法名</span><br><span class="line">							String methodName = method.getName();</span><br><span class="line">							</span><br><span class="line">							// 判断当执行了close方法的时候，把连接放入连接池</span><br><span class="line">							if (&quot;close&quot;.equals(methodName)) &#123;</span><br><span class="line">								System.out.println(&quot;begin:当前执行close方法开始！&quot;);</span><br><span class="line">								// 连接放入连接池</span><br><span class="line">								pool.addLast(con);</span><br><span class="line">								System.out.println(&quot;end: 当前连接已经放入连接池了！&quot;);</span><br><span class="line">							&#125; else &#123;</span><br><span class="line">								// 调用目标对象方法</span><br><span class="line">								result = method.invoke(con, args);</span><br><span class="line">							&#125;</span><br><span class="line">							return result;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">			);</span><br><span class="line">			return proxy;</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			throw new RuntimeException(e);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//3. 获取连接</span><br><span class="line">	public Connection getConnection()&#123;</span><br><span class="line">		</span><br><span class="line">		// 3.1 判断连接池中是否有连接, 如果有连接，就直接从连接池取出</span><br><span class="line">		if (pool.size() &gt; 0)&#123;</span><br><span class="line">			return pool.removeFirst();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		// 3.2 连接池中没有连接： 判断，如果没有达到最大连接数，创建；</span><br><span class="line">		if (current_count &lt; max_count) &#123;</span><br><span class="line">			// 记录当前使用的连接数</span><br><span class="line">			current_count++;</span><br><span class="line">			// 创建连接</span><br><span class="line">			return createConnection();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		// 3.3 如果当前已经达到最大连接数，抛出异常</span><br><span class="line">		throw new RuntimeException(&quot;当前连接已经达到最大连接数目 ！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//4. 释放连接</span><br><span class="line">	public void realeaseConnection(Connection con) &#123;</span><br><span class="line">		// 4.1 判断： 池的数目如果小于初始化连接，就放入池中</span><br><span class="line">		if (pool.size() &lt; init_count)&#123;</span><br><span class="line">			pool.addLast(con);</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			try &#123;</span><br><span class="line">				// 4.2 关闭 </span><br><span class="line">				current_count--;</span><br><span class="line">				con.close();</span><br><span class="line">			&#125; catch (SQLException e) &#123;</span><br><span class="line">				throw new RuntimeException(e);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) throws SQLException &#123;</span><br><span class="line">		MyPool pool = new MyPool();</span><br><span class="line">		System.out.println(&quot;当前连接: &quot; + pool.current_count);  // 3</span><br><span class="line">		</span><br><span class="line">		// 使用连接</span><br><span class="line">		pool.getConnection();</span><br><span class="line">		pool.getConnection();</span><br><span class="line">		Connection con4 = pool.getConnection();</span><br><span class="line">		Connection con3 = pool.getConnection();</span><br><span class="line">		Connection con2 = pool.getConnection();</span><br><span class="line">		Connection con1 = pool.getConnection();</span><br><span class="line">		</span><br><span class="line">		// 释放连接, 连接放回连接池</span><br><span class="line">//		pool.realeaseConnection(con1);</span><br><span class="line">		/*</span><br><span class="line">		 * 希望：当关闭连接的时候，要把连接放入连接池！【当调用Connection接口的close方法时候，希望触发pool.addLast(con);操作】</span><br><span class="line">		 * 																			把连接放入连接池</span><br><span class="line">		 * 解决1：实现Connection接口，重写close方法</span><br><span class="line">		 * 解决2：动态代理</span><br><span class="line">		 */</span><br><span class="line">		con1.close();</span><br><span class="line">		</span><br><span class="line">		// 再获取</span><br><span class="line">		pool.getConnection();</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;连接池：&quot; + pool.pool.size());      // 0</span><br><span class="line">		System.out.println(&quot;当前连接: &quot; + pool.current_count);  // 3</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="方式二：DBCP连接池"><a href="#方式二：DBCP连接池" class="headerlink" title="方式二：DBCP连接池"></a>方式二：DBCP连接池</h2><p>DBCP 是 Apache 软件基金组织下的开源连接池实现，使用DBCP数据源，应用程序应在系统中增加如下两个 jar 文件：</p>
+<ul>
+<li>Commons-dbcp.jar：连接池的实现</li>
+<li>Commons-pool.jar：连接池实现的依赖库</li>
+</ul>
+<p>Tomcat 的连接池正是采用该连接池来实现的。该数据库连接池既可以与应用服务器整合使用，也可由应用程序独立使用。核心类：BasicDataSource</p>
+<p> <strong>详细代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class App_DBCP &#123;</span><br><span class="line"></span><br><span class="line">	@Test</span><br><span class="line">	// 配置方式实现连接池,便于维护</span><br><span class="line">	public void testProp() throws Exception &#123;</span><br><span class="line">		// 加载prop配置文件</span><br><span class="line">		Properties prop = new Properties();</span><br><span class="line">		// 获取文件流</span><br><span class="line">		InputStream inStream = App_DBCP.class.getResourceAsStream(&quot;db.properties&quot;);</span><br><span class="line">		// 加载属性配置文件</span><br><span class="line">		prop.load(inStream);</span><br><span class="line">		// 根据prop配置，直接创建数据源对象</span><br><span class="line">		DataSource dataSouce = BasicDataSourceFactory.createDataSource(prop);</span><br><span class="line">		</span><br><span class="line">		// 获取连接</span><br><span class="line">		Connection con = dataSouce.getConnection();</span><br><span class="line">		con.prepareStatement(&quot;delete from admin where id=4&quot;).executeUpdate();</span><br><span class="line">		// 关闭</span><br><span class="line">		con.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件db.properties</p>
+<ul>
+<li>url=jdbc:mysql:///jdbc_demo<br>driverClassName=com.mysql.jdbc.Driver<br>username=root<br>password=root<br>initialSize=3<br>maxActive=6<br>maxIdle=3000</li>
+</ul>
+<hr>
+<h2 id="方式三：C3P0连接池"><a href="#方式三：C3P0连接池" class="headerlink" title="方式三：C3P0连接池"></a>方式三：C3P0连接池</h2><p>C3P0连接池，最常用的连接池技术！Spring框架，默认支持C3P0连接池技术！<br>C3P0连接池的核心jar包</p>
+<ul>
+<li>c3p0-0.9.1.2.jar</li>
+</ul>
+<p>核心类：CombopooledDataSource </p>
+<p><strong>实现步骤：</strong></p>
+<ol>
+<li>下载，引入jar文件:  c3p0-0.9.1.2.jar</li>
+<li>使用连接池，创建连接<br>a)    硬编码方式<br>b)    配置方式(xml)</li>
+</ol>
+<p><strong>具体代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class App &#123;</span><br><span class="line">	</span><br><span class="line">	@Test</span><br><span class="line">	//XML配置方式，使用C3P0连接池管理连接</span><br><span class="line">	public void testXML() throws Exception &#123;</span><br><span class="line">		// 创建c3p0连接池核心工具类</span><br><span class="line">		// 自动加载src下c3p0的配置文件【c3p0-config.xml】</span><br><span class="line">		ComboPooledDataSource dataSource = new ComboPooledDataSource();// 使用默认的配置</span><br><span class="line">		</span><br><span class="line">		// 获取连接</span><br><span class="line">		Connection con = dataSource.getConnection();</span><br><span class="line">		// 执行更新</span><br><span class="line">		con.prepareStatement(&quot;delete from admin where id=5&quot;).executeUpdate();</span><br><span class="line">		// 关闭</span><br><span class="line">		con.close();		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件c3p0-config.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;c3p0-config&gt;</span><br><span class="line">	&lt;default-config&gt;</span><br><span class="line">		&lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql://localhost:3306/jdbc_demo</span><br><span class="line">		&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;password&quot;&gt;root&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;initialPoolSize&quot;&gt;3&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;maxPoolSize&quot;&gt;6&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;maxIdleTime&quot;&gt;1000&lt;/property&gt;</span><br><span class="line">	&lt;/default-config&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;named-config name=&quot;oracle_config&quot;&gt;</span><br><span class="line">		&lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql://localhost:3306/jdbc_demo&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;password&quot;&gt;root&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;initialPoolSize&quot;&gt;3&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;maxPoolSize&quot;&gt;6&lt;/property&gt;</span><br><span class="line">		&lt;property name=&quot;maxIdleTime&quot;&gt;1000&lt;/property&gt;</span><br><span class="line">	&lt;/named-config&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/c3p0-config&gt;</span><br></pre></td></tr></table></figure>
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/12/07/BeanUtils组件 学习笔记/" title="BeanUtils组件 学习笔记">BeanUtils组件 学习笔记</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+一：BeanUtils组件简介1.什么是BeanUtils程序中对javabean的操作很频繁， 所以apache提供了一套开源的api，方便对javabean的操作，即BeanUtils组件。
+2.BeanUtils的作用简化javabe
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-12-07T14:52:29.000Z" class="post-list__meta--date date">2016-12-07</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/java/">java</a>
+</span><a class="btn-border-small" href="/2016/12/07/BeanUtils组件 学习笔记/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/12/05/Java通过JDBC 进行Dao层的封装/" title="Java通过JDBC 进行Dao层的封装">Java通过JDBC 进行Dao层的封装</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+前言前面有一章节，我专门讲解了Java通过JDBC 进行MySQL数据库操作，这主要讲解了MySQL数据库的连接和简单的操作，但是在真正的java项目中，我们要不断的和数据库打交道，为了提高数据库操作的执行效率和增加代码的复用性，将重新封装
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-12-05T14:22:45.000Z" class="post-list__meta--date date">2016-12-05</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/mysql/">mysql</a>
+</span><a class="btn-border-small" href="/2016/12/05/Java通过JDBC 进行Dao层的封装/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

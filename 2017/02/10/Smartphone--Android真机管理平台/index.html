@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>Smartphone--Android真机管理平台 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+背景最近在工作中发现几个问题：
+
+作为测试人员，在做产品兼容性测试时，发现手上的测试设备总是不够用，但是可能其他同事的设备在闲置着；
+作为Android和H5开发人员，如果测试同事发现一个兼容性的bug，要想还原场景，还要把测试设备给开发（如果不在一个楼层，还要来回跑）
+作为产品和运营人员，为了体验产品，也要去申请测试设备，但是大部分时间">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Smartphone--Android真机管理平台 | Again Unscarred">
+    <meta name="twitter:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+背景最近在工作中发现几个问题：
+
+作为测试人员，在做产品兼容性测试时，发现手上的测试设备总是不够用，但是可能其他同事的设备在闲置着；
+作为Android和H5开发人员，如果测试同事发现一个兼容性的bug，要想还原场景，还要把测试设备给开发（如果不在一个楼层，还要来回跑）
+作为产品和运营人员，为了体验产品，也要去申请测试设备，但是大部分时间">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Smartphone--Android真机管理平台 | Again Unscarred">
+    <meta property="og:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+背景最近在工作中发现几个问题：
+
+作为测试人员，在做产品兼容性测试时，发现手上的测试设备总是不够用，但是可能其他同事的设备在闲置着；
+作为Android和H5开发人员，如果测试同事发现一个兼容性的bug，要想还原场景，还要把测试设备给开发（如果不在一个楼层，还要来回跑）
+作为产品和运营人员，为了体验产品，也要去申请测试设备，但是大部分时间">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2017/02/10/Smartphone--Android真机管理平台/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-02-10T12:32:30.000Z" class="post-list__meta--date date">2017-02-10</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/专项测试/">专项测试</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">Smartphone--Android真机管理平台</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>本文为CharliChen原创文章，转载请注明出处！！</p>
+</blockquote>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a><strong>背景</strong></h2><p>最近在工作中发现几个问题：</p>
+<ul>
+<li>作为测试人员，在做产品兼容性测试时，发现手上的测试设备总是不够用，但是可能其他同事的设备在闲置着；</li>
+<li>作为Android和H5开发人员，如果测试同事发现一个兼容性的bug，要想还原场景，还要把测试设备给开发（如果不在一个楼层，还要来回跑）</li>
+<li>作为产品和运营人员，为了体验产品，也要去申请测试设备，但是大部分时间，设备是闲置的。</li>
+</ul>
+<p>在这样一个背景下，我在想有没有一个平台，可以把整个公司的线下Android测试设备，通过Web端进行线上远程管理控制，类似于模拟器（当然它是真机），在你的本地电脑进行操作，这样不仅能充分利用测试设备，而且还节省公司购买测试设备的开支。<br>基于这个理念，我大量查阅google，baidu，发现真的老外已经开发好了这样一个平台，而且还开源啦。<br>官方主页：<a href="https://openstf.github.io/" target="_blank" rel="noopener">https://openstf.github.io/</a><br>github地址：<a href="https://github.com/openstf/stf" target="_blank" rel="noopener">https://github.com/openstf/stf</a> </p>
+<p><strong>该平台可以把整个公司的线下Android设备集合在一起，通过Web端进行线上远程管理控制，在你的本地电脑进行操作，不仅提高测试设备的利用率，还节省公司购买测试设备的开支。</strong></p>
+<p>展示下官网的效果图：<br><img src="http://img.blog.csdn.net/20161010155531455" alt="这里写图片描述"><br><img src="http://img.blog.csdn.net/20161009235629811" alt="这里写图片描述"></p>
+<hr>
+<h2 id="平台优点："><a href="#平台优点：" class="headerlink" title="平台优点："></a>平台优点：</h2><ul>
+<li>大大提高线下设备的利用率，节省公司购买测试设备的开支</li>
+<li>线下真机能做的，它都可以做，包括在线拍照，截图</li>
+<li>可以进行远程调试</li>
+</ul>
+<h2 id="适用人群："><a href="#适用人群：" class="headerlink" title="适用人群："></a>适用人群：</h2><p>测试工程师<br>                  Android工程师          （真机调试）<br>                  前端H5开发工程师  （真机调试）<br>                  产品和运营               （产品体验）</p>
+<hr>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a><strong>环境搭建</strong></h2><p>由于本人的办公电脑是Mac，现在就基于Mac OS X系统搭建环境（Linux环境和Windows环境应该类似）</p>
+<h3 id="1-JDK和Android-SDK环境安装"><a href="#1-JDK和Android-SDK环境安装" class="headerlink" title="1. JDK和Android SDK环境安装"></a>1. JDK和Android SDK环境安装</h3><p>JDK下载：<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a><br>SDK下载：<a href="https://developer.android.com/studio/index.html" target="_blank" rel="noopener">https://developer.android.com/studio/index.html</a></p>
+<p>配置环境变量并保存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home </span><br><span class="line">export ANDROID_HOME=/Users/CharlieChen/Library/Android/sdk</span><br><span class="line">export PATH=$PATH:$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools</span><br></pre></td></tr></table></figure>
+<h3 id="2-nodejs安装"><a href="#2-nodejs安装" class="headerlink" title="2. nodejs安装"></a>2. nodejs安装</h3><p>因为该平台是通过nodejs语言写的，所以必须安装nodejs的运行环境。<br>在<a href="https://nodejs.org/download/" target="_blank" rel="noopener">https://nodejs.org/download/</a> 下载nodejs安装包，解压并控制台进入目录安装</p>
+<h3 id="2-安装Bower"><a href="#2-安装Bower" class="headerlink" title="2. 安装Bower"></a>2. 安装Bower</h3><p>控制台执行npm命令进行Bower安装并等待完成<br>npm install bower -g<br>验证安装是否成功：bower -v  如果可以显示版本号 证明成功</p>
+<h3 id="3-安装RethinkDB"><a href="#3-安装RethinkDB" class="headerlink" title="3. 安装RethinkDB"></a>3. 安装RethinkDB</h3><p>rethinkDB为平台的数据库，存储的用户和设备的信息，可能大家只对Mysql 或mangoDB熟悉，但这没关系，先安装再说，至于原理后面有时间再去了解。<br>先下载rethinkdb安装包：<a href="http://download.rethinkdb.com/osx/" target="_blank" rel="noopener">http://download.rethinkdb.com/osx/</a><br>双击rethinkdb-2.0.4.dmg  安装.pkg包即可<br> 验证安装是否成功：rethinkdb -version  如果可以显示版本号 证明成功</p>
+<h3 id="4-安装GraphicsMagick"><a href="#4-安装GraphicsMagick" class="headerlink" title="4. 安装GraphicsMagick"></a>4. 安装GraphicsMagick</h3><p>brew install graphicsmagick</p>
+<p>如果发现brew命令不可用，说明你的电脑没有装brew的环境，装一下就可以啦</p>
+<h3 id="5-安装libsodium-zeromq的依赖"><a href="#5-安装libsodium-zeromq的依赖" class="headerlink" title="5. 安装libsodium(zeromq的依赖)"></a>5. 安装libsodium(zeromq的依赖)</h3><p> brew install libsodium</p>
+<h3 id="6-安装zeromq"><a href="#6-安装zeromq" class="headerlink" title="6. 安装zeromq"></a>6. 安装zeromq</h3><p>brew install zmq</p>
+<h3 id="7-安装protobuf"><a href="#7-安装protobuf" class="headerlink" title="7. 安装protobuf"></a>7. 安装protobuf</h3><p>brew install protobuf</p>
+<h3 id="8-安装pkg-config"><a href="#8-安装pkg-config" class="headerlink" title="8. 安装pkg-config"></a>8. 安装pkg-config</h3><p>brew install pkgconfig</p>
+<p>修改环境变量：<br>添加如下信息：<br>export PATH=$PATH:/usr/local/Cellar/protobuf/2.6.1/bin/   （请以本地下载路径为准）<br>export PKG_CONFIG_PATH=/usr/local/Cellar/protobuf/2.6.1/lib/pkgconfig/     （请以本地下载路径为准）</p>
+<h3 id="9-安装stf"><a href="#9-安装stf" class="headerlink" title="9. 安装stf"></a>9. 安装stf</h3><p>sudo npm install -g stf</p>
+<hr>
+<h2 id="Smartphone服务端运行"><a href="#Smartphone服务端运行" class="headerlink" title="Smartphone服务端运行"></a><strong>Smartphone服务端运行</strong></h2><h3 id="1-启动rethinkDB"><a href="#1-启动rethinkDB" class="headerlink" title="1. 启动rethinkDB"></a>1. 启动rethinkDB</h3><p>安装完成后，打开单独的控制台，运行命令等待服务启动完成：<br>rethinkdb<br><img src="http://img.blog.csdn.net/20161010162215350" alt="这里写图片描述"></p>
+<h3 id="2-启动stf服务端"><a href="#2-启动stf服务端" class="headerlink" title="2. 启动stf服务端"></a>2. 启动stf服务端</h3><p>打开一个单独的控制台，运行命令等待服务启动完成：<br>stf local<br>如果要远程登录平台的话，需要增加本地服务器的ip地址<br>stf local –public-ip 本机IP<br><img src="http://img.blog.csdn.net/20161010162232350" alt="这里写图片描述"></p>
+<hr>
+<h2 id="Smartphone客户端运行"><a href="#Smartphone客户端运行" class="headerlink" title="Smartphone客户端运行"></a><strong>Smartphone客户端运行</strong></h2><p>在浏览器中输入地址：http://本机ip:7100/ 访问客户端。<br>输入用户名和邮箱登录即可开始使用。<br>登录界面：<br><img src="http://img.blog.csdn.net/20161010163424241" alt="这里写图片描述"></p>
+<p>设备列表界面：<br><img src="http://img.blog.csdn.net/20161010163813800" alt="这里写图片描述"></p>
+<p>设备使用界面：<br><img src="http://img.blog.csdn.net/20161010163925223" alt="这里写图片描述"></p>
+<hr>
+<h2 id="Smartphone二次改造"><a href="#Smartphone二次改造" class="headerlink" title="Smartphone二次改造"></a><strong>Smartphone二次改造</strong></h2><p>你可以根据公司的需求，进行Smartphone平台的二次开发。可能大家发现了我的平台登录界面换成了我公司的logo，设备使用界面，增加了shell脚本和远程调试等等。。<br>这个就不一一讲了，后面有时间再设一个专题详细讲解。</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2018/08/21/hello-world/" title="Hello World">Hello World</a></h2>
+                <p class="excerpt">
+                
+                
+Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2018-08-21T14:20:15.000Z" class="post-list__meta--date date">2018-08-21</time> &#8226; <span class="post-list__meta--tags tags">于 </span><a class="btn-border-small" href="/2018/08/21/hello-world/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2017/01/01/Android稳定性测试-- Monkey二次开发/" title="Android稳定性测试-- Monkey二次开发">Android稳定性测试-- Monkey二次开发</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+引子前面一遍blog Monkey源码分析讲到Monkey的代码结构和代码执行流程，相信通过介绍大家应该对monkey的运行原理和核心逻辑有了很深刻的了解。我们做的这一切都是为了更好的了解monkey的内部逻辑进行二次开发。为什么要二次开发
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-01-01T05:41:52.000Z" class="post-list__meta--date date">2017-01-01</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/专项测试/">专项测试</a>
+</span><a class="btn-border-small" href="/2017/01/01/Android稳定性测试-- Monkey二次开发/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

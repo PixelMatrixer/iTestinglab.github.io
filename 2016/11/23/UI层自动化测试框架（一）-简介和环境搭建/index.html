@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>UI层自动化测试框架（一）-简介和环境搭建 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+大家好，本系列教程主要介绍基于Appium的UI层的自动化测试框架的设计和实践。我将平时的学习和工作的实践一一的总结下来，给初学者一点灵感和启发，如有不对的地方还请大家指出。所谓UI层自动化，顾名思义，主要是测试业务层界面层的，关于单元层，接口层的自动化后续再讲，对于测试，我主张的理念就是：分层测试，持续集成。只要大家后续多关注我的blo">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="UI层自动化测试框架（一）-简介和环境搭建 | Again Unscarred">
+    <meta name="twitter:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+大家好，本系列教程主要介绍基于Appium的UI层的自动化测试框架的设计和实践。我将平时的学习和工作的实践一一的总结下来，给初学者一点灵感和启发，如有不对的地方还请大家指出。所谓UI层自动化，顾名思义，主要是测试业务层界面层的，关于单元层，接口层的自动化后续再讲，对于测试，我主张的理念就是：分层测试，持续集成。只要大家后续多关注我的blo">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="UI层自动化测试框架（一）-简介和环境搭建 | Again Unscarred">
+    <meta property="og:description" content="本文为CharliChen原创文章，转载请注明出处！！
+
+大家好，本系列教程主要介绍基于Appium的UI层的自动化测试框架的设计和实践。我将平时的学习和工作的实践一一的总结下来，给初学者一点灵感和启发，如有不对的地方还请大家指出。所谓UI层自动化，顾名思义，主要是测试业务层界面层的，关于单元层，接口层的自动化后续再讲，对于测试，我主张的理念就是：分层测试，持续集成。只要大家后续多关注我的blo">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2016/11/23/UI层自动化测试框架（一）-简介和环境搭建/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-11-23T05:15:30.000Z" class="post-list__meta--date date">2016-11-23</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">UI层自动化测试框架（一）-简介和环境搭建</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>本文为CharliChen原创文章，转载请注明出处！！</p>
+</blockquote>
+<p>大家好，本系列教程主要介绍基于Appium的UI层的自动化测试框架的设计和实践。我将平时的学习和工作的实践一一的总结下来，给初学者一点灵<br>感和启发，如有不对的地方还请大家指出。<br>所谓UI层自动化，顾名思义，主要是测试业务层界面层的，关于单元层，接口层的自动化后续再讲，对于测试，我主张的理念就是：分层测试，持<br>续集成。只要大家后续多关注我的blog，会给大家一一呈现！<br>好了，废话不多说，开始进入正题。</p>
+<p>提前规划下该系列目录：<br>自动化测试框架（一）：简介和环境搭建<br>自动化测试框架（二）：Appium基础<br>自动化测试框架（三）：基础层<br>自动化测试框架（四）：对象库层<br>自动化测试框架（五）：操作层和用例层<br>自动化测试框架（六）：持续集成和测试报告</p>
+<p>对应源码地址：<a href="https://github.com/iTestinglab" target="_blank" rel="noopener">https://github.com/iTestinglab</a></p>
+<hr>
+<h2 id="一：简介"><a href="#一：简介" class="headerlink" title="一：简介"></a>一：简介</h2><p>测试框架名：由于该框架是基于Appium，所以我给它取了一个霸气的名称：<strong>AppiumTurbo</strong>  </p>
+<p>测试框架图：<br>我将该框架划分四层，自下向上，各司其责，如图：<br><img src="http://img.blog.csdn.net/20160911182224555" alt="这里写图片描述"></p>
+<p>测试框架要点：</p>
+<ul>
+<li>该框架是基于现在比较流行的第三方开源框架Appium进行二次开发</li>
+<li>通过Maven进行项目和依赖管理</li>
+<li>通过TestNG进行测试脚本的管理</li>
+<li>通过Log4j生成运行日志</li>
+<li>通过AssertJ提供丰富的断言</li>
+<li>通过ReportNG输出丰富多彩的测试报告</li>
+<li>最后将源码托管于Git通过Jenkins实现持续集成</li>
+</ul>
+<p>测试框架的优势：</p>
+<ul>
+<li>该框架支持Android和iOS还有H5页面（这就是Appium的强大之处）</li>
+<li>通过PO模式将代码以页面为单位进行组织，针对这个页面上的所有信息，相关操作都放到一个类中，从而使具体的测试用例变成了简单的调用和验证操作。这样大大提高代码的复用性和可读性。</li>
+<li>采用数据驱动思想，将数据和代码进行有效的分离，提高代码的可维护性。</li>
+<li>支持并行执行多条用例，也就是说可以连接多个设备，同时执行不同用例，提高了执行效率。</li>
+</ul>
+<hr>
+<h2 id="二：环境搭建"><a href="#二：环境搭建" class="headerlink" title="二：环境搭建"></a>二：环境搭建</h2><ul>
+<li>安装JDK , Eclipse ，Andorid SDK，配置环境变量 </li>
+<li><p>安装Appium服务端（建议先安装GUI版本的）<br>由于本人的电脑是iMac，和Windows的不太一样，GUI界面如下<br><img src="http://img.blog.csdn.net/20160906162716406" alt="这里写图片描述"></p>
+<p>点击如图AppiumDoctor ，会出现如下界面，都打勾就证明Appium依赖的环境安装好了<br><img src="http://img.blog.csdn.net/20160906162807657" alt="这里写图片描述"></p>
+</li>
+<li>安装Maven，并在Eclipse中安装m2e插件</li>
+<li>安装配置Jenkins持续集成环境，参考我之前的csdn博文  <a href="http://blog.csdn.net/tobetheender/article/details/52298583" target="_blank" rel="noopener">Jenkins安装和构建部署</a></li>
+</ul>
+<hr>
+<p>以上环境配置，网上都有教程，大家多多去查资料，这里就不详说啦,不会的自行左拐 google，baidu<br>下一章主要讲解Appium的基础知识，敬请期待 ！！</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/11/24/UI层自动化测试框架（二）：Appium基础/" title="UI层自动化测试框架（二）：Appium基础">UI层自动化测试框架（二）：Appium基础</a></h2>
+                <p class="excerpt">
+                
+                
+本文为CharliChen原创文章，转载请注明出处！！
+
+申明：本章节引用很多第三方资料和网上的教程，在参考资料tab中我都有备注，请理解。由于该框架是基于Appium的，所以先讲讲appium的基础知识
+一：Appium介绍
+Appium是由nodejs的express框架写的Http Serv
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-11-24T03:45:33.000Z" class="post-list__meta--date date">2016-11-24</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+</span><a class="btn-border-small" href="/2016/11/24/UI层自动化测试框架（二）：Appium基础/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/10/15/Jackson框架，实现Java对象JsonXML相互转换/" title="Jackson框架，实现Java对象JsonXML相互转换">Jackson框架，实现Java对象JsonXML相互转换</a></h2>
+                <p class="excerpt">
+                
+                
+Jackson可以轻松的将Java对象转换成json对象和xml文档，同样也可以将json、xml转换成Java对象。
+相比json-lib框架，Jackson所依赖的jar包较少，简单易用并且性能也要相对高些。而且Jackson社区相对比较活跃，更新速度也比较快。
+
+一、准备工作1、 下载依赖库
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-10-15T04:01:05.000Z" class="post-list__meta--date date">2016-10-15</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/java/">java</a>
+</span><a class="btn-border-small" href="/2016/10/15/Jackson框架，实现Java对象JsonXML相互转换/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

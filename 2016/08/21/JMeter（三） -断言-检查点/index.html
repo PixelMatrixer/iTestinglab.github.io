@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>JMeter（三） -断言-检查点 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="一：断言简介断言就类似QTP中的检查点。对上一个request返回的信息，做字符串、数据包大小、HTML、XML、图片等判断，因为请求成功了，并不代表响应结果一定正确。
+
+二：使用方法：1：在你选择的Sampler下添加对应的断言（因为不同类型的断言检查的内容不同）。配置好响应的检查内容（根据断言情况而定，有的断言控制面板不需要添加任何内容，如XML Assertion）。2：添加一个断言结果的监">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="JMeter（三） -断言-检查点 | Again Unscarred">
+    <meta name="twitter:description" content="一：断言简介断言就类似QTP中的检查点。对上一个request返回的信息，做字符串、数据包大小、HTML、XML、图片等判断，因为请求成功了，并不代表响应结果一定正确。
+
+二：使用方法：1：在你选择的Sampler下添加对应的断言（因为不同类型的断言检查的内容不同）。配置好响应的检查内容（根据断言情况而定，有的断言控制面板不需要添加任何内容，如XML Assertion）。2：添加一个断言结果的监">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="JMeter（三） -断言-检查点 | Again Unscarred">
+    <meta property="og:description" content="一：断言简介断言就类似QTP中的检查点。对上一个request返回的信息，做字符串、数据包大小、HTML、XML、图片等判断，因为请求成功了，并不代表响应结果一定正确。
+
+二：使用方法：1：在你选择的Sampler下添加对应的断言（因为不同类型的断言检查的内容不同）。配置好响应的检查内容（根据断言情况而定，有的断言控制面板不需要添加任何内容，如XML Assertion）。2：添加一个断言结果的监">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2016/08/21/JMeter（三） -断言-检查点/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/Web前端">Web</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-08-21T07:51:32.000Z" class="post-list__meta--date date">2016-08-21</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/jmeter/">jmeter</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">JMeter（三） -断言-检查点</h1>
+  </header>
+
+  <section class="post">
+    <h2 id="一：断言简介"><a href="#一：断言简介" class="headerlink" title="一：断言简介"></a><strong>一：断言简介</strong></h2><p>断言就类似QTP中的检查点。对上一个request返回的信息，做字符串、数据包大小、HTML、XML、图片等判断，因为请求成功了，并不代表响应结果一定正确。</p>
+<hr>
+<h2 id="二：使用方法："><a href="#二：使用方法：" class="headerlink" title="二：使用方法："></a><strong>二：使用方法：</strong></h2><h3 id="1：在你选择的Sampler下添加对应的断言（因为不同类型的断言检查的内容不同）。配置好响应的检查内容（根据断言情况而定，有的断言控制面板不需要添加任何内容，如XML-Assertion）。"><a href="#1：在你选择的Sampler下添加对应的断言（因为不同类型的断言检查的内容不同）。配置好响应的检查内容（根据断言情况而定，有的断言控制面板不需要添加任何内容，如XML-Assertion）。" class="headerlink" title="1：在你选择的Sampler下添加对应的断言（因为不同类型的断言检查的内容不同）。配置好响应的检查内容（根据断言情况而定，有的断言控制面板不需要添加任何内容，如XML Assertion）。"></a>1：在你选择的Sampler下添加对应的断言（因为不同类型的断言检查的内容不同）。配置好响应的检查内容（根据断言情况而定，有的断言控制面板不需要添加任何内容，如XML Assertion）。</h3><h3 id="2：添加一个断言结果的监听器，通过“断言结果”可以看到是否通过断言。对于一次请求，如果通过的话，断言结果中只会打印一行请求的名称；如果失败，则除了请求的名称外，还会有一行失败的原因。"><a href="#2：添加一个断言结果的监听器，通过“断言结果”可以看到是否通过断言。对于一次请求，如果通过的话，断言结果中只会打印一行请求的名称；如果失败，则除了请求的名称外，还会有一行失败的原因。" class="headerlink" title="2：添加一个断言结果的监听器，通过“断言结果”可以看到是否通过断言。对于一次请求，如果通过的话，断言结果中只会打印一行请求的名称；如果失败，则除了请求的名称外，还会有一行失败的原因。"></a>2：添加一个断言结果的监听器，通过“断言结果”可以看到是否通过断言。对于一次请求，如果通过的话，断言结果中只会打印一行请求的名称；如果失败，则除了请求的名称外，还会有一行失败的原因。</h3><p>###注意：一个Sampler可以添加多个断言，根据你的检查需求来添加相应的断言，当Sampler下所有的断言都通过了，那么才算request成功。</p>
+<hr>
+<h2 id="三：常见的断言"><a href="#三：常见的断言" class="headerlink" title="三：常见的断言"></a><strong>三：常见的断言</strong></h2><p>下面简单说一下几种常见断言的使用（前3种应该较为常用一点）：</p>
+<hr>
+<h3 id="1：响应断言-Response-Assertion"><a href="#1：响应断言-Response-Assertion" class="headerlink" title="1：响应断言 Response Assertion"></a>1：响应断言 Response Assertion</h3><pre><code>适用于判断response中的内容，截图如下：
+</code></pre><p><img src="http://img.blog.csdn.net/20160821143829398" alt="这里写图片描述"></p>
+<p>位置1：名称、注释<br>位置2：要测试的相应字段，即要检查的项<br>位置3：模式匹配规则<br>包括：返回结果包括你指定的内容<br>匹配：（好像跟Equals查不多，弄不明白有什么区别）<br>quals：返回结果与你指定结果一致<br>ubstring：返回结果是指定结果的字串<br>否：不进行匹配<br>位置4：要测试的模式，即填写你指定的结果（可填写多个，如图中就是希望返回文本中包        含有2个指定的字符串，只有当同时包含了这2个串，这个断言才算通过，否则，        算失败。）按钮【添加】、【删除】是进行指定内容的管理</p>
+<hr>
+<h3 id="2：Size断言-Size-Assertion"><a href="#2：Size断言-Size-Assertion" class="headerlink" title="2：Size断言  Size Assertion"></a>2：Size断言  Size Assertion</h3><pre><code>用于判断返回内容的大小（字节），截图如下：
+</code></pre><p><img src="http://img.blog.csdn.net/20160821144025865" alt="这里写图片描述"></p>
+<p>位置1：名称、注释<br>位置2：指定大小与比较类型，返回内容的大小、比较类型、如果这个比较结果通过，            则断言通过，如图中，如果返回内容大于10个字节，则断言通过，否则失败。</p>
+<hr>
+<h3 id="3：持续时间断言-Duration-Assertion"><a href="#3：持续时间断言-Duration-Assertion" class="headerlink" title="3：持续时间断言 Duration Assertion"></a>3：持续时间断言 Duration Assertion</h3><pre><code>Duration Assertion用于判断服务器的响应时间，截图如下：
+</code></pre><p><img src="http://img.blog.csdn.net/20160821144122634" alt="这里写图片描述"></p>
+<p>位置1：名称、注释<br>位置2：响应时间设置（单位：毫秒），如果响应时间大于设置的响应时间，则断言失败，       小于或等于断言成功。</p>
+<hr>
+<h3 id="4：HTML断言-HTML-Assertion"><a href="#4：HTML断言-HTML-Assertion" class="headerlink" title="4：HTML断言  HTML Assertion"></a>4：HTML断言  HTML Assertion</h3><pre><code>html assertion的作用是检查返回的的内容，格式是否符合指定格式的相关标准。
+</code></pre><p><img src="http://img.blog.csdn.net/20160821144328291" alt="这里写图片描述"></p>
+<p>位置1：名称、注释<br>位置2：Tidy Settings，Doctype有auto、omit、strict、loose（这里各设置代表什么意        思暂不太了解）<br>位置3：格式类型，即你按那种格式来检查返回内容，html or xhtml or xml？<br>位置4：能接受的最大值设置，Error threshold：最大可以接受的错误数；Warning threshold：最大可以接受的警告数。如果勾选“Error only”这忽略Warning，        只对Error作统计检查。如果对返回内容的检查结果不超过指定结果，则断言通过，        否则失败。</p>
+<hr>
+<h3 id="（5）-XML断言-XML-Assertion"><a href="#（5）-XML断言-XML-Assertion" class="headerlink" title="（5） XML断言  XML Assertion"></a>（5） XML断言  XML Assertion</h3><pre><code>待定 
+</code></pre>
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/08/21/JMeter（四）-分布式性能测试/" title="JMeter（四）-分布式性能测试">JMeter（四）-分布式性能测试</a></h2>
+                <p class="excerpt">
+                
+                一：引言 Jmeter 进行并发测试时对于本地负载机的CPU和内存的消耗比较大，当需要模拟数以千计的并发用户时（相当于同时开启数千计的线程），使用单台机器模拟所有的并发用户就有些力不从心，甚至会引起JAVA内存溢出错误。为了让jmeter提供更大的负载能力，便可以通过jmeter使用多台机器同时产生
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-08-21T09:21:15.000Z" class="post-list__meta--date date">2016-08-21</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/jmeter/">jmeter</a>
+</span><a class="btn-border-small" href="/2016/08/21/JMeter（四）-分布式性能测试/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/08/21/JMeter（二） -参数化/" title="JMeter（二） -参数化">JMeter（二） -参数化</a></h2>
+                <p class="excerpt">
+                
+                一：参数化引入第一章我们学习了JMeter的安装，基本原理，常用的组件，结合一个案例利用JMeter进行并发压力测试。但是实际情况当进行并发测试时，比如登陆操作，每个用户的登录名和密码都不一样，这时候要做到并发操作，就需要对用户名和密码进行参数化。接下来讲解一下JMeter参数化。
+二：案例分析模拟
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-08-21T06:24:10.000Z" class="post-list__meta--date date">2016-08-21</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/jmeter/">jmeter</a>
+</span><a class="btn-border-small" href="/2016/08/21/JMeter（二） -参数化/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>
