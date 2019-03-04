@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>NLP文本相似度实践 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="导语 AI在2018年应该是互联网界最火的名词，没有之一。时间来到了9102年，也是项目相关，涉及到了一些AI写作相关的功能。但是，AI并不一定最懂你，客户对于AI写出来的文章，多少是会做些修改的。为了更好的衡量出AI文章的可用度，在这儿就会需要存有一个反馈的环节，来看看用户润色后的文章与原始AI文章之间的区别是多大。 本文将从预备知识的概念开始介绍，从距离名词，到文本分词，相似度算法，并将这">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="NLP文本相似度实践 | Again Unscarred">
+    <meta name="twitter:description" content="导语 AI在2018年应该是互联网界最火的名词，没有之一。时间来到了9102年，也是项目相关，涉及到了一些AI写作相关的功能。但是，AI并不一定最懂你，客户对于AI写出来的文章，多少是会做些修改的。为了更好的衡量出AI文章的可用度，在这儿就会需要存有一个反馈的环节，来看看用户润色后的文章与原始AI文章之间的区别是多大。 本文将从预备知识的概念开始介绍，从距离名词，到文本分词，相似度算法，并将这">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="NLP文本相似度实践 | Again Unscarred">
+    <meta property="og:description" content="导语 AI在2018年应该是互联网界最火的名词，没有之一。时间来到了9102年，也是项目相关，涉及到了一些AI写作相关的功能。但是，AI并不一定最懂你，客户对于AI写出来的文章，多少是会做些修改的。为了更好的衡量出AI文章的可用度，在这儿就会需要存有一个反馈的环节，来看看用户润色后的文章与原始AI文章之间的区别是多大。 本文将从预备知识的概念开始介绍，从距离名词，到文本分词，相似度算法，并将这">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2018/05/01/NLP文本相似度实践/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2018-05-01T14:36:25.000Z" class="post-list__meta--date date">2018-05-01</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/AI-NLP/">AI, NLP</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">NLP文本相似度实践</h1>
+  </header>
+
+  <section class="post">
+    <hr>
+<blockquote>
+<p>导语 AI在2018年应该是互联网界最火的名词，没有之一。时间来到了9102年，也是项目相关，涉及到了一些AI写作相关的功能。但是，AI并不一定最懂你，客户对于AI写出来的文章，多少是会做些修改的。为了更好的衡量出AI文章的可用度，在这儿就会需要存有一个反馈的环节，来看看用户润色后的文章与原始AI文章之间的区别是多大。 本文将从预备知识的概念开始介绍，从距离名词，到文本分词，相似度算法，并将这些概念融合、统一的介绍NLP中文本相似度的知识，期望通过本文，大家可以与我一样，对这些知识有个基本的了解。</p>
+</blockquote>
+<h2 id="几个距离"><a href="#几个距离" class="headerlink" title="几个距离"></a>几个距离</h2><p>在介绍更多的内容之前，我们需要了解文本距离的概念，这些距离是我们在后文比较文本相似度的基础，所以下面将首先形象的为大家介绍几个重要且基础的距离含义。</p>
+<h2 id="欧几里德距离"><a href="#欧几里德距离" class="headerlink" title="欧几里德距离"></a>欧几里德距离</h2><p>Euclidean Distance，是最直白的、最容易直观理解的距离度量方法，在二维空间来看，用一句几乎耳熟能详的话来解释就是：两点之间直线最短。这句话中说到的「直线距离」就是欧几里德距离。我们来看下相关数学公式定义。</p>
+<p>二维的公式：</p>
+<p>p = sqrt( (x1-y1)^2+(x2-y2)^2 )</p>
+<p>三维的公式：</p>
+<p>p = sqrt( (x1-y1)^2+(x2-y2)^2+(x3-y3)^2 )</p>
+<p>当然，毕竟不是存活于刘慈溪的三体世界之下，我们在小学或者日常所能感知到的多是，二维或者三维空间的距离，当大于3维，从数学理论上的n维空间的公式，在欧几里德空间中，点x =(x1,…,xn)和 y =(y1,…,yn)之间的欧氏距离为：</p>
+<p>p = sqrt( (x1-y1)^2+(x2-y2)^2+(x3-y3)^2+ … +(xn-yn)^2 )</p>
+<h2 id="曼哈顿距离"><a href="#曼哈顿距离" class="headerlink" title="曼哈顿距离"></a>曼哈顿距离</h2><p>Manhattan Distance的命名原因，是从规划为方型建筑区块的城市（如曼哈顿）间，最短的出租车从一个点A到另一个点B的行车路径距离，任何往东三区块、往北六区块的的路径一定最少要走九区块（出租车当然不能穿插过街区），没有其他捷径。抽象到数学角度，从点A(x1, y1)到点B(x2, y2)的曼哈顿距离为两个点上在标准坐标系上的绝对轴距之总和：</p>
+<p>p = |x1-x2| + |y1-y2|</p>
+<p>那么，曼哈顿距离和欧几里得距离的区别是什么呢？我们从维基百科拉过来一张图，就可以很直白的看到这二者的区别，假设在下方棋盘一样的图示中，白色方块表示为建筑物，灰色线条表示为道路，那么其中绿色线路表示为黑色两点之间的欧几里德距离（两点之间直线最短），而剩下的红蓝黄三色线路表示的均为为曼哈顿距离：<br><img src="http://thyrsi.com/t6/676/1551693146x2890202761.png" alt="在这里插入图片描述"></p>
+<h2 id="切比雪夫距离"><a href="#切比雪夫距离" class="headerlink" title="切比雪夫距离"></a>切比雪夫距离</h2><p>Chebyshev distance得名自俄罗斯数学家切比雪夫。大家对切比雪夫应该多少是觉得有印象的，没错，切比雪夫更被我们熟悉的是中学时候学过的关于他的切比雪夫多项式吧。所谓切比雪夫距离，是将两点之间的距离定义为其各座标数值差的最大值。如果我们以二维空间中两点A(x1,y1)和B(x2,y2)二点为例，其切比雪夫距离：</p>
+<p>p = max(|x2-x1|, |y2-y1|)</p>
+<p>更形象的来介绍，切比雪夫距离在二维空间有着一个应用场景：国际象棋中「国王」的行走距离。由于王可以往斜前或斜后方向移动一格，因此可以较有效率的到达目的的格子，我们将国际象棋的棋盘映射到二维直角座标系中，格子的边长定义为1，座标的x轴及y轴和棋盘方格平行，原点恰落在某一格的中心点，则「国王」从一个位置走到其他位置需要的步数恰为这两个位置的切比雪夫距离。下图是棋盘上所有位置距f6位置的切比雪夫距离。<br><img src="http://thyrsi.com/t6/676/1551693206x2890202761.png" alt="在这里插入图片描述"></p>
+<h2 id="余弦距离"><a href="#余弦距离" class="headerlink" title="余弦距离"></a>余弦距离</h2><p>Cosine distance使用两个向量夹角的余弦值作为衡量两个个体间差异的大小。相比于欧几里德距离，余弦距离更加注重的是两个向量在方向上的差异。首先我们来看一下数学中余弦定理的定义：<br><img src="http://thyrsi.com/t6/676/1551693242x2890202761.png" alt="在这里插入图片描述"></p>
+<p>关于余弦定理，这儿我们简单来复习下这个初中概念。前几年曾经有过一个地方的高考题出过余弦定理的证明，当时也有人通过向量的方法来证明，两行就得出了答案（其实这儿有点疑问，因为课本中对向量内积是通过余弦定理来证明的，所以从个人来看通过向量内积来证明余弦定理是有些逻辑问题的），那么具体应该如何证明呢？其实很简单，通过一张图就可以证明：<br><img src="http://thyrsi.com/t6/676/1551693286x2890202761.png" alt="在这里插入图片描述"></p>
+<p>结合这张图，花2分钟应该就可以得到余弦定理的结论了，其中需要了解的一点事对于b*sin(θ)的定义，是直接使用了毕氏定理。</p>
+<p>数学家已经证明，余弦的这种计算方法对n维向量也成立。假定A和B是两个n维向量，A是 [A1, A2, …, An] ，B是 [B1, B2, …, Bn] ，则A与B的夹角θ的余弦等于：<br><img src="http://thyrsi.com/t6/676/1551693331x2890202761.png" alt="在这里插入图片描述"><br>使用这个公式，我们会可以更方便的计算余弦距离。</p>
+<p>回到余弦距离上来，它与我们上面说的欧几里得距离的区别是什么呢？我们引用一张网上的图片来形象的了解下余弦距离的含义：<br><img src="http://thyrsi.com/t6/676/1551693408x2890202761.png" alt="在这里插入图片描述"><br>在上图中，欧几里德距离dist(A, B)衡量的是空间中两点的绝对距离，跟各个点所在的位置坐标是直接相关的；而余弦距离衡量的是空间向量的夹角，更加体现在方向上的差异，而不是位置。如果我们保持A点位置不变，B点朝原方向远离坐标轴原点，那么这个时候余弦距离是保持不变的（因为夹角没有发生变化），而A、B两点的欧几里德距离显然在发生改变，这就是两者之间的不同之处。</p>
+<p>关于余弦距离和欧几里得距离在现实场景中的区别，我们可以通过下面这个例子来形象的了解。现在有用户A和用户B分别对外卖骑手员工X和员工Y进行了评分。用户A对员工X的评分为2，对员工Y的评分为3，表示到坐标系中为坐标点AB(2, 3)；同样用户B对员工X、Y的评分表示为坐标点B(4, 6)，因此他们之间的欧几里德距离为：</p>
+<p>p = sqrt((2 - 4)^2 + (3- 6)^2) = 3.6</p>
+<p>而他们的余弦距离为：</p>
+<p>p = (2 <em> 4 + 3 </em> 6) / ( sqrt( 2^2 + 3^2 ) * sqrt( 4^2 + 6^2 ) ) = 1</p>
+<p>结合图示如下，其中，点A与点B之间的之间距离为红色线段所示，也就是上述的欧几里得距离。同时，线段0A和线段0B由于斜度相等，也就是夹角为0度，反映出的余弦距离就是cos(0) = 1，说明二者完全相似。</p>
+<p>欧几里得距离和余弦距离各自有不同的计算方式和衡量特征，因此它们适用于不同的数据分析模型：前者能够体现个体数值特征的绝对差异，所以更多的用于需要从维度的数值大小中体现差异的分析，如使用用户行为指标分析用户价值的相似度或差异。后者则倾向于是从方向上区分差异，而对绝对的数值不敏感，更多的用于使用用户对内容评分来区分兴趣的相似度和差异，同时修正了用户间可能存在的度量标准不统一的问题（因为余弦距离对绝对数值不敏感）。</p>
+<h2 id="汉明距离"><a href="#汉明距离" class="headerlink" title="汉明距离"></a>汉明距离</h2><p>Hamming distance在信息论中，表示为两个「等长」字符串之间对应位置的不同字符的个数。换句话说，汉明距离就是将一个字符串变换成另外一个字符串所需要「替换」的字符个数。如下图所示：</p>
+<p>0110与1110之间的汉明距离是1；<br>0100与1001之间的汉明距离是3；<br><img src="http://thyrsi.com/t6/676/1551693474x2890202761.png" alt="在这里插入图片描述"></p>
+<h2 id="分词"><a href="#分词" class="headerlink" title="分词"></a>分词</h2><p>在了解了上述一系列的距离含义之后，我们已经基本了解了衡量相似度的一个判定方法，但是对于一段文本内容来说，我们对什么来计算距离呢？这就涉及到了第二个基础知识：分词。</p>
+<h4 id="分词方法"><a href="#分词方法" class="headerlink" title="分词方法"></a>分词方法</h4><p>为了实现对文本相似度的比较，我们需要分析文本的内容，也就必然会涉及到对文本进行分词处理。而说到分词，其中涉及的内容不比任何一个其他知识点要少，考虑到不是本文重点讲述，此处仅仅简单的列举了下当前分词算法的几种方向，有兴趣的同学可以就此列表再去细细琢磨</p>
+<p>基于词表的分词方法<br>正向最大匹配法(forward maximum matching method, FMM)<br>逆向最大匹配法(backward maximum matching method, BMM)<br>N-最短路径方法<br>基于统计模型的分词方法<br>基于N-gram语言模型的分词方法<br>基于序列标注的分词方法<br>基于HMM的分词方法<br>基于CRF的分词方法<br>基于词感知机的分词方法<br>基于深度学习的端到端的分词方法</p>
+<h2 id="文本相似度"><a href="#文本相似度" class="headerlink" title="文本相似度"></a>文本相似度</h2><p>在介绍完距离和分词之后，接下来，我们就需要来关注计算文本相似度的算法了。总的来说，计算文本相似度的算法共分为4类：</p>
+<p>基于词向量<br>基于具体字符<br>基于概率统计<br>基于词嵌入的</p>
+<p>结合我们上文的几种距离，其中欧几里德距离、曼哈顿距离和余弦距离等适合应用于词向量，汉明距离应属于基于字符的文本相似度的度量方法。本文接下来将重点介绍基于余弦复杂度的文本相似度比较算法，和适用于海量数据的simhash文本相似度算法，并给予一定的工程实现方案。</p>
+<h4 id="余弦复杂度"><a href="#余弦复杂度" class="headerlink" title="余弦复杂度"></a>余弦复杂度</h4><p>对于多个不同的文本或者短文本对话消息要来计算他们之间的相似度如何，一个好的做法就是将这些文本中词语，映射到向量空间，形成文本中文字和向量数据的映射关系，再通过计算几个或者多个不同的向量的差异的大小，来计算文本的相似度。下面介绍一个详细成熟的向量空间余弦相似度方法计算相似度算法。</p>
+<p>原理</p>
+<p>枯燥的原理不如示例来的简单明了，我们将以一个简单的示例来介绍余弦复杂度的原理。现在有下面这样的两句话，从我们直觉感官来看，说的是一模一样的内容，那么我们通过计算其余弦距离来看看其相似度究竟为多少。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">S1: &quot;为什么我的眼里常含泪水，因为我对这片土地爱得深沉&quot;</span><br><span class="line">S2: &quot;我深沉的爱着这片土地，所以我的眼里常含泪水&quot;</span><br></pre></td></tr></table></figure>
+<p>第一步，分词：</p>
+<p>我们对上述两段话分词分词并得到下面的词向量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">S1: [为什么 我 的 眼里 常含 泪水 因为 我 对 这片 土地 爱得 深沉 ，]</span><br><span class="line">S2: [我 深沉 的 爱 着 这片 土地 所以 我 的 眼里 常含 泪水 ，]</span><br></pre></td></tr></table></figure>
+<p>第二步，统计所有词组：</p>
+<p>将S1和S2中出现的所有不同词组融合起来，并得到一个词向量超集，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[眼里 这片 为什么 我 的 常含 因为 对 所以 爱得 深沉 爱 着 ， 泪水 土地]</span><br></pre></td></tr></table></figure>
+<p>第三步，获取词频：</p>
+<p>对应上述的超级词向量，我们分别就S1的分词和S2的分词计算其出现频次，并记录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">S1: [1 1 1 2 1 1 1 1 0 1 1 0 0 1 1 1]</span><br><span class="line">S2: [1 1 0 2 2 1 0 0 1 0 1 1 1 1 1 1]</span><br></pre></td></tr></table></figure>
+<p>第四步，复杂度计算：</p>
+<p>通过上述的准备工作，现在我们可以想象在空间中存在着两条线段：SA和SB，二者均从原点（[0, 0, …]）出发，指向不同的方向，并分别终结于点A [1 1 1 2 1 1 1 1 0 1 1 0 0 1 1 1]和点B[1 1 0 2 2 1 0 0 1 0 1 1 1 1 1 1]，其中点A和点B的坐标与我们上述的词频一致。到了这一步，我们可以发现，对于句子S1和S2的相似度问题，已经被我们抽象到如何计算上述两个向量的相似问题了。</p>
+<p>通过上文介绍的余弦定理，我们知道当两条线段之间形成一个夹角，如果夹角为0度，意味着方向相同、线段重合，我们就认定这是表示两个向量代表的文本完全相等；如果夹角为90度，意味着形成直角，方向完全不相似。因此，我们可以通过夹角的大小，来判断向量的相似程度。夹角越小，就代表越相似。</p>
+<p>那么对于上述给定的两个属性向量A 和B，其余弦相似性θ由点积和向量长度给出，其余弦相似度的计算如下所示：<br><img src="http://thyrsi.com/t6/676/1551693740x2890202761.png" alt="在这里插入图片描述"></p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>下面我们将通过golang来实现一个简单的余弦相似度算法（完整的代码在附件中）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">func CosineSimilar(srcWords, dstWords []string) float64 &#123;</span><br><span class="line">   // get all words</span><br><span class="line">   allWordsMap := make(map[string]int, 0)</span><br><span class="line">   for _, word := range srcWords &#123;</span><br><span class="line">      if _, found := allWordsMap[word]; !found &#123;</span><br><span class="line">         allWordsMap[word] = 1</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">         allWordsMap[word] += 1</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   for _, word := range dstWords &#123;</span><br><span class="line">      if _, found := allWordsMap[word]; !found &#123;</span><br><span class="line">         allWordsMap[word] = 1</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">         allWordsMap[word] += 1</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   // stable the sort</span><br><span class="line">   allWordsSlice := make([]string, 0)</span><br><span class="line">   for word, _ := range allWordsMap &#123;</span><br><span class="line">      allWordsSlice = append(allWordsSlice, word)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   // assemble vector</span><br><span class="line">   srcVector := make([]int, len(allWordsSlice))</span><br><span class="line">   dstVector := make([]int, len(allWordsSlice))</span><br><span class="line">   for _, word := range srcWords &#123;</span><br><span class="line">      if index := indexOfSclie(allWordsSlice, word); index != -1 &#123;</span><br><span class="line">         srcVector[index] += 1</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   for _, word := range dstWords &#123;</span><br><span class="line">      if index := indexOfSclie(allWordsSlice, word); index != -1 &#123;</span><br><span class="line">         dstVector[index] += 1</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   // calc cos</span><br><span class="line">   numerator := float64(0)</span><br><span class="line">   srcSq := 0</span><br><span class="line">   dstSq := 0</span><br><span class="line">   for i, srcCount := range srcVector &#123;</span><br><span class="line">      dstCount := dstVector[i]</span><br><span class="line">      numerator += float64(srcCount * dstCount)</span><br><span class="line">      srcSq += srcCount * srcCount</span><br><span class="line">      dstSq += dstCount * dstCount</span><br><span class="line">   &#125;</span><br><span class="line">   denominator := math.Sqrt(float64(srcSq * dstSq))</span><br><span class="line"></span><br><span class="line">   return numerator / denominator</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><p>— PASS: TestCosineSimilar (0.84s)</p>
+<p>similarity_test.go:23: CosineSimilar score: 0.7660323462854266</p>
+<p>我们看到，对于上述两句话，在经过余弦计算后，得到的相似度为0.766（其夹角大概是40度），还是比较接近于1，所以，上面的句子S1和句子S2是基本相似的。由此，我们就得到了文本相似度计算的处理流程是:</p>
+<p>1找出两篇文章的关键词；<br>2每篇文章各取出若干个关键词，合并成一个集合，计算每篇文章对于这个集合中的词的词频；<br>3生成两篇文章各自的词频向量；<br>4计算两个向量的余弦相似度，值越接近于1就表示越相似；</p>
+<h4 id="simhash"><a href="#simhash" class="headerlink" title="simhash"></a>simhash</h4><p>基于余弦复杂度，通过两两比较文本向量来得到两个文本的相似程度是一个非常简单的算法。然而两两比较也就说明了时间复杂度是O(n2)，那么在面对互联网海量信息时，考虑到一个文章的特征向量词可能特别多导致整个向量维度很高，使得计算的代价太大，就有些力不从心了。因此，为了在爬取网页时用于快速去重，Google发明了一种快速衡量两个文本集相似度的算法：simhash。</p>
+<p>简单来说，simhash中使用了一种局部敏感型的hash算法。所谓局部敏感性hash，与传统hash算法不同的是（如MD5，当原始文本越是相似，其hash数值差异越大），simhash中的hash对于越是相似的内容产生的签名越相近。</p>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>simhash的主要思想是降维，将文本分词结果从一个高维向量映射成一个0和1组成的bit指纹(fingerprint)，然后通过比较这个二进制数字串的差异进而来表示原始文本内容的差异。下面我们通过图文方式来解释下这个降维和差异计算的过程。<br><img src="http://thyrsi.com/t6/676/1551693942x2890202761.png" alt="在这里插入图片描述"><br>在simhash中处理一个文本的步骤如下：</p>
+<p>第一步，分词：</p>
+<p>对文本进行分词操作，同时需要我们同时返回当前词组在文本内容中的权重（这基本上是目前所有分词工具都支持的功能）。</p>
+<p>第二步，计算hash：</p>
+<p>对于每一个得到的词组做hash，将词语表示为到01表示的bit位，需要保证每个hash结果的位数相同，如图中所示，使用的是8bit。</p>
+<p>第三步，加权</p>
+<p>根据每个词组对应的权重，对hash值做加权计算（bit为1则取为1做乘积，bit为0则取为-1做乘积），如上图中，<br>10011111与权重2加权得到[2 -2 -2 2 2 2 2 2]；<br>01001011与权重1加权得到[-1 1 -1 -1 1 -1 1 1]；<br>01001011与权重4加权后得到[-4 4 -4 -4 4 -4 4 4]；</p>
+<p>第三步，纵向相加：</p>
+<p>将上述得到的加权向量结果，进行纵向相加实现降维，如上述所示，得到[-3 3 -7 -3 7 -3 7 7]。</p>
+<p>第四步，归一化：</p>
+<p>将最终降维向量，对于每一位大于0则取为1，否则取为0，这样就能得到最终的simhash的指纹签名[0 1 0 0 1 0 1 1]</p>
+<p>第五步，相似度比较：</p>
+<p>通过上面的步骤，我们可以利用SimHash算法为每一个网页生成一个向量指纹，在simhash中，判断2篇文本的相似性使用的是海明距离。什么是汉明距离？前文已经介绍过了。在在经验数据上，我们多认为两个文本的汉明距离&lt;=3的话则认定是相似的。</p>
+<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">func SimHashSimilar(srcWordWeighs, dstWordWeights []WordWeight) (distance int, err error) &#123;</span><br><span class="line"></span><br><span class="line">   srcFingerPrint, err := simhashFingerPrint(srcWordWeighs)</span><br><span class="line">   if err != nil &#123;</span><br><span class="line">      return</span><br><span class="line">   &#125;</span><br><span class="line">   fmt.Println(&quot;srcFingerPrint: &quot;, srcFingerPrint)</span><br><span class="line">   dstFingerPrint, err := simhashFingerPrint(dstWordWeights)</span><br><span class="line">   if err != nil &#123;</span><br><span class="line">      return</span><br><span class="line">   &#125;</span><br><span class="line">   fmt.Println(&quot;dstFingerPrint: &quot;, dstFingerPrint)</span><br><span class="line"></span><br><span class="line">   distance = hammingDistance(srcFingerPrint, dstFingerPrint)</span><br><span class="line"></span><br><span class="line">   return</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func simhashFingerPrint(wordWeights []WordWeight) (fingerPrint []string, err error) &#123;</span><br><span class="line">   binaryWeights := make([]float64, 32)</span><br><span class="line">   for _, ww := range wordWeights &#123;</span><br><span class="line">      bitHash := strHashBitCode(ww.Word)</span><br><span class="line">      weights := calcWithWeight(bitHash, ww.Weight) //binary每个元素与weight的乘积结果数组</span><br><span class="line">      binaryWeights, err = sliceInnerPlus(binaryWeights, weights)</span><br><span class="line">      //fmt.Printf(&quot;ww.Word:%v, bitHash:%v, ww.Weight:%v, binaryWeights: %v\n&quot;, ww.Word,bitHash, ww.Weight, binaryWeights)</span><br><span class="line">      if err != nil &#123;</span><br><span class="line">         return</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   fingerPrint = make([]string, 0)</span><br><span class="line">   for _, b := range binaryWeights &#123;</span><br><span class="line">      if b &gt; 0 &#123; // bit 1</span><br><span class="line">         fingerPrint = append(fingerPrint, &quot;1&quot;)</span><br><span class="line">      &#125; else &#123; // bit 0</span><br><span class="line">         fingerPrint = append(fingerPrint, &quot;0&quot;)</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   return</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func calcWithWeight(bitHash string, weight float64) []float64 &#123;</span><br><span class="line">   bitHashs := strings.Split(bitHash, &quot;&quot;)</span><br><span class="line">   binarys := make([]float64, 0)</span><br><span class="line"></span><br><span class="line">   for _, bit := range bitHashs &#123;</span><br><span class="line">      if bit == &quot;0&quot; &#123;</span><br><span class="line">         binarys = append(binarys, float64(-1)*weight)</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">         binarys = append(binarys, float64(weight))</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   return binarys</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="结果-1"><a href="#结果-1" class="headerlink" title="结果"></a>结果</h4><p>我们使用了调换一段长本文的语序来测试simhash的效果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">文本1：</span><br><span class="line">&quot;沉默螺旋模式中呈现出民意动力的来源在于人类有害怕孤立的弱点，但光害怕孤立不至于影响民意的形成，&quot; +</span><br><span class="line">&quot;主要是当个人觉察到自己对某论题的意见与环境中的强势意见一致（或不一致时），害怕孤立这个变项才会产生作用。	&quot; +</span><br><span class="line">&quot;从心理学的范畴来看，社会中的强势意见越来越强，甚至比实际情形还强，弱势意见越来越弱，甚至比实际情形还弱，这种动力运作的过程成–螺旋状&quot;</span><br><span class="line"></span><br><span class="line">文本2：</span><br><span class="line">&quot;从心理学的范畴来看，害怕孤立这个变项才会产生作用。社会中的强势意见越来越强，甚至比实际情形还强，弱势意见越来越弱，&quot; +</span><br><span class="line">&quot;主要是当个人觉察到自己对某论题的意见与环境中的强势意见一致（或不一致时），甚至比实际情形还弱，这种动力运作的过程成–螺旋状	&quot; +</span><br><span class="line">&quot;但光害怕孤立不至于影响民意的形成，沉默螺旋模式中呈现出民意动力的来源在于人类有害怕孤立的弱点&quot;</span><br></pre></td></tr></table></figure>
+<p>通过计算，结果得到二者的指纹是一模一样，其汉明距离为0.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">srcFingerPrint:  [1 0 0 0 0 0 1 0 1 0 1 0 1 0 0 0 1 0 0 1 0 0 0 1 1 1 0 0 0 0 0 0]</span><br><span class="line">dstFingerPrint:  [1 0 0 0 0 0 1 0 1 0 1 0 1 0 0 0 1 0 0 1 0 0 0 1 1 1 0 0 0 0 0 0]</span><br><span class="line">--- PASS: TestSimHashSimilar (0.85s)</span><br><span class="line">    similarity_test.go:57: SimHashSimilar distance: 0</span><br><span class="line">PASS</span><br></pre></td></tr></table></figure>
+<h4 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h4><p>注意一：</p>
+<p>我们再来看一个文章主旨类似，但是内容相关性较低的文本比较示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">文本1：</span><br><span class="line">&quot;关于区块链和数字货币的关系，很多人或多或少都存在疑惑。简单来说，区块链是比特币的底层运用，而比特币只是区块链的一个小应用而已。&quot; +</span><br><span class="line">&quot;数字货币即虚拟货币，最早的数字货币诞生于2009年，其发明者中本聪为了应对经济危机对于实体货币经济的冲击。比特币是最早的数字货币，后来出现了以太币、火币以及莱特币等虚拟货币，这些虚拟货币是不能用来交易的。&quot; +</span><br><span class="line">&quot;狭义来讲，区块链是一种按照时间顺序将数据区块以顺序相连的方式组合成的一种链式数据结构， 并以密码学方式保证的不可篡改和不可伪造的分布式账本。&quot; +</span><br><span class="line">&quot;广义来讲，区块链技术是利用块链式数据结构来验证与存储数据、利用分布式节点共识算法来生成和更新数据、利用密码学的方式保证数据传输和访问的安全、利用由自动化脚本代码组成的智能合约来编程和操作数据的一种全新的分布式基础架构与计算方式。&quot;</span><br><span class="line"></span><br><span class="line">文本2：</span><br><span class="line">&quot;区块链技术为我们的信息防伪与数据追踪提供了革新手段。区块链中的数据区块顺序相连构成了一个不可篡改的数据链条，时间戳为所有的交易行为贴上了一套不讲课伪造的真是标签，这对于人们在现实生活中打击假冒伪劣产品大有裨益； &quot; +</span><br><span class="line">&quot;市场分析指出，整体而言，区块链技术目前在十大金融领域显示出应用前景，分别是资产证券化、保险、供应链金融、场外市场、资产托管、大宗商品交易、风险信息共享机制、贸易融资、银团贷款、股权交易交割。&quot; +</span><br><span class="line">&quot;这些金融场景有三大共性：参与节点多、验真成本高、交易流程长，而区块链的分布式记账、不可篡改、内置合约等特性可以为这些金融业务中的痛点提供解决方案。&quot; +</span><br><span class="line">&quot;传统的工业互联网模式是由一个中心化的机构收集和管理所有的数据信息，容易产生因设备生命周期和安全等方面的缺陷引起的数据丢失、篡改等问题。区块链技术可以在无需任何信任单个节点的同时构建整个网络的信任共识，从而很好的解决目前工业互联网技术领域的一些缺陷，让物与物之间能够实现更好的连接。&quot;</span><br></pre></td></tr></table></figure>
+<p>通过计算，当我们选择前top10高频词作为衡量时，结果得到二者的指纹是如下，其汉明距离为4：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">srcFingerPrint:  [1 0 1 1 0 1 0 0 0 1 1 1 1 1 1 0 1 0 0 1 0 1 1 1 0 0 0 1 0 0 0 1]</span><br><span class="line">dstFingerPrint:  [1 0 1 1 0 1 0 0 0 1 1 1 1 1 1 0 1 1 0 1 1 1 1 0 0 0 0 1 0 1 0 1]</span><br><span class="line">--- PASS: TestSimHashSimilar (0.84s)</span><br><span class="line">    similarity_test.go:58: SimHashSimilar distance: 4</span><br><span class="line">PASS</span><br></pre></td></tr></table></figure>
+<p>当我们选择前top50高频词作为衡量时，结果得到二者的指纹是如下，其汉明距离为9：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">srcFingerPrint:  [1 0 1 1 0 1 0 0 0 1 1 1 1 0 0 0 1 0 0 1 0 1 1 0 1 0 0 0 0 1 0 1]</span><br><span class="line">dstFingerPrint:  [1 0 1 1 0 1 0 1 0 0 1 0 1 1 0 0 1 1 0 1 1 1 1 0 0 0 0 1 0 0 0 1]</span><br><span class="line">--- PASS: TestSimHashSimilar (0.83s)</span><br><span class="line">    similarity_test.go:58: SimHashSimilar distance: 9</span><br><span class="line">PASS</span><br></pre></td></tr></table></figure>
+<p>所以我们发现了一个对结果判定很重要的参数：分词数量。在上面的示例中，当我们选择10个分词时，其汉明距离仅为4，几乎符合了我们对文本相似（汉明距离3）的判断。而随着topN数量的增加，引入了更多的词组，其汉明距离越来越大，这也说明了，当大文本内容出现时，选择合适的topN分词数量进行比较对结果的影响是十分大的。</p>
+<p>注意二：</p>
+<p>另外一点需要需要注意的是，simhash的优点是适用于高维度的海量数据处理，当维度降低，如短文本的相似度比较，simhash并不合适，以我们计算余弦相似度的文本为例，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">S1: &quot;为什么我的眼里常含泪水，因为我对这片土地爱得深沉&quot;</span><br><span class="line">S2: &quot;我深沉的爱着这片土地，所以我的眼里常含泪水&quot;</span><br></pre></td></tr></table></figure>
+<p>得到的结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">srcFingerPrint:  [1 1 1 0 1 0 0 1 1 1 0 1 0 0 0 0 1 0 1 1 1 0 1 0 1 0 1 1 0 0 1 0]</span><br><span class="line">dstFingerPrint:  [1 0 1 0 0 0 1 1 0 1 1 0 1 0 0 1 0 0 0 1 1 0 1 1 1 1 1 1 0 0 1 0]</span><br><span class="line">--- PASS: TestSimHashSimilar (0.86s)</span><br><span class="line">    similarity_test.go:53: SimHashSimilar distance: 12</span><br><span class="line">PASS</span><br></pre></td></tr></table></figure>
+<p>也就是结果的汉明距离为12，远远大于我们预定的汉明距离3，这样的结果跟我们通过预先相似度计算出来的0.76分（相比于1分）相差很远，可见simhash对于短文本的相似度比较还是存在一些偏差的。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://lujiaying.github.io/posts/2018/01/Chinese-word-segmentation/" target="_blank" rel="noopener">https://lujiaying.github.io/posts/2018/01/Chinese-word-segmentation/</a></p>
+<p><a href="https://www.zhihu.com/question/19578687" target="_blank" rel="noopener">https://www.zhihu.com/question/19578687</a></p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2018/05/18/从0到1，了解NLP中的文本相似度/" title="从0到1，了解NLP中的文本相似度">从0到1，了解NLP中的文本相似度</a></h2>
+                <p class="excerpt">
+                
+                
+
+导语 本文系笔者的工作笔记，根据目前比较流行的前后端分离思想，前后端独立开发独立部署互不影响原则，打造最有效率的web平台。
+
+
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2018-05-18T15:16:00.000Z" class="post-list__meta--date date">2018-05-18</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/AI-NLP-舆情分析/">AI, NLP,舆情分析</a>
+</span><a class="btn-border-small" href="/2018/05/18/从0到1，了解NLP中的文本相似度/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2017/05/12/Android性能优化来龙去脉总结/" title="Android性能优化来龙去脉总结">Android性能优化来龙去脉总结</a></h2>
+                <p class="excerpt">
+                
+                
+
+一款app除了要有令人惊叹的功能和令人发指交互之外，在性能上也应该追求丝滑的要求，这样才能更好地提高用户体验。
+
+以下是本人在工作中对经历过的性能优化的一些总结，依据故事的发展路线，将其分为了5个部分，分别是：常见的性能问题；产生性能问题的一些可能原因；解决性能问题的套路；代码建议及潜在性能问题
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-05-12T10:10:38.000Z" class="post-list__meta--date date">2017-05-12</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Android-专项测试/">Android, 专项测试</a>
+</span><a class="btn-border-small" href="/2017/05/12/Android性能优化来龙去脉总结/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2019 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>
