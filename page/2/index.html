@@ -150,6 +150,29 @@
   
     
     <li>
+      <h2 class="post-list__post-title post-title"><a href="/2016/12/10/Android 性能数据采集（概要）/" title="link to post.title">Android 性能数据采集（概要）</a></h2>
+      <p class="excerpt">
+    
+      
+本文为CharliChen原创文章，转载请注明出处！！
+
+CPU
+  adb shell dumpsys cpuinfo |grep packageName     &amp;gt;/address/cpu.txt
+
+大家看第一个应用CPU占用率68%，这个过程是在用户（user）中花61%的时间，并在内核空间（kernel）花费7.1%的时间。
+或者：
+
+ adb shell top |grep pa
+    &hellip;
+      </p>
+      <div class="post-list__meta"><time datetime="2016-12-10T13:03:45.000Z" class="post-list__meta--date date">2016-12-10</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/专项测试/">专项测试</a>
+</span><a class="btn-border-small" href="/2016/12/10/Android 性能数据采集（概要）/">继续阅读</a></div>
+      <hr class="post-list__divider" />
+    </li>
+  
+    
+    <li>
       <h2 class="post-list__post-title post-title"><a href="/2016/12/07/BeanUtils组件 学习笔记/" title="link to post.title">BeanUtils组件 学习笔记</a></h2>
       <p class="excerpt">
     
@@ -316,25 +339,6 @@ PO模式，全称Page Obj
       <div class="post-list__meta"><time datetime="2016-11-26T14:40:11.000Z" class="post-list__meta--date date">2016-11-26</time> &#8226; <span class="post-list__meta--tags tags">于 
   <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
 </span><a class="btn-border-small" href="/2016/11/26/UI层自动化测试框架（三）：基础层/">继续阅读</a></div>
-      <hr class="post-list__divider" />
-    </li>
-  
-    
-    <li>
-      <h2 class="post-list__post-title post-title"><a href="/2016/11/24/UI层自动化测试框架（二）：Appium基础/" title="link to post.title">UI层自动化测试框架（二）：Appium基础</a></h2>
-      <p class="excerpt">
-    
-      
-本文为CharliChen原创文章，转载请注明出处！！
-
-申明：本章节引用很多第三方资料和网上的教程，在参考资料tab中我都有备注，请理解。由于该框架是基于Appium的，所以先讲讲appium的基础知识
-一：Appium介绍
-Appium是由nodejs的express框架写的Http Server。Appium不是它⾃⼰创建⼀套新的测试框架，是将现有的优秀的框架进⾏了集成，以Selenium
-    &hellip;
-      </p>
-      <div class="post-list__meta"><time datetime="2016-11-24T03:45:33.000Z" class="post-list__meta--date date">2016-11-24</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
-</span><a class="btn-border-small" href="/2016/11/24/UI层自动化测试框架（二）：Appium基础/">继续阅读</a></div>
       <hr class="post-list__divider" />
     </li>
   
