@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>【YOLO笔记】使用YOLO v2训练自己的数据 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="这篇文章是在训练YOLO v2过程中的经验总结，我使用YOLO v2训练一组自己的数据，训练后的模型，在阈值为.25的情况下，Recall值是73.84%，Precision 是85.12%。
+
+说明本文用到的darknet代码下载时间为2018-01-31机器配置：4片Tesla P40，CUDA8.0本文主要参考YOLO官网：http://pjreddie.com/darknet/yolo">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="【YOLO笔记】使用YOLO v2训练自己的数据 | Again Unscarred">
+    <meta name="twitter:description" content="这篇文章是在训练YOLO v2过程中的经验总结，我使用YOLO v2训练一组自己的数据，训练后的模型，在阈值为.25的情况下，Recall值是73.84%，Precision 是85.12%。
+
+说明本文用到的darknet代码下载时间为2018-01-31机器配置：4片Tesla P40，CUDA8.0本文主要参考YOLO官网：http://pjreddie.com/darknet/yolo">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="【YOLO笔记】使用YOLO v2训练自己的数据 | Again Unscarred">
+    <meta property="og:description" content="这篇文章是在训练YOLO v2过程中的经验总结，我使用YOLO v2训练一组自己的数据，训练后的模型，在阈值为.25的情况下，Recall值是73.84%，Precision 是85.12%。
+
+说明本文用到的darknet代码下载时间为2018-01-31机器配置：4片Tesla P40，CUDA8.0本文主要参考YOLO官网：http://pjreddie.com/darknet/yolo">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2018/11/23/【YOLO笔记】使用YOLO v2训练自己的数据/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2018-11-22T16:15:30.000Z" class="post-list__meta--date date">2018-11-23</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/yolo，图像识别/">yolo，图像识别</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">【YOLO笔记】使用YOLO v2训练自己的数据</h1>
+  </header>
+
+  <section class="post">
+    <hr>
+<blockquote>
+<p>这篇文章是在训练YOLO v2过程中的经验总结，我使用YOLO v2训练一组自己的数据，训练后的模型，在阈值为.25的情况下，Recall值是73.84%，Precision 是85.12%。</p>
+</blockquote>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>本文用到的darknet代码下载时间为2018-01-31<br>机器配置：4片Tesla P40，CUDA8.0<br>本文主要参考YOLO官网：<a href="http://pjreddie.com/darknet/yolo/" target="_blank" rel="noopener">http://pjreddie.com/darknet/yolo/</a><br>需要注意的是，这一训练过程可能只对我自己的训练集有效，仅供参考。</p>
+<h2 id="下载代码"><a href="#下载代码" class="headerlink" title="下载代码"></a>下载代码</h2><p>Darknet的具体安装及使用可以参考官方文档</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pjreddie/darknet</span><br></pre></td></tr></table></figure>
+<h2 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h2><p>YOLO v2默认训练VOC数据集，作者提供了将VOC数据集转成YOLO训练所需格式的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">darknet\scripts\voc_label.py</span><br></pre></td></tr></table></figure>
+<p>为了让YOLO v2能像训练VOC数据集一样训练我的数据集，我将数据转换成以下格式：</p>
+<p>1用于训练的数据集共4348张图片和4348个与图片对应的标记信息。<br>2图片格式为 jpg，分辨率都为800*1280，命名从0000.jpg到4347.jpg。<br>3标记信息格式为txt，命名从0000.txt到4347.txt。<br>4一共4348组信息，选择3912组用于训练（Train），435组用于验证（Validation）。<br>5数据集只包含三个类别：Clickable控件、Inputable控件、Slidable控件。</p>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="准备txt文档"><a href="#准备txt文档" class="headerlink" title="准备txt文档"></a>准备txt文档</h3><p>VOC训练数据集中会自带txt文档，用来指明文件路径，使用自己的数据需要自己生成：</p>
+<ul>
+<li>train.txt文档：用于告诉训练系统哪些图片是用来训练的</li>
+<li>val.txt文档：用于告诉训练系统哪些图片是用于验证的</li>
+</ul>
+<p>文档里包含了所有用于训练或验证的图片的完整路径，每行都是一个图片的完整路径，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/data/darknet/metis/JPEGImages/0000.jpg</span><br><span class="line">/data/darknet/metis/JPEGImages/0001.jpg</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h3 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h3><p>在代码中，默认VOC数据集是20类，而我要改成3类。</p>
+<p>1 创建data/metis.names文件，保存类别列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">clickable</span><br><span class="line">inputable</span><br><span class="line">slidable</span><br></pre></td></tr></table></figure>
+<p>2 创建cfg/metis.data文件，也可以修改cfg/voc.data文件，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">classes= 3</span><br><span class="line">train  = metis/train.txt</span><br><span class="line">valid  = metis/val.txt</span><br><span class="line">names = metis/metis.names</span><br><span class="line">backup = backup/</span><br></pre></td></tr></table></figure>
+<p>其中，classes 表示类别个数，train指向train.txt文档，valid指向val.txt文档，names指向metis.names文件，backup指向训练时权重文件备份路径。</p>
+<p>3 复制cfg/yolo_voc.cfg文件，命名为cfg/yolo_metis.cfg，根据训练集和机器配置做修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[net]</span><br><span class="line">batch=64   每64张图更新一次权重</span><br><span class="line">subdivisions=8  内存不够大，将batch分为subdivisions个子batch</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">learning_rate=0.001   学习率</span><br><span class="line">max_batches = 1000000  最大迭代次数</span><br><span class="line">policy=steps   按照steps策略调整学习率，还有constant, steps, exp, poly, step, sig, RANDOM</span><br><span class="line">steps=8000,20000   根据batch_num调整学习率</span><br><span class="line">scales=.1,.1    学习率变化的比例，累计相乘</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">[convolutional]</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">filters=40   最后一个卷积层输出的特征图数为5×(classes + 5)</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">[region]</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">classes=3   训练3类</span><br><span class="line">......</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<p>4 修改example/yolo.c代码文件<br>开头修改为自己的类别数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char *voc_names[] = &#123;&quot;clickable&quot;, &quot;inputable&quot;, &quot;slidable&quot;&#125;;</span><br></pre></td></tr></table></figure>
+<p>train_yolo函数中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char *train_images =&quot; /data/darknet/metis/train.txt&quot;; // train.txt完整路径</span><br><span class="line">char *backup_directory = &quot;/data/darknet/backup/&quot;; // backup路径</span><br></pre></td></tr></table></figure>
+<p>validate_yolo函数中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char *base = &quot;/data/darknet/results/comp4_det_test_&quot;; // 用于保存测试结果</span><br><span class="line">list *plist=get_paths(&quot;/data/darknet/metis/val.txt&quot;); // val.txt完整路径</span><br></pre></td></tr></table></figure>
+<p>validate_yolo_recall函数中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char *base = &quot;/data/darknet/results/comp4_det_test_&quot;; // 用于保存测试结果</span><br><span class="line">list *plist = get_paths(&quot;/data/darknet/metis/val.txt&quot;); // val.txt完整路径</span><br></pre></td></tr></table></figure>
+<p>5 修改example/detector.c代码文件（可选，用于评估模型）<br>validate_detector_recall函数中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list *plist = get_paths(&quot;/data/darknet/metis/val.txt&quot;); // val.txt完整路径</span><br></pre></td></tr></table></figure>
+<p>validate_detector_recall函数是用来计算输出recall值的，替换下面代码，可同时计算precision值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//fprintf(stderr, &quot;%5d %5d %5d\tRPs/Img: %.2f\tIOU: %.2f%%\tRecall:%.2f%%\n&quot;, i, correct, total, (float)proposals/(i+1), avg_iou*100/total, 100.*correct/total); </span><br><span class="line">fprintf(stderr, &quot;Number: %5d\tCorrect: %5d\tTotal: %5d\tRPs/Img: %.2f\tIOU: %.2f%%\tRecall:%.2f%%\tProposals: %5d\tPrecision: %.2f%%\n&quot;, i, correct, total, (float)proposals/(i+1), avg_iou*100/total, 100.*correct/total, proposals, 100.*correct/(float)proposals);</span><br></pre></td></tr></table></figure>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>Darknet在GPU上运行可以得到500倍的提速，编译使用GPU要求显卡是Nvidia卡并且正确安装了CUDA。GPU环境下的编译配置都是在/darknet/Makefile文件中定义的，GPU环境的编译需注意以下几点：</p>
+<p>1 使用GPU方式，更改Makefile前两行GPU和CUDNN的配置为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GPU=1</span><br><span class="line">CUDNN=1</span><br></pre></td></tr></table></figure>
+<p>2 CUDA的路径默认为/usr/local/cuda/， 如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ifeq ($(GPU), 1)</span><br><span class="line">COMMON+= -DGPU -I/usr/local/cuda/include/</span><br><span class="line">CFLAGS+= -DGPU</span><br><span class="line">LDFLAGS+= -L/usr/local/cuda/lib64 -lcuda -lcudart -lcublas -lcurand</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+<p>3 修改NVCC的路径（可选）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NVCC=/usr/local/cuda/bin/nvcc</span><br></pre></td></tr></table></figure>
+<p>4 修改ARCH配置：<br>如果修改上述配置后编译的darknet运行仍报以下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Loadingweights from yolo.weights...Done!</span><br><span class="line">CUDA Error:invalid device function</span><br><span class="line">darknet: ./src/cuda.c:21: check_error: Assertion `0&apos; failed.</span><br><span class="line">Aborted (core dumped)</span><br></pre></td></tr></table></figure>
+<p>这是因为配置文件Makefile中配置的GPU架构和本机GPU型号不一致导致的。<br>更改前默认配置如下（不同版本可能有变）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ARCH= -gencode arch=compute_30,code=sm_30 \</span><br><span class="line">   -gencode arch=compute_35,code=sm_35 \</span><br><span class="line">   -gencode arch=compute_50,code=[sm_50,compute_50] \</span><br><span class="line">   -gencode arch=compute_52,code=[sm_52,compute_52]</span><br><span class="line">#      -gencode arch=compute_20,code=[sm_20,sm_21] \ This one is deprecated?</span><br><span class="line"># This is what I use, uncomment if you know your arch and want to specify</span><br><span class="line"># ARCH= -gencode arch=compute_52,code=compute_52</span><br></pre></td></tr></table></figure>
+<p>compute_30表示显卡的计算能力是3.0，几款主流GPU的compute capability列表：<br>GTX Titan X：5.2<br>GTX 980：5.2<br>Tesla K80：3.7<br>Tesla K40：3.5<br>Quadro K4200：3.0</p>
+<p>GPU的计算能力及对应的架构可以参考CUDA官方说明文档。</p>
+<p>进入darknet目录，执行编译命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd darknet</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><p>按照YOLO的官方指南，下载预训练模型 (76 MB)，放到darkent/目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://pjreddie.com/media/files/darknet19_448.conv.23</span><br></pre></td></tr></table></figure>
+<p>然后开始训练，运行下面的指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./darknet detector train cfg/metis.data cfg/yolo-metis.cfg darknet19_448.conv.23 | tee train_log.txt</span><br></pre></td></tr></table></figure>
+<p>训练输出保存到train_log.txt文件，用于可视化分析及参数调整。</p>
+<p><strong>注意：如果学习率设置的比较大，训练结果很容易发散，训练过程输出的log会有nan字样，需要减小学习率后再进行训练。</strong></p>
+<h3 id="多GPU训练"><a href="#多GPU训练" class="headerlink" title="多GPU训练"></a>多GPU训练</h3><p>在darknet上使用多GPU训练需要一定技巧，盲目使用多GPU训练会悲剧的发现损失一直在下降、recall在上升，然而Obj几乎为零,最终得到的权重文件无法预测出bounding box。</p>
+<p>使用多GPU训练前需要先用单GPU训练至Obj有稳定上升的趋势后（我一般在obj大于0.1后切换）再使用backup中备份的weights通过多GPU继续训练。一般情况下使用单GPU训练1000个迭代即可切换到多GPU。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./darknet detector train cfg/metis.data cfg/yolo-metis.cfg backup/yolo-metis_1000.weights -gpus 0,1,2,3 | tee train_log.txt</span><br></pre></td></tr></table></figure>
+<p>其中0,1,2,3是指定的GPU的ID，通过nvidia-smi命令以查询：<br><img src="http://thyrsi.com/t6/676/1551778894x2890202402.png" alt="在这里插入图片描述"><br><strong>注意：使用多GPU训练时，学习率是使用单GPU训练的n倍，n是使用GPU的个数</strong></p>
+<h2 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h2><p>等待训练结束后（有时候没等结束我们的模型就开始发散了），我们需要检查各项指标（如loss）是否达到了我们期望的数值，如果没有，要分析为什么。可视化训练过程的中间参数可以帮助我们分析问题。</p>
+<p>可视化中间参数需用到训练时保存的train_log.txt文件，截取第801次迭代输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Loaded: 8.830000 seconds</span><br><span class="line">Region Avg IOU: 0.274009, Class: 0.964729, Obj: 0.004919, No Obj: 0.002184, Avg Recall: 0.151515,  count: 33</span><br><span class="line">Region Avg IOU: 0.339205, Class: 0.952790, Obj: 0.007317, No Obj: 0.002155, Avg Recall: 0.194805,  count: 77</span><br><span class="line">...</span><br><span class="line">Region Avg IOU: 0.193028, Class: 0.983987, Obj: 0.005020, No Obj: 0.001640, Avg Recall: 0.102273,  count: 88</span><br><span class="line">801: 3.524177, 3.524177 avg, 0.001647 rate, 8.070000 seconds, 205056 images</span><br></pre></td></tr></table></figure>
+<p>每次迭代会输出64行以Region开头的结果和最后一行合并的结果，这里64行是因为配置文件cfg/yolo-metis.cfg中设置batch=64，即每64张图更新一次权重。</p>
+<p><strong>输出各参数的含义：</strong></p>
+<ul>
+<li>Region Avg IOU：平均的IOU，代表预测的bounding box和实际的ground truth的交集除以他们的并集，这个数值越大，说明预测的结果越好，期望该值趋近于1。</li>
+<li>Class：是标注物体的概率，期望该值趋近于1。</li>
+<li>Obj：期望该值趋近于1。</li>
+<li>No Obj：期望该值越来越小但不为零。</li>
+<li>Avg Recall：这个表示平均召回率， 意思是检测出物体的个数除以标注的所有物体个数，期望该值趋近1。</li>
+<li>count：标注的所有物体的个数。如果count = 6， recall = 0.66667，就表示一共有6个物体（可能包含不同类别），然后预测出来了4个，所以Recall就是4/ 6 = 0.66667 。</li>
+<li></li>
+</ul>
+<p>最后一行内容依次是：迭代次数、train loss、avg train loss、learning rate、一次迭代时间、已处理图片数。重点关注train loss和avg train loss，期望这两个值随迭代次数增加而逐渐降低。如果loss增大到几百那就是训练发散了，如果loss在一段时间不变，就需要降低learning rate或者改变batch来加强学习效果。当然也可能是训练已经充分。这个需要自己判断。</p>
+<p>我训练过程中的变化曲线：<br><img src="http://thyrsi.com/t6/676/1551779166x2890202402.png" alt="在这里插入图片描述"></p>
+<p>从损失变化曲线可以看出，模型在2万次迭代后损失下降速度变慢。是因为cfg/yolo-metis.cfg文件中我自定义的学习率变化策略在2万次迭代时会减小十倍，所以损失下降速度降低，最终趋近于平缓。</p>
+<h2 id="评估模型"><a href="#评估模型" class="headerlink" title="评估模型"></a>评估模型</h2><p>对于detection而言，不要盲目用loss来评判一个模型的好坏。loss应该用作在训练当中判断训练是否正常进行。比如训练一开始loss一直升高，最后NAN，说明学习率大了。</p>
+<p>那应该用哪个数值来评判模型的好坏呢？mAP（平均准确率）是当前的主流标准。</p>
+<p>在darknet训练过程中并不输出precision的结果，所以我们也可以通过recall来判断。recall越接近1.0，就说明模型检测到实际的物体数量越准确。</p>
+<p>前面我们已经修改了example/detector.c代码，使用recall命令可以得到模型的平均recall和precision。另外，我还修改thresh可作为参数，通过-thresh <val>传入，源码中默认thresh=.001。</val></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./darknet detector recall cfg/metis.data cfg/yolo-metis.cfg backup/yolo-metis.backup -thresh 0.25</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Number:     0   Correct:    17  Total:    17    RPs/Img: 17.00  IOU: 89.44%     Recall:100.00%  Proposals:    17    Precision: 100.00%</span><br><span class="line">Number:     1   Correct:    35  Total:    35    RPs/Img: 17.50  IOU: 85.53%     Recall:100.00%  Proposals:    35    Precision: 100.00%</span><br><span class="line">...</span><br><span class="line">Number:   434   Correct:  6447  Total:  8636    RPs/Img: 19.35  IOU: 65.80%     Recall:73.84%   Proposals:   841    Precision: 85.12%</span><br></pre></td></tr></table></figure>
+<p>结果中的参数：</p>
+<ul>
+<li>Correct：正确预测的框的数量。遍历每张图片的Ground Truth，网络会预测出很多的框，对每一Groud Truth框与所有预测出的框计算IoU，在所有IoU中找一个最大值，如果最大值超过预设的阈值，则correct加1。</li>
+<li>Total：实际上Groud Truth框的总数。</li>
+<li>Rps/img：平均每张图片预测出的目标个数。</li>
+<li>Recall：Correct/Total，即预测出的正确框数除以实际的总框数。</li>
+<li>Proposals：总共预测出的框数（包括正确和错误的）。</li>
+<li>Precision：Correct/Proposals，即预测出的正确框数除以预测出的全部框数。</li>
+</ul>
+<p>使用验证集（435张图片及对应标记信息）评估我的模型：在阈值为.25的情况下，Recall值是73.84%，Precision 是85.12%。</p>
+<h2 id="测试模型"><a href="#测试模型" class="headerlink" title="测试模型"></a>测试模型</h2><p>利用已训练好的模型预测图片：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./darknet detector test cfg/metis.data cfg/yolo-metis.cfg backup/yolo-metis.backup test.png -thresh 0.25</span><br></pre></td></tr></table></figure>
+<p>预测出的结果会保存为predictions.png<br><img src="http://thyrsi.com/t6/676/1551779344x2890202402.png" alt="在这里插入图片描述"></p>
+<h2 id="python调用方式"><a href="#python调用方式" class="headerlink" title="python调用方式"></a>python调用方式</h2><p>调用YOLO的原理是调用编译好的libdarknet.so库文件里的方法。Python ctypes帮助我们使用Python调用C++库里的方法。</p>
+<p>作者提供了python/darknet.py文件，把YOLO库中的C++方法封装成Python模块，调用方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import python.darknet as dn</span><br><span class="line"></span><br><span class="line">dn.set_gpu(0)</span><br><span class="line">net = dn.load_net(&quot;cfg/yolo-metis.cfg&quot;, &quot;backup/yolo-metis.backup&quot;, 0)</span><br><span class="line">meta = dn.load_meta(&quot;cfg/metis.data&quot;)</span><br><span class="line">r = dn.detect(net, meta, &quot;test.png&quot;)</span><br><span class="line">print(r)</span><br></pre></td></tr></table></figure>
+<p>输出结果r是一个一维数组：[(目标1), (目标2), (目标3)]，代表了一共检测到几个目标，每个目标均包含信息：(类名, 类自信度, (目标中心x, 目标中心y, 目标宽度, 目标高度))</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文是我在学习使用YOLO v2训练自己数据过程中的经验总结，主要从工程应用上描述了YOLO v2的使用过程，仅作为大家训练数据时的参考。如果想要详细了解YOLO v2的实现原理，还需要详细阅读源码。</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2018/08/21/天空之城/" title="天空之城">天空之城</a></h2>
+                <p class="excerpt">
+                
+                
+
+
+
+飞机飞过天空，天空之城落雨下的黄昏的我们此刻我在异乡的夜里感觉着你忽明忽暗
+我想回到过去，沉默着欢喜天空之城在哭泣，越来越明亮的你爱情不过是生活的屁折磨着我也折磨着你
+港岛妹妹，你献给我的西班牙馅饼甜蜜地融化了我，天空之城在哭泣港岛妹妹，我们曾拥有的甜蜜的爱情疯狂地撕裂了我，天空之城在哭泣
+
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2018-08-21T14:20:15.000Z" class="post-list__meta--date date">2018-08-21</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/life/">life</a>
+</span><a class="btn-border-small" href="/2018/08/21/天空之城/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2019 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>
