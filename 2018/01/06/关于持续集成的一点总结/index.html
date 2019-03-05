@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>关于持续集成的一点总结 | Again Unscarred</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="前段时间，一直在做持续集成的工作，就将这段时间积攒的经验（踩过的坑）给大家分享下。
+
+什么是持续集成说到持续集成，我们好多同学不由自主地就想起了Jenkins等平台工具，前几年和老大一起推行持续集成还开发了一套系统。
+其实这些工具也好、平台系统也好，都是为了持续集成能够正常运转服务的。那什么是持续集成呢？我们可以分开来看：
+
+持续就是每完成一个完整的部分，就向下个环节交付，发现问题马上调整，不">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="关于持续集成的一点总结 | Again Unscarred">
+    <meta name="twitter:description" content="前段时间，一直在做持续集成的工作，就将这段时间积攒的经验（踩过的坑）给大家分享下。
+
+什么是持续集成说到持续集成，我们好多同学不由自主地就想起了Jenkins等平台工具，前几年和老大一起推行持续集成还开发了一套系统。
+其实这些工具也好、平台系统也好，都是为了持续集成能够正常运转服务的。那什么是持续集成呢？我们可以分开来看：
+
+持续就是每完成一个完整的部分，就向下个环节交付，发现问题马上调整，不">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="关于持续集成的一点总结 | Again Unscarred">
+    <meta property="og:description" content="前段时间，一直在做持续集成的工作，就将这段时间积攒的经验（踩过的坑）给大家分享下。
+
+什么是持续集成说到持续集成，我们好多同学不由自主地就想起了Jenkins等平台工具，前几年和老大一起推行持续集成还开发了一套系统。
+其实这些工具也好、平台系统也好，都是为了持续集成能够正常运转服务的。那什么是持续集成呢？我们可以分开来看：
+
+持续就是每完成一个完整的部分，就向下个环节交付，发现问题马上调整，不">
+
+    
+    <meta name="author" content="CharliChen">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Again Unscarred" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://yoursite.com/2018/01/06/关于持续集成的一点总结/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Again Unscarred 的主页"><img src="/images/avatar.jpg" width="80" alt="Again Unscarred logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Again Unscarred">Again Unscarred</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">别来无恙，欢迎来到我的blog</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/测试开发">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/categories/记录">Life</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">Favourite</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">About Me</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/iTestinglab" title="GitHub" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/chenli.gogo" title="Facebook" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2018-01-06T08:38:22.000Z" class="post-list__meta--date date">2018-01-06</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/持续集成/">持续集成</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">关于持续集成的一点总结</h1>
+  </header>
+
+  <section class="post">
+    <hr>
+<blockquote>
+<p>前段时间，一直在做持续集成的工作，就将这段时间积攒的经验（踩过的坑）给大家分享下。</p>
+</blockquote>
+<h2 id="什么是持续集成"><a href="#什么是持续集成" class="headerlink" title="什么是持续集成"></a>什么是持续集成</h2><p>说到持续集成，我们好多同学不由自主地就想起了Jenkins等平台工具，前几年和老大一起推行持续集成还开发了一套系统。</p>
+<p>其实这些工具也好、平台系统也好，都是为了持续集成能够正常运转服务的。那什么是持续集成呢？我们可以分开来看：</p>
+<ul>
+<li><strong>持续</strong>就是每完成一个完整的部分，就向下个环节交付，发现问题马上调整，不会放大到其他部分和后面的环节；</li>
+<li><strong>集成</strong>就是软件个人研发的部分向软件整体部分交付，以便尽早发现个人开发部分的问题。<br><img src="http://thyrsi.com/t6/676/1551781125x2890202420.png" alt="在这里插入图片描述"><br>总而言之，<strong>持续集成本质是一种思想，一种工作方式，强调开发人员提交了新代码之后，立刻进行构建、测试，以保证新代码和原有代码能正确地集成在一起</strong>。我们在推行持续集成时，千万不要本末倒置了，这件事最核心是培养大家的意识和工作习惯，而不是去推行什么工具平台。</li>
+</ul>
+<h2 id="为什么要做持续集成"><a href="#为什么要做持续集成" class="headerlink" title="为什么要做持续集成"></a>为什么要做持续集成</h2><p>在软件工程里，有一个指标叫做质量成本，即项目出现质量问题的修复成本。下图是各个阶段软件质量成本的评估：<br><img src="http://thyrsi.com/t6/676/1551781185x2890202420.png" alt="在这里插入图片描述"><br>我们不难看出，随着时间的推移，质量成本以指数级趋势增加。所以我们做持续集成的根本目的就是为了尽可能早地发现、解决质量问题。</p>
+<h2 id="怎么去做持续集成"><a href="#怎么去做持续集成" class="headerlink" title="怎么去做持续集成"></a>怎么去做持续集成</h2><p>我们可以先从什么是持续集成来分析都要做哪些工作，主要有以下三个方面：</p>
+<ul>
+<li>代码提交的监控</li>
+<li>工程的构建以及测试的运行</li>
+<li>结果的反馈以及推进修复</li>
+</ul>
+<p>再从为什么要做持续集成来分析如何做好这件事。为了保证质量问题能够尽早地被发现和解决，还是从上面的上三个方面来说。</p>
+<h3 id="监控代码提交"><a href="#监控代码提交" class="headerlink" title="监控代码提交"></a>监控代码提交</h3><p>现在各种持续集成的平台都提供监控代码库的功能，我就不详细介绍了。这里我想强调的是有些同学并不会在完成一个完整部分时就将代码提交仓库，有些喜欢憋大招，一次性给你整个几百上千行代码。所以这里强调必须让开发同学及时提交代码。</p>
+<p>那怎么去控制，方法有很多。目前我们这边是通过Code Review机制以及一些规范约束来规避的。引入Code Review后，为了尽快能过审，大家都会尽快提交，同时一次性提交太多代码Review的成本也会很大，所以开发自己就会定一些流程规范去约束。当然Code Review的好处还远不止这些，强烈推荐，非本文主题这里就不详述了。</p>
+<h3 id="工程构建和测试的运行"><a href="#工程构建和测试的运行" class="headerlink" title="工程构建和测试的运行"></a>工程构建和测试的运行</h3><p>持续集成是为了让整个项目运转更加健康高效，如果因为跑持续集成而拖慢了进度那就得不偿失了。所以这里须要保证工程的构建和测试运行足够高效，时间没有固定标准，但按照我们以往的经验，最好不要超过5分钟。</p>
+<p>这里可能同学要说我们项目的测试5分钟实在跑不完怎么办？没错，这是很常见的问题，我们也不可能在5分钟内跑完所有的测试。所以这里就涉及到一个测试用例的筛选，主要可以从下面两个思路来考虑：</p>
+<ul>
+<li>用例的重要性和出现问题的概率。将一部分非常重要路径和容易出问题的用例筛选出来，每次持续集成只跑这部分测试用例，这样能保证大部分问题都能及时被发现。</li>
+<li>测试用例与提交代码的相关性。这个就是精准测试的思想，如果每次只跑与这次代码相关的测试用例是最好不过的。不过这个想做好也很难，因为相关性不好评估。现在大多数精准测试都是用代码覆盖率来做，不过这样一旦修改了底层代码，就有可能关联上所有用例，而且新代码的集成也可能会导致用例和代码的映射关系发生变化。</li>
+</ul>
+<p>综上，大家可以项目的需要和成本自己选择怎么去筛选测试用例，如果条件允许建议二者结合使用，同时建议定期（一般是每天）去跑全量的用例。</p>
+<h3 id="结果的反馈以及推进修复"><a href="#结果的反馈以及推进修复" class="headerlink" title="结果的反馈以及推进修复"></a>结果的反馈以及推进修复</h3><p>最后就是检查结果，如果有问题及时推进修复。这是整个过程中最重要也是最难做的一个环节，首先必须要保证结果的准确性，然后得让开发同学有及时处理的意识。第二件事事建立在第一件的基础上，如果你的测试结果老是误报问题，开发自然就会不积极去响应甚至忽视持续集成的结果。</p>
+<p>那么如何提高测试结果的准确率呢？主要有两个方面：</p>
+<ul>
+<li>测试代码的健壮性。当然健壮性不是指不管出现什么情况用例都能通过，那就没有意义了。这里是指对本用例测试点无关的点有足够好的健壮性。比如：测试输入法纠错算法的用例就不应该受到词库变动的影响。</li>
+<li>测试用例的专一性。同理，测试用例的设计也要保证足够专一，每个用例对应一个测试点。否则一旦用例失败了，查问题都不好查。</li>
+</ul>
+<p>当然，我们的集成测试肯定还有要有的，这里的测试用例的设计就非常关键了，必须要保证非常强的合理性。比如还是输入法纠错，如果要测试整个流程没有问题，我们就必须选择一个非常合理的Case，就是这条用例不按照我们说的做就是有问题，哪怕是词库数据修改导致的也说明你们数据修改的不合理。</p>
+<p>最后，结果的准确性还不止这些，除了不能误报问题，更不能漏报问题。误报了我们还可以花时间处理，漏报了那就是事故了。所以如何保证测试的覆盖度是我们工作的重中之重。这里集成级的测试还好，一般软件整体结构功能变化的还是比较少的，而且一旦有也是从结合需求，我们有足够的时间去补充修改用例。不过单元层次的就难说了，随时都有可能会增加或者修改函数，所以这一层测试建议最好由测试和开发同学一起来维护。</p>
+<p>总而言之，需要让测试结果具有十足的意义，强化团队对系统的信心，这样问题的修复甚至都不用我们去推进了。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>写了这么多，我完全没有提到任何测试工具和平台的使用，是这些都不重要吗？当然不是，只不过任何的平台和工具都是为解决问题服务的，只有想清楚了问题工具才能发挥最大的效果。反之亦然，想发挥出最好的效果具体工作还是要依靠各种平台工具，这也是为什么我懂了这么多，团队的持续集成还是一团烂摊子。</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2018/05/01/NLP文本相似度实践/" title="NLP文本相似度实践">NLP文本相似度实践</a></h2>
+                <p class="excerpt">
+                
+                
+
+导语 AI在2018年应该是互联网界最火的名词，没有之一。时间来到了9102年，也是项目相关，涉及到了一些AI写作相关的功能。但是，AI并不一定最懂你，客户对于AI写出来的文章，多少是会做些修改的。为了更好的衡量出AI文章的可用度，在这儿就会需要存有一个反馈的环节，来看看用户润色后的文章与原始A
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2018-05-01T14:36:25.000Z" class="post-list__meta--date date">2018-05-01</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/AI-NLP/">AI, NLP</a>
+</span><a class="btn-border-small" href="/2018/05/01/NLP文本相似度实践/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2017/05/12/Android性能优化来龙去脉总结/" title="Android性能优化来龙去脉总结">Android性能优化来龙去脉总结</a></h2>
+                <p class="excerpt">
+                
+                
+
+一款app除了要有令人惊叹的功能和令人发指交互之外，在性能上也应该追求丝滑的要求，这样才能更好地提高用户体验。
+
+以下是本人在工作中对经历过的性能优化的一些总结，依据故事的发展路线，将其分为了5个部分，分别是：常见的性能问题；产生性能问题的一些可能原因；解决性能问题的套路；代码建议及潜在性能问题
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-05-12T10:10:38.000Z" class="post-list__meta--date date">2017-05-12</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Android-专项测试/">Android, 专项测试</a>
+</span><a class="btn-border-small" href="/2017/05/12/Android性能优化来龙去脉总结/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2019 CharliChen - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/onevcat/vno ">new-vno</a> 主题，由<a href="https://github.com/iTestinglab">@CharliChen</a> 修改自 <a href="https://github.com/onevcat/vno" target="_blank">Vno</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-118287287-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>
