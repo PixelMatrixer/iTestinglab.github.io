@@ -150,30 +150,6 @@
   
     
     <li>
-      <h2 class="post-list__post-title post-title"><a href="/2016/12/22/ITester接口测试框架 (三) - 框架实现细节/" title="link to post.title">ITester接口测试框架 (三) - 框架实现细节</a></h2>
-      <p class="excerpt">
-    
-      
-本文为CharliChen原创文章，转载请注明出处！！
-
-项目结构结构图
-
-
-框架实现1.数据准备 和 参数输入数据准备有三种方式：
-
-一：通过访问数据库，获取我们需要的接口测试参数，比如测试登录接口，我们要提前获得 用户名和密码，然后才能连同我们的url发送给服务端。
-
-要想访问数据库，必须要先与数据库建立连接，我这里采用的是JDBC 和C3P0，可以参考我之前的blogJava通过JDBC 
-    &hellip;
-      </p>
-      <div class="post-list__meta"><time datetime="2016-12-22T14:40:22.000Z" class="post-list__meta--date date">2016-12-22</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/接口测试/">接口测试</a>
-</span><a class="btn-border-small" href="/2016/12/22/ITester接口测试框架 (三) - 框架实现细节/">继续阅读</a></div>
-      <hr class="post-list__divider" />
-    </li>
-  
-    
-    <li>
       <h2 class="post-list__post-title post-title"><a href="/2016/12/22/ITester接口测试框架 (二) - 框架简介和流程图/" title="link to post.title">ITester接口测试框架 (二) - 框架简介和流程图</a></h2>
       <p class="excerpt">
     
@@ -339,6 +315,24 @@ Dao层设计###Dao层操作通
       <div class="post-list__meta"><time datetime="2016-12-01T05:31:20.000Z" class="post-list__meta--date date">2016-12-01</time> &#8226; <span class="post-list__meta--tags tags">于 
   <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
 </span><a class="btn-border-small" href="/2016/12/01/UI层自动化测试框架（六）：持续集成和测试报告/">继续阅读</a></div>
+      <hr class="post-list__divider" />
+    </li>
+  
+    
+    <li>
+      <h2 class="post-list__post-title post-title"><a href="/2016/12/01/UI层自动化测试框架（五）：业务层和用例层/" title="link to post.title">UI层自动化测试框架（五）：业务层和用例层</a></h2>
+      <p class="excerpt">
+    
+      
+本文为CharliChen原创文章，转载请注明出处！！
+
+业务层该层主要是App的各种业务操作，比如登录，遍历tab，下单等，也就是说把app中各项业务的操作都封装在业务层。比如说登录操作，我们把它封装一个类，登录的大致的流程是：首先是不是要找到登录入口（可能一个app有很多的入口），然后进入登录界面，输入用户名和密码，再点击登录按钮，这样一个完整的登录业务就算完成了。
+可能你问我为什么要这么做
+    &hellip;
+      </p>
+      <div class="post-list__meta"><time datetime="2016-11-30T16:52:10.000Z" class="post-list__meta--date date">2016-12-01</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/自动化测试/">自动化测试</a>
+</span><a class="btn-border-small" href="/2016/12/01/UI层自动化测试框架（五）：业务层和用例层/">继续阅读</a></div>
       <hr class="post-list__divider" />
     </li>
   
