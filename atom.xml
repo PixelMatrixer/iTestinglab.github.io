@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-11T09:37:52.209Z</updated>
+  <updated>2019-03-05T09:53:28.089Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,28 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2019/03/11/%E4%BD%BF%E7%94%A8%E5%85%8D%E8%B4%B9%E7%9A%84%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
-    <id>http://yoursite.com/2019/03/11/使用免费的博客图片服务器/</id>
-    <published>2019-03-11T09:37:51.888Z</published>
-    <updated>2019-03-11T09:37:52.209Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>一开始建立博客用的是 Wordpress，图片存在里头，通过 Nginx 的压缩加速，访问速度勉强能用，后来博客转到 hexo 后，一时间不知道该把图片放在哪里，Github 显然不合适，只好继续放在自己的服务器里，直到前几天阿里云弹给我服务器即将过期的消息，我想图片迁移的事情是该行动了。</p></blockquote><h2 id="为什么迁移图片"><a href="#为什么迁移图片" class="headerlink" title="为什么迁移图片"></a>为什么迁移图片</h2><p>我定制的阿里云服务器是最低配，一年得花掉 600 多大洋，只拿来当图片服务器有点太奢侈，最近也没什么项目需要用到服务器，索性把它停了吧。</p><h2 id="怎么迁移图片"><a href="#怎么迁移图片" class="headerlink" title="怎么迁移图片"></a>怎么迁移图片</h2><p>我对比了又拍云和七牛云，七牛云每个月有10个 G 的免费空间，并且上传流量无限，对于个人博主来说已经很划算，确定了七牛云之后，接下来就是注册使用了。</p><p>注册进入七牛云控制台，点击左侧菜单「对象存储」进入云储存控制台，新建储存空间，储存空间名称自定义。<br><img src="http://po70nxvk4.bkt.clouddn.com/qiniu1.png" alt="在这里插入图片描述"><br>创建后就可以进入储存空间当中上传图片了，七牛上传的文件路径是得自己手动写的，这里有个坑就是路径前缀不能以 / 开头，必须得以 / 结尾，比如你上传文件想放在 blog 路径下，你的路径前缀就得是 blog/，如果设置成/blog 和 /blog/ 就会有问题，这是不太人性化的地方。<br><img src="http://po70nxvk4.bkt.clouddn.com/qiniu2.png" alt="在这里插入图片描述"><br>上传完图片后，就得来设置访问路径了，七牛云有默认的域名，在概览能看到，格式大概是这样子的：xxx.bkt.clouddn.com，如果要设置自己域名的话，进入绑定域名中就可以设置，前提是要先充值 10 块钱。<br><img src="http://po70nxvk4.bkt.clouddn.com/qiniu3.png" alt="在这里插入图片描述"><br>以上就是图片迁移的简单流程，后续再体验体验图片水印、压缩等功能。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;一开始建立博客用的是 Wordpress，图片存在里头，通过 Nginx 的压缩加速，访问速度勉强能用，后来博客转到 hexo 后，一时间不知道该把图片放在哪里，Github 显然不合适，只好继续放在自己的服务器里，直到前几天阿里云弹给我服务器即将
-      
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>【YOLO笔记】使用YOLO v2训练自己的数据</title>
@@ -235,6 +213,33 @@
     
     
       <category term="专项测试" scheme="http://yoursite.com/tags/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用免费的博客图片服务器</title>
+    <link href="http://yoursite.com/2017/02/03/%E4%BD%BF%E7%94%A8%E5%85%8D%E8%B4%B9%E7%9A%84%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <id>http://yoursite.com/2017/02/03/使用免费的博客图片服务器/</id>
+    <published>2017-02-03T02:00:08.000Z</published>
+    <updated>2019-03-11T09:44:55.042Z</updated>
+    
+    <content type="html"><![CDATA[<hr><blockquote><p>一开始建立博客用的是 Wordpress，图片存在里头，通过 Nginx 的压缩加速，访问速度勉强能用，后来博客转到 hexo 后，一时间不知道该把图片放在哪里，Github 显然不合适，只好继续放在自己的服务器里，直到前几天阿里云弹给我服务器即将过期的消息，我想图片迁移的事情是该行动了。</p></blockquote><h2 id="为什么迁移图片"><a href="#为什么迁移图片" class="headerlink" title="为什么迁移图片"></a>为什么迁移图片</h2><p>我定制的阿里云服务器是最低配，一年得花掉 600 多大洋，只拿来当图片服务器有点太奢侈，最近也没什么项目需要用到服务器，索性把它停了吧。</p><h2 id="怎么迁移图片"><a href="#怎么迁移图片" class="headerlink" title="怎么迁移图片"></a>怎么迁移图片</h2><p>我对比了又拍云和七牛云，七牛云每个月有10个 G 的免费空间，并且上传流量无限，对于个人博主来说已经很划算，确定了七牛云之后，接下来就是注册使用了。</p><p>注册进入七牛云控制台，点击左侧菜单「对象存储」进入云储存控制台，新建储存空间，储存空间名称自定义。<br><img src="http://po70nxvk4.bkt.clouddn.com/qiniu1.png" alt="在这里插入图片描述"><br>创建后就可以进入储存空间当中上传图片了，七牛上传的文件路径是得自己手动写的，这里有个坑就是路径前缀不能以 / 开头，必须得以 / 结尾，比如你上传文件想放在 blog 路径下，你的路径前缀就得是 blog/，如果设置成/blog 和 /blog/ 就会有问题，这是不太人性化的地方。<br><img src="http://po70nxvk4.bkt.clouddn.com/qiniu2.png" alt="在这里插入图片描述"><br>上传完图片后，就得来设置访问路径了，七牛云有默认的域名，在概览能看到，格式大概是这样子的：xxx.bkt.clouddn.com，如果要设置自己域名的话，进入绑定域名中就可以设置，前提是要先充值 10 块钱。<br><img src="http://po70nxvk4.bkt.clouddn.com/qiniu3.png" alt="在这里插入图片描述"><br>以上就是图片迁移的简单流程，后续再体验体验图片水印、压缩等功能。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一开始建立博客用的是 Wordpress，图片存在里头，通过 Nginx 的压缩加速，访问速度勉强能用，后来博客转到 hexo 后，一时间不知道该把图片放在哪里，Github 显然不合适，只好继续放在自己的服务器里，直到前几天阿里云弹给我
+      
+    
+    </summary>
+    
+      <category term="测试开发" scheme="http://yoursite.com/categories/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="web，blog" scheme="http://yoursite.com/tags/web%EF%BC%8Cblog/"/>
     
   </entry>
   
